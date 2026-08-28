@@ -134,8 +134,9 @@ function Dashboard() {
           </div>
 
           {headline ? (
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_260px]">
-              <div className="h-[280px] w-full">
+            <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_260px]">
+              <div className="w-full">
+                <div className="h-[240px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                     <CartesianGrid stroke="var(--color-border)" vertical={false} />
@@ -207,17 +208,19 @@ function Dashboard() {
                     </Line>
                   </ComposedChart>
                 </ResponsiveContainer>
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-muted-foreground">
+                </div>
+                <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
                   Solid: released GDP · Dashed: model estimate (in-sample fit and, for the last
                   two bars, out-of-sample) · Whisker: 90% interval on the current nowcast
                 </p>
               </div>
 
-              <div className="h-[280px] w-full">
+              <div className="w-full">
                 <p className="text-center text-[11px] uppercase tracking-wider text-muted-foreground">
                   Probability density — {headline.label}
                 </p>
-                <ResponsiveContainer width="100%" height="90%">
+                <div className="mt-2 h-[240px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={headline.pdf} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
                     <defs>
                       <linearGradient id="pdfFill" x1="0" y1="0" x2="0" y2="1">
@@ -267,6 +270,7 @@ function Dashboard() {
                     />
                   </AreaChart>
                 </ResponsiveContainer>
+                </div>
               </div>
             </div>
           ) : (
@@ -282,7 +286,7 @@ function Dashboard() {
           )}
 
           {model ? (
-            <details className="mt-6 rounded-lg border border-border/70 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
+            <details className="mt-8 rounded-lg border border-border/70 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
               <summary className="cursor-pointer font-mono uppercase tracking-wider">
                 Model notes ({model.trainingQuarters} training quarters, R² {model.rSquared.toFixed(2)})
               </summary>
