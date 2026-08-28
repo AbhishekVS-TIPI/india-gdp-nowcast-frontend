@@ -1,26 +1,42 @@
 # India GDP Pulse
 
-I need to build a nowcasting dashboard for tracking India's GDP on a daily basis. I have the indicators list in a sheet and the data in a folder. I need to craete a website [live] where i can see the trend line of india's GDP over years. It should also have an option to choose the time period, months to years. I also want to show the trend line of each indicator on eby one below the line chart of teh GDP as a list. This should be like a spark line that we create in a excel sheet. In addition to this there should be an option for me to choose an indicator from  a list o findicators to read about the specific inficator in detail. tell me what all you need to amke the dashbaord
+A dashboard of high-frequency indicators behind India's GDP, plus a simple, transparent
+GDP growth nowcast with its own confidence interval — built for The India Prosperity
+Initiative.
 
-This project was built with [Lovable](https://lovable.dev).
+All data is real, sourced from MoSPI's eSankhyiki portal, the RBI's Database on Indian
+Economy, and the Labour Bureau. Nothing on this site is synthetic or placeholder data.
 
-**Live app**: https://india-gdp-pulse.lovable.app
+## How it fits together
 
-## Build with Lovable
+This is the frontend half of a two-repo system:
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a1888b1f-ecfd-44ef-b695-8654606a153d).
+- **[india-gdp-nowcast](https://github.com/AbhishekVS-TIPI/india-gdp-nowcast)** — the
+  pipeline repo. It ingests source files, splices base-year series, applies manual
+  corrections, fits the nowcast model, and exports `indicators.json`, `nowcast.json`,
+  and one JSON file per indicator series.
+- **This repo** — a static-data TanStack Start app. It reads those exported JSON files
+  from `src/data/` at build time; there's no live API call at runtime. A weekly GitHub
+  Actions job in the pipeline repo re-exports fresh data and pushes it here automatically.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+See `src/routes/methodology.tsx` for the full writeup of sourcing, splicing, and how the
+nowcast model works.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js ≥20.19 (see `.nvmrc`) and [Bun](https://bun.sh).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
+
+## Build & deploy
+
+```sh
+bun run build
+```
+
+This builds via Nitro's `cloudflare-module` preset and deploys as a Cloudflare Worker,
+either manually with `npx nitro deploy --prebuilt` or automatically on push to `main`
+via Cloudflare Workers Builds.
