@@ -39,8 +39,8 @@ function MethodologyPage() {
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-blue-dark">
             India GDP Pulse tracks a panel of high-frequency indicators sourced directly from
-            government releases. A single daily nowcast of GDP growth, built from this panel, is
-            in development and not yet live.
+            government releases, and combines them into a simple, transparent nowcast of
+            quarterly GDP growth with its own uncertainty shown alongside it.
           </p>
         </div>
       </div>
@@ -118,13 +118,29 @@ function MethodologyPage() {
           <section>
             <p className="eyebrow">Nowcast model</p>
             <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
-              In development
+              A simple bridge regression, not a black box
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              A single daily nowcast of GDP growth, combining the indicator panel through a
-              dynamic factor model, is under construction and does not yet appear on this site.
-              Until it ships, the dashboard shows only the underlying indicators themselves — real
-              data, not a preview of the model's output.
+              The other six indicators are each converted to year-on-year growth, standardised
+              against their own history, and averaged into one equal-weighted composite reading
+              per month. That composite is aggregated to a quarter using whichever months have
+              already reported — a partially-reported quarter still gets a reading from whatever
+              has arrived so far, which is what makes it a nowcast rather than a lagging
+              indicator. The composite is regressed against GDP's own year-on-year growth with
+              ordinary least squares, and the fitted line is used to read off a point estimate,
+              a proper prediction interval, and a probability density for the current quarter.
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-blue-dark">
+              This is deliberately a first, simple pass: one composite factor, one straight-line
+              regression, no lag structure between an indicator moving and GDP responding, and no
+              weighting by how well each indicator actually explains GDP historically — every
+              indicator counts equally. The training sample runs back to 2005 and includes the
+              2020–2021 COVID collapse and rebound, which can pull the fit; nothing is trimmed or
+              adjusted for it. The confidence interval and the density chart both assume the
+              model's errors are normally distributed, which is a simplification, not a
+              measured fact about them. The dashboard's "model notes" panel states the training
+              window, R², and residual spread that produced whatever estimate is currently
+              showing, and updates every time the pipeline re-exports.
             </p>
           </section>
 
@@ -136,12 +152,15 @@ function MethodologyPage() {
               What this is not
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              This is not an official GDP statistic and, until the nowcast model ships, not a
-              growth forecast of any kind. Series with different release lags and revision
-              schedules are shown as published, without adjustment; a reading close to an
-              indicator's publication date may still be provisional. Where a base segment was
-              dropped for lack of a comparable link, that indicator's chart starts later than its
-              full published history.
+              This is not an official GDP statistic, and the nowcast is a simple statistical
+              estimate, not a forecast from a full macroeconomic model. Series with different
+              release lags and revision schedules are shown as published, without adjustment; a
+              reading close to an indicator's publication date may still be provisional. Where a
+              base segment was dropped for lack of a comparable link, that indicator's chart
+              starts later than its full published history. The nowcast's confidence interval can
+              be wide, especially early in a quarter when only the fastest-reporting indicators
+              (foreign exchange reserves, released weekly) have anything to say yet — that
+              width is the model being honest about how little it currently knows, not a defect.
             </p>
           </section>
         </article>
