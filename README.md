@@ -1,4 +1,4 @@
-# India GDP Watch
+# India GDP Pulse
 
 I need to build a nowcasting dashboard for tracking India's GDP on a daily basis. I have the indicators list in a sheet and the data in a folder. I need to craete a website [live] where i can see the trend line of india's GDP over years. It should also have an option to choose the time period, months to years. I also want to show the trend line of each indicator on eby one below the line chart of teh GDP as a list. This should be like a spark line that we create in a excel sheet. In addition to this there should be an option for me to choose an indicator from  a list o findicators to read about the specific inficator in detail. tell me what all you need to amke the dashbaord
 

@@ -21,7 +21,7 @@ export function SiteFooter() {
           />
 
           <p className="mt-4 max-w-sm text-sm text-blue-light">
-            India GDP watch is the flagship project of The India Prosperity Initiative
+            India GDP Pulse is the flagship project of The India Prosperity Initiative
           </p>
         </div>
 
