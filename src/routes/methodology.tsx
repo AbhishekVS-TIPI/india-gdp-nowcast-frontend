@@ -171,12 +171,12 @@ function MethodologyPage() {
             {indicators.map((ind) => {
               const lu = lastUpdated(ind.id);
               return (
-                <div key={ind.id} className="py-3">
+                <div key={ind.id} className="py-4">
                   <p className="text-sm font-medium leading-snug text-navy">{ind.name}</p>
-                  <p className="mt-1 text-[11px] leading-relaxed text-blue-dark/80">
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-blue-dark/80">
                     {ind.sourceName ?? "Source pending"}
                   </p>
-                  <p className="tabular mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <p className="tabular mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                     {ind.frequency}
                     {UNITS[ind.id] ? ` · ${UNITS[ind.id]}` : ""} · {lu ? fmtDate(lu) : "—"}
                   </p>

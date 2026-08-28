@@ -45,11 +45,11 @@ export const Route = createFileRoute("/indicator/$id")({
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="border-b border-border py-3 last:border-0">
+    <div className="border-b border-border py-4 last:border-0">
       <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
         {label}
       </dt>
-      <dd className="mt-1 text-sm break-words text-foreground">{children}</dd>
+      <dd className="mt-1.5 text-sm leading-relaxed break-words text-foreground">{children}</dd>
     </div>
   );
 }
@@ -68,14 +68,14 @@ function IndicatorDetail() {
           ← All indicators
         </Link>
 
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight text-navy">
+        <h1 className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-navy">
           {indicator.name}
         </h1>
-        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-blue-dark">
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-blue-dark">
           {indicator.category} · {indicator.frequency}
           {UNITS[indicator.id] ? ` · ${UNITS[indicator.id]}` : ""}
         </p>
-        <p className="mt-2 inline-block rounded-md border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <p className="mt-3 inline-block rounded-md border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
           {hasRealData(indicator.id) ? "Actual source data" : "Placeholder series"}
         </p>
 

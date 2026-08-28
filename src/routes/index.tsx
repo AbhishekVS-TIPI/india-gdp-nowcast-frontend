@@ -104,7 +104,7 @@ function Dashboard() {
                 Nowcast GDP growth (y/y) — {headline ? headline.label : "—"}
               </p>
               {headline ? (
-                <div className="mt-1 flex items-baseline gap-3">
+                <div className="mt-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
                   <span className="font-mono text-4xl font-semibold text-navy">
                     {headline.pointEstimate >= 0 ? "+" : ""}
                     {headline.pointEstimate.toFixed(2)}%
@@ -116,12 +116,12 @@ function Dashboard() {
                   ) : null}
                 </div>
               ) : (
-                <p className="mt-1 font-mono text-2xl font-semibold text-muted-foreground">
+                <p className="mt-2 font-mono text-2xl font-semibold text-muted-foreground">
                   Model in development
                 </p>
               )}
               {headline ? (
-                <p className="mt-1 text-xs text-muted-foreground">
+                <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
                   Based on {headline.indicatorsReporting.length} of{" "}
                   {headline.indicatorsTotal} indicators reporting for this quarter so far
                   {headline.indicatorsReporting.length
@@ -207,7 +207,7 @@ function Dashboard() {
                     </Line>
                   </ComposedChart>
                 </ResponsiveContainer>
-                <p className="mt-1 text-center text-[11px] text-muted-foreground">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-muted-foreground">
                   Solid: released GDP · Dashed: model estimate (in-sample fit and, for the last
                   two bars, out-of-sample) · Whisker: 90% interval on the current nowcast
                 </p>
@@ -282,11 +282,11 @@ function Dashboard() {
           )}
 
           {model ? (
-            <details className="mt-4 rounded-lg border border-border/70 bg-muted/20 p-3 text-xs text-muted-foreground">
+            <details className="mt-6 rounded-lg border border-border/70 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
               <summary className="cursor-pointer font-mono uppercase tracking-wider">
                 Model notes ({model.trainingQuarters} training quarters, R² {model.rSquared.toFixed(2)})
               </summary>
-              <ul className="mt-2 list-disc space-y-1 pl-4">
+              <ul className="mt-3 list-disc space-y-2 pl-4">
                 {NOWCAST?.caveats.map((c) => <li key={c}>{c}</li>)}
               </ul>
             </details>

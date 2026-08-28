@@ -148,14 +148,16 @@ function IndicatorsPage() {
                   <Link
                     to="/indicator/$id"
                     params={{ id: ind.id }}
-                    className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-accent/60"
+                    className="flex items-center gap-3 px-4 py-4 transition-colors hover:bg-accent/60 sm:gap-4"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-navy">{ind.name}</p>
-                      <p className="mt-0.5 truncate font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+                      <p className="truncate text-sm font-medium leading-snug text-navy">
+                        {ind.name}
+                      </p>
+                      <p className="mt-1.5 truncate font-mono text-[11px] uppercase tracking-wider text-blue-dark">
                         {ind.category}
                       </p>
-                      <p className="mt-1 font-mono text-[11px] text-muted-foreground sm:hidden">
+                      <p className="mt-1.5 font-mono text-[11px] text-muted-foreground sm:hidden">
                         {ind.frequency} · updated {lu ? fmtDate(lu) : "—"}
                       </p>
                     </div>
