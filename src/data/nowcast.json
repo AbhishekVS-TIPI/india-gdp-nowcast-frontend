@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-08-31T06:04:24+00:00",
+ "generatedAt": "2026-09-07T06:09:00+00:00",
  "unit": "% y/y",
  "model": {
   "description": "Single-factor bridge regression: GDP y/y growth regressed on an equal-weighted composite of the other six indicators' standardised y/y growth.",
