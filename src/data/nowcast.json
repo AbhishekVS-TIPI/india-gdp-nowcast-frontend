@@ -1,15 +1,15 @@
 {
- "generatedAt": "2026-09-07T06:09:00+00:00",
+ "generatedAt": "2026-09-08T09:25:43+00:00",
  "unit": "% y/y",
  "model": {
   "description": "Single-factor bridge regression: GDP y/y growth regressed on an equal-weighted composite of the other six indicators' standardised y/y growth.",
-  "trainingQuarters": 84,
+  "trainingQuarters": 85,
   "trainingStart": "2005-04-01",
-  "trainingEnd": "2026-01-01",
-  "rSquared": 0.348,
-  "residualStdDev": 3.83,
-  "intercept": 6.429,
-  "slope": 4.917
+  "trainingEnd": "2026-04-01",
+  "rSquared": 0.341,
+  "residualStdDev": 3.82,
+  "intercept": 6.475,
+  "slope": 4.85
  },
  "history": [
   {
@@ -45,14 +45,14 @@
    "label": "Apr-Jun 1995",
    "actual": null,
    "fitted": null,
-   "projected": 10.49
+   "projected": 10.48
   },
   {
    "quarterStart": "1995-07-01",
    "label": "Jul-Sep 1995",
    "actual": null,
    "fitted": null,
-   "projected": 10.68
+   "projected": 10.67
   },
   {
    "quarterStart": "1995-10-01",
@@ -66,7 +66,7 @@
    "label": "Jan-Mar 1996",
    "actual": null,
    "fitted": null,
-   "projected": 10.5
+   "projected": 10.49
   },
   {
    "quarterStart": "1996-04-01",
@@ -80,286 +80,286 @@
    "label": "Jul-Sep 1996",
    "actual": null,
    "fitted": null,
-   "projected": 7.0
+   "projected": 7.04
   },
   {
    "quarterStart": "1996-10-01",
    "label": "Oct-Dec 1996",
    "actual": null,
    "fitted": null,
-   "projected": 6.12
+   "projected": 6.17
   },
   {
    "quarterStart": "1997-01-01",
    "label": "Jan-Mar 1997",
    "actual": null,
    "fitted": null,
-   "projected": 4.72
+   "projected": 4.79
   },
   {
    "quarterStart": "1997-04-01",
    "label": "Apr-Jun 1997",
    "actual": null,
    "fitted": null,
-   "projected": 6.08
+   "projected": 6.14
   },
   {
    "quarterStart": "1997-07-01",
    "label": "Jul-Sep 1997",
    "actual": null,
    "fitted": null,
-   "projected": 7.39
+   "projected": 7.43
   },
   {
    "quarterStart": "1997-10-01",
    "label": "Oct-Dec 1997",
    "actual": null,
    "fitted": null,
-   "projected": 7.84
+   "projected": 7.87
   },
   {
    "quarterStart": "1998-01-01",
    "label": "Jan-Mar 1998",
    "actual": null,
    "fitted": null,
-   "projected": 6.83
+   "projected": 6.87
   },
   {
    "quarterStart": "1998-04-01",
    "label": "Apr-Jun 1998",
    "actual": null,
    "fitted": null,
-   "projected": 6.1
+   "projected": 6.15
   },
   {
    "quarterStart": "1998-07-01",
    "label": "Jul-Sep 1998",
    "actual": null,
    "fitted": null,
-   "projected": 5.58
+   "projected": 5.64
   },
   {
    "quarterStart": "1998-10-01",
    "label": "Oct-Dec 1998",
    "actual": null,
    "fitted": null,
-   "projected": 5.21
+   "projected": 5.27
   },
   {
    "quarterStart": "1999-01-01",
    "label": "Jan-Mar 1999",
    "actual": null,
    "fitted": null,
-   "projected": 5.85
+   "projected": 5.9
   },
   {
    "quarterStart": "1999-04-01",
    "label": "Apr-Jun 1999",
    "actual": null,
    "fitted": null,
-   "projected": 6.49
+   "projected": 6.53
   },
   {
    "quarterStart": "1999-07-01",
    "label": "Jul-Sep 1999",
    "actual": null,
    "fitted": null,
-   "projected": 7.16
+   "projected": 7.2
   },
   {
    "quarterStart": "1999-10-01",
    "label": "Oct-Dec 1999",
    "actual": null,
    "fitted": null,
-   "projected": 7.08
+   "projected": 7.11
   },
   {
    "quarterStart": "2000-01-01",
    "label": "Jan-Mar 2000",
    "actual": null,
    "fitted": null,
-   "projected": 7.25
+   "projected": 7.29
   },
   {
    "quarterStart": "2000-04-01",
    "label": "Apr-Jun 2000",
    "actual": null,
    "fitted": null,
-   "projected": 0.14
+   "projected": 0.27
   },
   {
    "quarterStart": "2000-07-01",
    "label": "Jul-Sep 2000",
    "actual": null,
    "fitted": null,
-   "projected": 1.68
+   "projected": 1.79
   },
   {
    "quarterStart": "2000-10-01",
    "label": "Oct-Dec 2000",
    "actual": null,
    "fitted": null,
-   "projected": -0.81
+   "projected": -0.66
   },
   {
    "quarterStart": "2001-01-01",
    "label": "Jan-Mar 2001",
    "actual": null,
    "fitted": null,
-   "projected": -0.66
+   "projected": -0.51
   },
   {
    "quarterStart": "2001-04-01",
    "label": "Apr-Jun 2001",
    "actual": null,
    "fitted": null,
-   "projected": 3.1
+   "projected": 3.19
   },
   {
    "quarterStart": "2001-07-01",
    "label": "Jul-Sep 2001",
    "actual": null,
    "fitted": null,
-   "projected": 1.72
+   "projected": 1.83
   },
   {
    "quarterStart": "2001-10-01",
    "label": "Oct-Dec 2001",
    "actual": null,
    "fitted": null,
-   "projected": 3.2
+   "projected": 3.29
   },
   {
    "quarterStart": "2002-01-01",
    "label": "Jan-Mar 2002",
    "actual": null,
    "fitted": null,
-   "projected": 3.48
+   "projected": 3.56
   },
   {
    "quarterStart": "2002-04-01",
    "label": "Apr-Jun 2002",
    "actual": null,
    "fitted": null,
-   "projected": 7.29
+   "projected": 7.33
   },
   {
    "quarterStart": "2002-07-01",
    "label": "Jul-Sep 2002",
    "actual": null,
    "fitted": null,
-   "projected": 6.42
+   "projected": 6.47
   },
   {
    "quarterStart": "2002-10-01",
    "label": "Oct-Dec 2002",
    "actual": null,
    "fitted": null,
-   "projected": 7.03
+   "projected": 7.07
   },
   {
    "quarterStart": "2003-01-01",
    "label": "Jan-Mar 2003",
    "actual": null,
    "fitted": null,
-   "projected": 7.98
+   "projected": 8.01
   },
   {
    "quarterStart": "2003-04-01",
    "label": "Apr-Jun 2003",
    "actual": null,
    "fitted": null,
-   "projected": 5.96
+   "projected": 6.01
   },
   {
    "quarterStart": "2003-07-01",
    "label": "Jul-Sep 2003",
    "actual": null,
    "fitted": null,
-   "projected": 7.5
+   "projected": 7.53
   },
   {
    "quarterStart": "2003-10-01",
    "label": "Oct-Dec 2003",
    "actual": null,
    "fitted": null,
-   "projected": 7.28
+   "projected": 7.31
   },
   {
    "quarterStart": "2004-01-01",
    "label": "Jan-Mar 2004",
    "actual": null,
    "fitted": null,
-   "projected": 7.54
+   "projected": 7.57
   },
   {
    "quarterStart": "2004-04-01",
    "label": "Apr-Jun 2004",
    "actual": null,
    "fitted": null,
-   "projected": 8.22
+   "projected": 8.24
   },
   {
    "quarterStart": "2004-07-01",
    "label": "Jul-Sep 2004",
    "actual": null,
    "fitted": null,
-   "projected": 6.67
+   "projected": 6.71
   },
   {
    "quarterStart": "2004-10-01",
    "label": "Oct-Dec 2004",
    "actual": null,
    "fitted": null,
-   "projected": 6.05
+   "projected": 6.1
   },
   {
    "quarterStart": "2005-01-01",
    "label": "Jan-Mar 2005",
    "actual": null,
    "fitted": null,
-   "projected": 4.27
+   "projected": 4.35
   },
   {
    "quarterStart": "2005-04-01",
    "label": "Apr-Jun 2005",
    "actual": 9.22,
-   "fitted": 6.46,
+   "fitted": 6.51,
    "projected": null
   },
   {
    "quarterStart": "2005-07-01",
    "label": "Jul-Sep 2005",
    "actual": 8.44,
-   "fitted": 4.91,
+   "fitted": 4.98,
    "projected": null
   },
   {
    "quarterStart": "2005-10-01",
    "label": "Oct-Dec 2005",
    "actual": 8.97,
-   "fitted": 5.84,
+   "fitted": 5.9,
    "projected": null
   },
   {
    "quarterStart": "2006-01-01",
    "label": "Jan-Mar 2006",
    "actual": 10.36,
-   "fitted": 7.25,
+   "fitted": 7.28,
    "projected": null
   },
   {
    "quarterStart": "2006-04-01",
    "label": "Apr-Jun 2006",
    "actual": 7.41,
-   "fitted": 8.86,
+   "fitted": 8.87,
    "projected": null
   },
   {
    "quarterStart": "2006-07-01",
    "label": "Jul-Sep 2006",
    "actual": 10.24,
-   "fitted": 8.33,
+   "fitted": 8.35,
    "projected": null
   },
   {
@@ -373,21 +373,21 @@
    "quarterStart": "2007-01-01",
    "label": "Jan-Mar 2007",
    "actual": 9.8,
-   "fitted": 10.9,
+   "fitted": 10.89,
    "projected": null
   },
   {
    "quarterStart": "2007-04-01",
    "label": "Apr-Jun 2007",
    "actual": 10.81,
-   "fitted": 10.55,
+   "fitted": 10.54,
    "projected": null
   },
   {
    "quarterStart": "2007-07-01",
    "label": "Jul-Sep 2007",
    "actual": 9.14,
-   "fitted": 10.83,
+   "fitted": 10.82,
    "projected": null
   },
   {
@@ -401,14 +401,14 @@
    "quarterStart": "2008-01-01",
    "label": "Jan-Mar 2008",
    "actual": 8.83,
-   "fitted": 10.21,
+   "fitted": 10.2,
    "projected": null
   },
   {
    "quarterStart": "2008-04-01",
    "label": "Apr-Jun 2008",
    "actual": 8.08,
-   "fitted": 11.27,
+   "fitted": 11.25,
    "projected": null
   },
   {
@@ -422,1167 +422,1167 @@
    "quarterStart": "2008-10-01",
    "label": "Oct-Dec 2008",
    "actual": 1.53,
-   "fitted": 7.1,
+   "fitted": 7.13,
    "projected": null
   },
   {
    "quarterStart": "2009-01-01",
    "label": "Jan-Mar 2009",
    "actual": 0.24,
-   "fitted": 5.54,
+   "fitted": 5.6,
    "projected": null
   },
   {
    "quarterStart": "2009-04-01",
    "label": "Apr-Jun 2009",
    "actual": 4.99,
-   "fitted": 8.07,
+   "fitted": 8.1,
    "projected": null
   },
   {
    "quarterStart": "2009-07-01",
    "label": "Jul-Sep 2009",
    "actual": 6.96,
-   "fitted": 8.84,
+   "fitted": 8.86,
    "projected": null
   },
   {
    "quarterStart": "2009-10-01",
    "label": "Oct-Dec 2009",
    "actual": 8.21,
-   "fitted": 11.92,
+   "fitted": 11.89,
    "projected": null
   },
   {
    "quarterStart": "2010-01-01",
    "label": "Jan-Mar 2010",
    "actual": 13.26,
-   "fitted": 13.5,
+   "fitted": 13.45,
    "projected": null
   },
   {
    "quarterStart": "2010-04-01",
    "label": "Apr-Jun 2010",
    "actual": 10.29,
-   "fitted": 8.81,
+   "fitted": 8.82,
    "projected": null
   },
   {
    "quarterStart": "2010-07-01",
    "label": "Jul-Sep 2010",
    "actual": 9.68,
-   "fitted": 8.31,
+   "fitted": 8.33,
    "projected": null
   },
   {
    "quarterStart": "2010-10-01",
    "label": "Oct-Dec 2010",
    "actual": 10.69,
-   "fitted": 7.52,
+   "fitted": 7.55,
    "projected": null
   },
   {
    "quarterStart": "2011-01-01",
    "label": "Jan-Mar 2011",
    "actual": 10.33,
-   "fitted": 8.29,
+   "fitted": 8.31,
    "projected": null
   },
   {
    "quarterStart": "2011-04-01",
    "label": "Apr-Jun 2011",
    "actual": 9.96,
-   "fitted": 8.49,
+   "fitted": 8.51,
    "projected": null
   },
   {
    "quarterStart": "2011-07-01",
    "label": "Jul-Sep 2011",
    "actual": 5.26,
-   "fitted": 8.53,
+   "fitted": 8.55,
    "projected": null
   },
   {
    "quarterStart": "2011-10-01",
    "label": "Oct-Dec 2011",
    "actual": 4.1,
-   "fitted": 7.45,
+   "fitted": 7.48,
    "projected": null
   },
   {
    "quarterStart": "2012-01-01",
    "label": "Jan-Mar 2012",
    "actual": 3.42,
-   "fitted": 5.54,
+   "fitted": 5.59,
    "projected": null
   },
   {
    "quarterStart": "2012-04-01",
    "label": "Apr-Jun 2012",
    "actual": 4.87,
-   "fitted": 7.82,
+   "fitted": 7.85,
    "projected": null
   },
   {
    "quarterStart": "2012-07-01",
    "label": "Jul-Sep 2012",
    "actual": 7.49,
-   "fitted": 5.97,
+   "fitted": 6.02,
    "projected": null
   },
   {
    "quarterStart": "2012-10-01",
    "label": "Oct-Dec 2012",
    "actual": 5.38,
-   "fitted": 6.98,
+   "fitted": 7.02,
    "projected": null
   },
   {
    "quarterStart": "2013-01-01",
    "label": "Jan-Mar 2013",
    "actual": 4.3,
-   "fitted": 7.79,
+   "fitted": 7.82,
    "projected": null
   },
   {
    "quarterStart": "2013-04-01",
    "label": "Apr-Jun 2013",
    "actual": 6.45,
-   "fitted": 5.86,
+   "fitted": 5.92,
    "projected": null
   },
   {
    "quarterStart": "2013-07-01",
    "label": "Jul-Sep 2013",
    "actual": 7.34,
-   "fitted": 8.95,
+   "fitted": 8.97,
    "projected": null
   },
   {
    "quarterStart": "2013-10-01",
    "label": "Oct-Dec 2013",
    "actual": 6.53,
-   "fitted": 8.09,
+   "fitted": 8.12,
    "projected": null
   },
   {
    "quarterStart": "2014-01-01",
    "label": "Jan-Mar 2014",
    "actual": 5.34,
-   "fitted": 6.85,
+   "fitted": 6.89,
    "projected": null
   },
   {
    "quarterStart": "2014-04-01",
    "label": "Apr-Jun 2014",
    "actual": 8.02,
-   "fitted": 5.8,
+   "fitted": 5.85,
    "projected": null
   },
   {
    "quarterStart": "2014-07-01",
    "label": "Jul-Sep 2014",
    "actual": 8.7,
-   "fitted": 7.23,
+   "fitted": 7.26,
    "projected": null
   },
   {
    "quarterStart": "2014-10-01",
    "label": "Oct-Dec 2014",
    "actual": 5.92,
-   "fitted": 6.33,
+   "fitted": 6.38,
    "projected": null
   },
   {
    "quarterStart": "2015-01-01",
    "label": "Jan-Mar 2015",
    "actual": 7.11,
-   "fitted": 5.76,
+   "fitted": 5.82,
    "projected": null
   },
   {
    "quarterStart": "2015-04-01",
    "label": "Apr-Jun 2015",
    "actual": 7.59,
-   "fitted": 5.37,
+   "fitted": 5.43,
    "projected": null
   },
   {
    "quarterStart": "2015-07-01",
    "label": "Jul-Sep 2015",
    "actual": 8.03,
-   "fitted": 4.39,
+   "fitted": 4.46,
    "projected": null
   },
   {
    "quarterStart": "2015-10-01",
    "label": "Oct-Dec 2015",
    "actual": 7.2,
-   "fitted": 5.24,
+   "fitted": 5.3,
    "projected": null
   },
   {
    "quarterStart": "2016-01-01",
    "label": "Jan-Mar 2016",
    "actual": 9.09,
-   "fitted": 5.94,
+   "fitted": 6.0,
    "projected": null
   },
   {
    "quarterStart": "2016-04-01",
    "label": "Apr-Jun 2016",
    "actual": 8.68,
-   "fitted": 4.23,
+   "fitted": 4.3,
    "projected": null
   },
   {
    "quarterStart": "2016-07-01",
    "label": "Jul-Sep 2016",
    "actual": 9.67,
-   "fitted": 5.44,
+   "fitted": 5.5,
    "projected": null
   },
   {
    "quarterStart": "2016-10-01",
    "label": "Oct-Dec 2016",
    "actual": 8.58,
-   "fitted": 4.32,
+   "fitted": 4.39,
    "projected": null
   },
   {
    "quarterStart": "2017-01-01",
    "label": "Jan-Mar 2017",
    "actual": 6.29,
-   "fitted": 3.8,
+   "fitted": 3.88,
    "projected": null
   },
   {
    "quarterStart": "2017-04-01",
    "label": "Apr-Jun 2017",
    "actual": 6.11,
-   "fitted": 3.32,
+   "fitted": 3.41,
    "projected": null
   },
   {
    "quarterStart": "2017-07-01",
    "label": "Jul-Sep 2017",
    "actual": 5.32,
-   "fitted": 3.68,
+   "fitted": 3.77,
    "projected": null
   },
   {
    "quarterStart": "2017-10-01",
    "label": "Oct-Dec 2017",
    "actual": 6.67,
-   "fitted": 4.92,
+   "fitted": 4.99,
    "projected": null
   },
   {
    "quarterStart": "2018-01-01",
    "label": "Jan-Mar 2018",
    "actual": 8.93,
-   "fitted": 5.11,
+   "fitted": 5.18,
    "projected": null
   },
   {
    "quarterStart": "2018-04-01",
    "label": "Apr-Jun 2018",
    "actual": 7.5,
-   "fitted": 6.13,
+   "fitted": 6.18,
    "projected": null
   },
   {
    "quarterStart": "2018-07-01",
    "label": "Jul-Sep 2018",
    "actual": 6.46,
-   "fitted": 3.81,
+   "fitted": 3.9,
    "projected": null
   },
   {
    "quarterStart": "2018-10-01",
    "label": "Oct-Dec 2018",
    "actual": 6.23,
-   "fitted": 2.8,
+   "fitted": 2.9,
    "projected": null
   },
   {
    "quarterStart": "2019-01-01",
    "label": "Jan-Mar 2019",
    "actual": 5.72,
-   "fitted": 3.42,
+   "fitted": 3.51,
    "projected": null
   },
   {
    "quarterStart": "2019-04-01",
    "label": "Apr-Jun 2019",
    "actual": 4.93,
-   "fitted": 6.47,
+   "fitted": 6.52,
    "projected": null
   },
   {
    "quarterStart": "2019-07-01",
    "label": "Jul-Sep 2019",
    "actual": 4.19,
-   "fitted": 4.96,
+   "fitted": 5.03,
    "projected": null
   },
   {
    "quarterStart": "2019-10-01",
    "label": "Oct-Dec 2019",
    "actual": 3.15,
-   "fitted": 6.83,
+   "fitted": 6.87,
    "projected": null
   },
   {
    "quarterStart": "2020-01-01",
    "label": "Jan-Mar 2020",
    "actual": 2.79,
-   "fitted": 7.14,
+   "fitted": 7.17,
    "projected": null
   },
   {
    "quarterStart": "2020-04-01",
    "label": "Apr-Jun 2020",
    "actual": -23.82,
-   "fitted": -3.6,
+   "fitted": -3.42,
    "projected": null
   },
   {
    "quarterStart": "2020-07-01",
    "label": "Jul-Sep 2020",
    "actual": -6.64,
-   "fitted": 4.77,
+   "fitted": 4.84,
    "projected": null
   },
   {
    "quarterStart": "2020-10-01",
    "label": "Oct-Dec 2020",
    "actual": 0.74,
-   "fitted": 5.75,
+   "fitted": 5.8,
    "projected": null
   },
   {
    "quarterStart": "2021-01-01",
    "label": "Jan-Mar 2021",
    "actual": 2.53,
-   "fitted": 5.3,
+   "fitted": 5.36,
    "projected": null
   },
   {
    "quarterStart": "2021-04-01",
    "label": "Apr-Jun 2021",
    "actual": 20.08,
-   "fitted": 16.89,
+   "fitted": 16.79,
    "projected": null
   },
   {
    "quarterStart": "2021-07-01",
    "label": "Jul-Sep 2021",
    "actual": 8.4,
-   "fitted": 6.73,
+   "fitted": 6.77,
    "projected": null
   },
   {
    "quarterStart": "2021-10-01",
    "label": "Oct-Dec 2021",
    "actual": 5.4,
-   "fitted": 5.46,
+   "fitted": 5.52,
    "projected": null
   },
   {
    "quarterStart": "2022-01-01",
    "label": "Jan-Mar 2022",
    "actual": 4.09,
-   "fitted": 6.37,
+   "fitted": 6.41,
    "projected": null
   },
   {
    "quarterStart": "2022-04-01",
    "label": "Apr-Jun 2022",
    "actual": 13.51,
-   "fitted": 9.03,
+   "fitted": 9.04,
    "projected": null
   },
   {
    "quarterStart": "2022-07-01",
    "label": "Jul-Sep 2022",
    "actual": 1.03,
-   "fitted": 6.51,
+   "fitted": 6.55,
    "projected": null
   },
   {
    "quarterStart": "2022-10-01",
    "label": "Oct-Dec 2022",
    "actual": 6.75,
-   "fitted": 6.03,
+   "fitted": 6.08,
    "projected": null
   },
   {
    "quarterStart": "2023-01-01",
    "label": "Jan-Mar 2023",
    "actual": 3.82,
-   "fitted": 6.98,
+   "fitted": 7.01,
    "projected": null
   },
   {
    "quarterStart": "2023-04-01",
    "label": "Apr-Jun 2023",
    "actual": 6.58,
-   "fitted": 6.59,
+   "fitted": 6.63,
    "projected": null
   },
   {
    "quarterStart": "2023-07-01",
    "label": "Jul-Sep 2023",
    "actual": 7.64,
-   "fitted": 9.08,
+   "fitted": 9.09,
    "projected": null
   },
   {
    "quarterStart": "2023-10-01",
    "label": "Oct-Dec 2023",
    "actual": 7.09,
-   "fitted": 7.38,
+   "fitted": 7.41,
    "projected": null
   },
   {
    "quarterStart": "2024-01-01",
    "label": "Jan-Mar 2024",
    "actual": 7.51,
-   "fitted": 6.92,
+   "fitted": 6.96,
    "projected": null
   },
   {
    "quarterStart": "2024-04-01",
    "label": "Apr-Jun 2024",
    "actual": 7.46,
-   "fitted": 5.95,
+   "fitted": 6.0,
    "projected": null
   },
   {
    "quarterStart": "2024-07-01",
    "label": "Jul-Sep 2024",
    "actual": 6.59,
-   "fitted": 4.84,
+   "fitted": 4.91,
    "projected": null
   },
   {
    "quarterStart": "2024-10-01",
    "label": "Oct-Dec 2024",
    "actual": 7.36,
-   "fitted": 5.97,
+   "fitted": 6.02,
    "projected": null
   },
   {
    "quarterStart": "2025-01-01",
    "label": "Jan-Mar 2025",
    "actual": 6.98,
-   "fitted": 4.13,
+   "fitted": 4.2,
    "projected": null
   },
   {
    "quarterStart": "2025-04-01",
    "label": "Apr-Jun 2025",
    "actual": 6.82,
-   "fitted": 2.3,
+   "fitted": 2.4,
    "projected": null
   },
   {
    "quarterStart": "2025-07-01",
    "label": "Jul-Sep 2025",
    "actual": 8.35,
-   "fitted": 2.82,
+   "fitted": 2.91,
    "projected": null
   },
   {
    "quarterStart": "2025-10-01",
    "label": "Oct-Dec 2025",
    "actual": 7.96,
-   "fitted": 2.18,
+   "fitted": 2.28,
    "projected": null
   },
   {
    "quarterStart": "2026-01-01",
    "label": "Jan-Mar 2026",
    "actual": 7.83,
-   "fitted": 3.55,
+   "fitted": 3.64,
    "projected": null
   },
   {
    "quarterStart": "2026-04-01",
    "label": "Apr-Jun 2026",
-   "actual": null,
-   "fitted": null,
-   "projected": 4.28
+   "actual": 7.97,
+   "fitted": 4.35,
+   "projected": null
   },
   {
    "quarterStart": "2026-07-01",
    "label": "Jul-Sep 2026",
    "actual": null,
    "fitted": null,
-   "projected": 1.93
+   "projected": 2.04
   }
  ],
  "nowcast": {
   "quarterStart": "2026-07-01",
   "label": "Jul-Sep 2026",
-  "pointEstimate": 1.93,
+  "pointEstimate": 2.04,
   "standardError": 3.91,
   "confidenceIntervals": [
    {
     "level": 0.68,
-    "lower": -1.98,
-    "upper": 5.85
+    "lower": -1.87,
+    "upper": 5.95
    },
    {
     "level": 0.9,
-    "lower": -4.51,
-    "upper": 8.37
+    "lower": -4.39,
+    "upper": 8.47
    }
   ],
   "pdf": [
    {
-    "x": -13.727,
+    "x": -13.604,
     "y": 3.4e-05
    },
    {
-    "x": -13.531,
+    "x": -13.408,
     "y": 4.2e-05
    },
    {
-    "x": -13.335,
+    "x": -13.213,
     "y": 5.1e-05
    },
    {
-    "x": -13.139,
+    "x": -13.017,
     "y": 6.2e-05
    },
    {
-    "x": -12.944,
+    "x": -12.822,
     "y": 7.5e-05
    },
    {
-    "x": -12.748,
+    "x": -12.626,
     "y": 9e-05
    },
    {
-    "x": -12.552,
+    "x": -12.431,
     "y": 0.000109
    },
    {
-    "x": -12.356,
-    "y": 0.00013
+    "x": -12.235,
+    "y": 0.000131
    },
    {
-    "x": -12.161,
+    "x": -12.04,
     "y": 0.000156
    },
    {
-    "x": -11.965,
+    "x": -11.844,
     "y": 0.000187
    },
    {
-    "x": -11.769,
+    "x": -11.649,
     "y": 0.000223
    },
    {
-    "x": -11.574,
+    "x": -11.453,
     "y": 0.000265
    },
    {
-    "x": -11.378,
+    "x": -11.258,
     "y": 0.000315
    },
    {
-    "x": -11.182,
+    "x": -11.062,
     "y": 0.000373
    },
    {
-    "x": -10.986,
+    "x": -10.866,
     "y": 0.00044
    },
    {
-    "x": -10.791,
-    "y": 0.000518
+    "x": -10.671,
+    "y": 0.000519
    },
    {
-    "x": -10.595,
-    "y": 0.000609
+    "x": -10.475,
+    "y": 0.00061
    },
    {
-    "x": -10.399,
+    "x": -10.28,
     "y": 0.000714
    },
    {
-    "x": -10.203,
+    "x": -10.084,
     "y": 0.000835
    },
    {
-    "x": -10.008,
-    "y": 0.000973
+    "x": -9.889,
+    "y": 0.000974
    },
    {
-    "x": -9.812,
-    "y": 0.001132
+    "x": -9.693,
+    "y": 0.001133
    },
    {
-    "x": -9.616,
-    "y": 0.001314
+    "x": -9.498,
+    "y": 0.001315
    },
    {
-    "x": -9.421,
-    "y": 0.001521
+    "x": -9.302,
+    "y": 0.001522
    },
    {
-    "x": -9.225,
-    "y": 0.001756
+    "x": -9.107,
+    "y": 0.001757
    },
    {
-    "x": -9.029,
-    "y": 0.002022
+    "x": -8.911,
+    "y": 0.002024
    },
    {
-    "x": -8.833,
-    "y": 0.002323
+    "x": -8.716,
+    "y": 0.002325
    },
    {
-    "x": -8.638,
-    "y": 0.002662
+    "x": -8.52,
+    "y": 0.002665
    },
    {
-    "x": -8.442,
-    "y": 0.003043
+    "x": -8.324,
+    "y": 0.003046
    },
    {
-    "x": -8.246,
-    "y": 0.00347
+    "x": -8.129,
+    "y": 0.003473
    },
    {
-    "x": -8.05,
-    "y": 0.003947
+    "x": -7.933,
+    "y": 0.00395
    },
    {
-    "x": -7.855,
-    "y": 0.004478
+    "x": -7.738,
+    "y": 0.004482
    },
    {
-    "x": -7.659,
-    "y": 0.005068
+    "x": -7.542,
+    "y": 0.005072
    },
    {
-    "x": -7.463,
-    "y": 0.005721
+    "x": -7.347,
+    "y": 0.005726
    },
    {
-    "x": -7.268,
-    "y": 0.006442
+    "x": -7.151,
+    "y": 0.006448
    },
    {
-    "x": -7.072,
-    "y": 0.007236
+    "x": -6.956,
+    "y": 0.007243
    },
    {
-    "x": -6.876,
-    "y": 0.008108
+    "x": -6.76,
+    "y": 0.008116
    },
    {
-    "x": -6.68,
-    "y": 0.009062
+    "x": -6.565,
+    "y": 0.009071
    },
    {
-    "x": -6.485,
-    "y": 0.010103
+    "x": -6.369,
+    "y": 0.010113
    },
    {
-    "x": -6.289,
-    "y": 0.011236
+    "x": -6.173,
+    "y": 0.011247
    },
    {
-    "x": -6.093,
-    "y": 0.012464
+    "x": -5.978,
+    "y": 0.012476
    },
    {
-    "x": -5.897,
-    "y": 0.013792
+    "x": -5.782,
+    "y": 0.013806
    },
    {
-    "x": -5.702,
-    "y": 0.015224
+    "x": -5.587,
+    "y": 0.015238
    },
    {
-    "x": -5.506,
-    "y": 0.016762
+    "x": -5.391,
+    "y": 0.016778
    },
    {
-    "x": -5.31,
-    "y": 0.01841
+    "x": -5.196,
+    "y": 0.018427
    },
    {
-    "x": -5.115,
-    "y": 0.020169
+    "x": -5.0,
+    "y": 0.020188
    },
    {
-    "x": -4.919,
-    "y": 0.02204
+    "x": -4.805,
+    "y": 0.022061
    },
    {
-    "x": -4.723,
-    "y": 0.024026
+    "x": -4.609,
+    "y": 0.024048
    },
    {
-    "x": -4.527,
-    "y": 0.026124
+    "x": -4.414,
+    "y": 0.026149
    },
    {
-    "x": -4.332,
-    "y": 0.028336
+    "x": -4.218,
+    "y": 0.028363
    },
    {
-    "x": -4.136,
-    "y": 0.030657
+    "x": -4.023,
+    "y": 0.030686
    },
    {
-    "x": -3.94,
-    "y": 0.033086
+    "x": -3.827,
+    "y": 0.033118
    },
    {
-    "x": -3.744,
-    "y": 0.035619
+    "x": -3.631,
+    "y": 0.035652
    },
    {
-    "x": -3.549,
-    "y": 0.038249
+    "x": -3.436,
+    "y": 0.038285
    },
    {
-    "x": -3.353,
-    "y": 0.040971
+    "x": -3.24,
+    "y": 0.04101
    },
    {
-    "x": -3.157,
-    "y": 0.043778
+    "x": -3.045,
+    "y": 0.043819
    },
    {
-    "x": -2.962,
-    "y": 0.046659
+    "x": -2.849,
+    "y": 0.046703
    },
    {
-    "x": -2.766,
-    "y": 0.049607
+    "x": -2.654,
+    "y": 0.049653
    },
    {
-    "x": -2.57,
-    "y": 0.052608
+    "x": -2.458,
+    "y": 0.052658
    },
    {
-    "x": -2.374,
-    "y": 0.055652
+    "x": -2.263,
+    "y": 0.055705
    },
    {
-    "x": -2.179,
-    "y": 0.058725
+    "x": -2.067,
+    "y": 0.058781
    },
    {
-    "x": -1.983,
-    "y": 0.061814
+    "x": -1.872,
+    "y": 0.061872
    },
    {
-    "x": -1.787,
-    "y": 0.064902
+    "x": -1.676,
+    "y": 0.064963
    },
    {
-    "x": -1.591,
-    "y": 0.067974
+    "x": -1.48,
+    "y": 0.068038
    },
    {
-    "x": -1.396,
-    "y": 0.071014
+    "x": -1.285,
+    "y": 0.071081
    },
    {
-    "x": -1.2,
-    "y": 0.074004
+    "x": -1.089,
+    "y": 0.074074
    },
    {
-    "x": -1.004,
-    "y": 0.076928
+    "x": -0.894,
+    "y": 0.077001
    },
    {
-    "x": -0.809,
-    "y": 0.079768
+    "x": -0.698,
+    "y": 0.079844
    },
    {
-    "x": -0.613,
-    "y": 0.082506
+    "x": -0.503,
+    "y": 0.082584
    },
    {
-    "x": -0.417,
-    "y": 0.085125
+    "x": -0.307,
+    "y": 0.085206
    },
    {
-    "x": -0.221,
-    "y": 0.087608
+    "x": -0.112,
+    "y": 0.087691
    },
    {
-    "x": -0.026,
-    "y": 0.089938
+    "x": 0.084,
+    "y": 0.090023
    },
    {
-    "x": 0.17,
-    "y": 0.0921
+    "x": 0.279,
+    "y": 0.092187
    },
    {
-    "x": 0.366,
-    "y": 0.094078
+    "x": 0.475,
+    "y": 0.094167
    },
    {
-    "x": 0.561,
-    "y": 0.095858
+    "x": 0.67,
+    "y": 0.095949
    },
    {
-    "x": 0.757,
-    "y": 0.097429
+    "x": 0.866,
+    "y": 0.097521
    },
    {
-    "x": 0.953,
-    "y": 0.098778
+    "x": 1.062,
+    "y": 0.098871
    },
    {
-    "x": 1.149,
-    "y": 0.099895
+    "x": 1.257,
+    "y": 0.09999
    },
    {
-    "x": 1.344,
-    "y": 0.100773
+    "x": 1.453,
+    "y": 0.100869
    },
    {
-    "x": 1.54,
-    "y": 0.101405
+    "x": 1.648,
+    "y": 0.101501
    },
    {
-    "x": 1.736,
-    "y": 0.101786
+    "x": 1.844,
+    "y": 0.101882
    },
    {
-    "x": 1.932,
-    "y": 0.101913
+    "x": 2.039,
+    "y": 0.10201
    },
    {
-    "x": 2.127,
-    "y": 0.101786
+    "x": 2.235,
+    "y": 0.101882
    },
    {
-    "x": 2.323,
-    "y": 0.101405
+    "x": 2.43,
+    "y": 0.101501
    },
    {
-    "x": 2.519,
-    "y": 0.100773
+    "x": 2.626,
+    "y": 0.100869
    },
    {
-    "x": 2.714,
-    "y": 0.099895
+    "x": 2.821,
+    "y": 0.09999
    },
    {
-    "x": 2.91,
-    "y": 0.098778
+    "x": 3.017,
+    "y": 0.098871
    },
    {
-    "x": 3.106,
-    "y": 0.097429
+    "x": 3.213,
+    "y": 0.097521
    },
    {
-    "x": 3.302,
-    "y": 0.095858
+    "x": 3.408,
+    "y": 0.095949
    },
    {
-    "x": 3.497,
-    "y": 0.094078
+    "x": 3.604,
+    "y": 0.094167
    },
    {
-    "x": 3.693,
-    "y": 0.0921
+    "x": 3.799,
+    "y": 0.092187
    },
    {
-    "x": 3.889,
-    "y": 0.089938
+    "x": 3.995,
+    "y": 0.090023
    },
    {
-    "x": 4.085,
-    "y": 0.087608
+    "x": 4.19,
+    "y": 0.087691
    },
    {
-    "x": 4.28,
-    "y": 0.085125
+    "x": 4.386,
+    "y": 0.085206
    },
    {
-    "x": 4.476,
-    "y": 0.082506
+    "x": 4.581,
+    "y": 0.082584
    },
    {
-    "x": 4.672,
-    "y": 0.079768
+    "x": 4.777,
+    "y": 0.079844
    },
    {
-    "x": 4.867,
-    "y": 0.076928
+    "x": 4.972,
+    "y": 0.077001
    },
    {
-    "x": 5.063,
-    "y": 0.074004
+    "x": 5.168,
+    "y": 0.074074
    },
    {
-    "x": 5.259,
-    "y": 0.071014
+    "x": 5.363,
+    "y": 0.071081
    },
    {
-    "x": 5.455,
-    "y": 0.067974
+    "x": 5.559,
+    "y": 0.068038
    },
    {
-    "x": 5.65,
-    "y": 0.064902
+    "x": 5.755,
+    "y": 0.064963
    },
    {
-    "x": 5.846,
-    "y": 0.061814
+    "x": 5.95,
+    "y": 0.061872
    },
    {
-    "x": 6.042,
-    "y": 0.058725
+    "x": 6.146,
+    "y": 0.058781
    },
    {
-    "x": 6.238,
-    "y": 0.055652
+    "x": 6.341,
+    "y": 0.055705
    },
    {
-    "x": 6.433,
-    "y": 0.052608
+    "x": 6.537,
+    "y": 0.052658
    },
    {
-    "x": 6.629,
-    "y": 0.049607
+    "x": 6.732,
+    "y": 0.049653
    },
    {
-    "x": 6.825,
-    "y": 0.046659
+    "x": 6.928,
+    "y": 0.046703
    },
    {
-    "x": 7.02,
-    "y": 0.043778
+    "x": 7.123,
+    "y": 0.043819
    },
    {
-    "x": 7.216,
-    "y": 0.040971
+    "x": 7.319,
+    "y": 0.04101
    },
    {
-    "x": 7.412,
-    "y": 0.038249
+    "x": 7.514,
+    "y": 0.038285
    },
    {
-    "x": 7.608,
-    "y": 0.035619
+    "x": 7.71,
+    "y": 0.035652
    },
    {
-    "x": 7.803,
-    "y": 0.033086
+    "x": 7.905,
+    "y": 0.033118
    },
    {
-    "x": 7.999,
-    "y": 0.030657
+    "x": 8.101,
+    "y": 0.030686
    },
    {
-    "x": 8.195,
-    "y": 0.028336
+    "x": 8.297,
+    "y": 0.028363
    },
    {
-    "x": 8.391,
-    "y": 0.026124
+    "x": 8.492,
+    "y": 0.026149
    },
    {
-    "x": 8.586,
-    "y": 0.024026
+    "x": 8.688,
+    "y": 0.024048
    },
    {
-    "x": 8.782,
-    "y": 0.02204
+    "x": 8.883,
+    "y": 0.022061
    },
    {
-    "x": 8.978,
-    "y": 0.020169
+    "x": 9.079,
+    "y": 0.020188
    },
    {
-    "x": 9.173,
-    "y": 0.01841
+    "x": 9.274,
+    "y": 0.018427
    },
    {
-    "x": 9.369,
-    "y": 0.016762
+    "x": 9.47,
+    "y": 0.016778
    },
    {
-    "x": 9.565,
-    "y": 0.015224
+    "x": 9.665,
+    "y": 0.015238
    },
    {
-    "x": 9.761,
-    "y": 0.013792
+    "x": 9.861,
+    "y": 0.013806
    },
    {
-    "x": 9.956,
-    "y": 0.012464
+    "x": 10.056,
+    "y": 0.012476
    },
    {
-    "x": 10.152,
-    "y": 0.011236
+    "x": 10.252,
+    "y": 0.011247
    },
    {
-    "x": 10.348,
-    "y": 0.010103
+    "x": 10.448,
+    "y": 0.010113
    },
    {
-    "x": 10.544,
-    "y": 0.009062
+    "x": 10.643,
+    "y": 0.009071
    },
    {
-    "x": 10.739,
-    "y": 0.008108
+    "x": 10.839,
+    "y": 0.008116
    },
    {
-    "x": 10.935,
-    "y": 0.007236
+    "x": 11.034,
+    "y": 0.007243
    },
    {
-    "x": 11.131,
-    "y": 0.006442
+    "x": 11.23,
+    "y": 0.006448
    },
    {
-    "x": 11.326,
-    "y": 0.005721
+    "x": 11.425,
+    "y": 0.005726
    },
    {
-    "x": 11.522,
-    "y": 0.005068
+    "x": 11.621,
+    "y": 0.005072
    },
    {
-    "x": 11.718,
-    "y": 0.004478
+    "x": 11.816,
+    "y": 0.004482
    },
    {
-    "x": 11.914,
-    "y": 0.003947
+    "x": 12.012,
+    "y": 0.00395
    },
    {
-    "x": 12.109,
-    "y": 0.00347
+    "x": 12.207,
+    "y": 0.003473
    },
    {
-    "x": 12.305,
-    "y": 0.003043
+    "x": 12.403,
+    "y": 0.003046
    },
    {
-    "x": 12.501,
-    "y": 0.002662
+    "x": 12.598,
+    "y": 0.002665
    },
    {
-    "x": 12.697,
-    "y": 0.002323
+    "x": 12.794,
+    "y": 0.002325
    },
    {
-    "x": 12.892,
-    "y": 0.002022
+    "x": 12.99,
+    "y": 0.002024
    },
    {
-    "x": 13.088,
-    "y": 0.001756
+    "x": 13.185,
+    "y": 0.001757
    },
    {
-    "x": 13.284,
-    "y": 0.001521
+    "x": 13.381,
+    "y": 0.001522
    },
    {
-    "x": 13.479,
-    "y": 0.001314
+    "x": 13.576,
+    "y": 0.001315
    },
    {
-    "x": 13.675,
-    "y": 0.001132
+    "x": 13.772,
+    "y": 0.001133
    },
    {
-    "x": 13.871,
-    "y": 0.000973
+    "x": 13.967,
+    "y": 0.000974
    },
    {
-    "x": 14.067,
+    "x": 14.163,
     "y": 0.000835
    },
    {
-    "x": 14.262,
+    "x": 14.358,
     "y": 0.000714
    },
    {
-    "x": 14.458,
-    "y": 0.000609
+    "x": 14.554,
+    "y": 0.00061
    },
    {
-    "x": 14.654,
-    "y": 0.000518
+    "x": 14.749,
+    "y": 0.000519
    },
    {
-    "x": 14.85,
+    "x": 14.945,
     "y": 0.00044
    },
    {
-    "x": 15.045,
+    "x": 15.141,
     "y": 0.000373
    },
    {
-    "x": 15.241,
+    "x": 15.336,
     "y": 0.000315
    },
    {
-    "x": 15.437,
+    "x": 15.532,
     "y": 0.000265
    },
    {
-    "x": 15.632,
+    "x": 15.727,
     "y": 0.000223
    },
    {
-    "x": 15.828,
+    "x": 15.923,
     "y": 0.000187
    },
    {
-    "x": 16.024,
+    "x": 16.118,
     "y": 0.000156
    },
    {
-    "x": 16.22,
-    "y": 0.00013
+    "x": 16.314,
+    "y": 0.000131
    },
    {
-    "x": 16.415,
+    "x": 16.509,
     "y": 0.000109
    },
    {
-    "x": 16.611,
+    "x": 16.705,
     "y": 9e-05
    },
    {
-    "x": 16.807,
+    "x": 16.9,
     "y": 7.5e-05
    },
    {
-    "x": 17.003,
+    "x": 17.096,
     "y": 6.2e-05
    },
    {
-    "x": 17.198,
+    "x": 17.291,
     "y": 5.1e-05
    },
    {
-    "x": 17.394,
+    "x": 17.487,
     "y": 4.2e-05
    },
    {
-    "x": 17.59,
+    "x": 17.683,
     "y": 3.4e-05
    }
   ],
