@@ -1,6 +1,6 @@
 # India GDP Pulse
 
-A dashboard of high-frequency indicators behind India's GDP, plus a simple, transparent
+A dashboard of high-frequency indicators behind India's GDP, plus a transparent
 GDP growth nowcast with its own confidence interval — built for The India Prosperity
 Initiative.
 
