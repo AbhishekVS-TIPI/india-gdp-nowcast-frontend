@@ -156,6 +156,9 @@ function IndicatorsPage() {
                       </p>
                       <p className="mt-1.5 truncate font-mono text-[11px] uppercase tracking-wider text-blue-dark">
                         {ind.category}
+                        {ind.code ? (
+                          <span className="text-muted-foreground"> · {ind.code}</span>
+                        ) : null}
                       </p>
                       <p className="mt-1.5 font-mono text-[11px] text-muted-foreground sm:hidden">
                         {ind.frequency} · updated {lu ? fmtDate(lu) : "—"}

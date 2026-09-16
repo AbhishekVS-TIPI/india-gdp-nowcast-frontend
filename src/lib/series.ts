@@ -2,6 +2,7 @@ import indicatorsRaw from "@/data/indicators.json";
 
 export type Indicator = {
   id: string;
+  code: string | null;
   name: string;
   category: string;
   frequency: string;

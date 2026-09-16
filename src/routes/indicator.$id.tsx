@@ -161,6 +161,7 @@ function IndicatorDetail() {
         </div>
 
         <dl className="mt-6 rounded-xl border border-border bg-card px-5 py-2">
+          {indicator.code ? <Row label="Code">{indicator.code}</Row> : null}
           <Row label="Category">{indicator.category}</Row>
           <Row label="Frequency">{indicator.frequency}</Row>
           <Row label="Data available from">{indicator.availableFrom ?? "Not recorded"}</Row>
