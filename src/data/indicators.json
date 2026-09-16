@@ -1138,5 +1138,20 @@
   "releaseDay": null,
   "releaseLag": "~75 days after period end",
   "unit": "%"
+ },
+ {
+  "id": "petroleum_product_consumption",
+  "code": "PETROLEUM_PRODUCT_CONSUMPTION.NA.M",
+  "name": "Petroleum Product Consumption",
+  "category": "Personal Income / Consumption",
+  "frequency": "Monthly",
+  "source": "https://ppac.gov.in/consumption/products-wise",
+  "sourceName": "Petroleum Planning & Analysis Cell (PPAC)",
+  "availableFrom": "1998-04-01",
+  "remarks": "The first sheet ('Historical (year-wise)') is annual and skipped; every other sheet is one fiscal year with monthly columns in fiscal position (col1=April..col12=March). All-products total row, '000 Metric Tonnes. Monthly downloads also available directly at https://ppac.gov.in/consumption/products-wise for future updates. Lag placeholder - verify against release calendar.",
+  "notes": null,
+  "releaseDay": null,
+  "releaseLag": "~35 days after period end",
+  "unit": "'000 Tonnes"
  }
 ]
