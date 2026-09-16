@@ -796,7 +796,7 @@
  },
  {
   "id": "iip_manufacturing_sector",
-  "code": "IIP_MANUFACTURING_SECTOR.BY1993_94.M",
+  "code": "IIP_MANUFACTURING_SECTOR.BY2011_12.M",
   "name": "IIP - Manufacturing Sector",
   "category": "Industry and Construction",
   "frequency": "Monthly",
@@ -811,7 +811,7 @@
  },
  {
   "id": "iip_electricity_sector",
-  "code": "IIP_ELECTRICITY_SECTOR.BY1993_94.M",
+  "code": "IIP_ELECTRICITY_SECTOR.BY2011_12.M",
   "name": "IIP - Electricity Sector",
   "category": "Industry and Construction",
   "frequency": "Monthly",
@@ -826,7 +826,7 @@
  },
  {
   "id": "iip_mining_sector",
-  "code": "IIP_MINING_SECTOR.BY1993_94.M",
+  "code": "IIP_MINING_SECTOR.BY2004_05.M",
   "name": "IIP - Mining Sector",
   "category": "Industry and Construction",
   "frequency": "Monthly",
@@ -841,7 +841,7 @@
  },
  {
   "id": "iip_intermediate_goods",
-  "code": "IIP_INTERMEDIATE_GOODS.BY1993_94.M",
+  "code": "IIP_INTERMEDIATE_GOODS.BY2011_12.M",
   "name": "IIP - Intermediate Goods",
   "category": "Industry and Construction",
   "frequency": "Monthly",
