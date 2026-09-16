@@ -176,7 +176,7 @@ function Dashboard() {
                       }}
                     />
                     <Line
-                      type="monotone"
+                      type="linear"
                       dataKey="actual"
                       stroke="var(--color-chart-1)"
                       strokeWidth={2}
@@ -184,7 +184,7 @@ function Dashboard() {
                       connectNulls={false}
                     />
                     <Line
-                      type="monotone"
+                      type="linear"
                       dataKey="modelEstimate"
                       stroke="var(--color-muted-foreground)"
                       strokeWidth={1.5}

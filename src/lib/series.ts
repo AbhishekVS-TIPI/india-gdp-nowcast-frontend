@@ -28,7 +28,7 @@ export const RANGES = [
   { key: "6M", days: 182 },
   { key: "1Y", days: 365 },
   { key: "5Y", days: 1826 },
-  { key: "MAX", days: 4380 },
+  { key: "MAX", days: Infinity },
 ] as const;
 
 export type RangeKey = (typeof RANGES)[number]["key"];
@@ -108,6 +108,26 @@ export function sliceRange(series: Point[], range: RangeKey): Point[] {
   const days = RANGES.find((r) => r.key === range)!.days;
   const from = TODAY - days * DAY;
   return series.filter((p) => p.t >= from);
+}
+
+/**
+ * "1Y" for any indicator that actually has data in the last year (the
+ * normal case, and the same default this always used), but widening to 5Y
+ * then MAX for one that doesn't. TODAY is anchored to the most recent
+ * observation across every indicator (see above) -- for a series whose own
+ * last release is much older (e.g. a source that went stale years ago), a
+ * fixed "1Y" default would show an empty chart and a "—" summary even
+ * though real data exists, just further back. Never narrows below "1Y":
+ * a fresh series should still open on its usual year of context, not the
+ * shortest window that happens to have two points.
+ */
+export function defaultRange(id: string): RangeKey {
+  const series = getSeries(id);
+  const candidates = RANGES.filter((r) => r.key === "1Y" || r.key === "5Y" || r.key === "MAX");
+  for (const r of candidates) {
+    if (sliceRange(series, r.key).length >= 2) return r.key;
+  }
+  return "MAX";
 }
 
 export function change(series: Point[]) {

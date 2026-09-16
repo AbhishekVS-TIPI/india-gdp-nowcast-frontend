@@ -1,6 +1,6 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -14,6 +14,7 @@ import {
   RANGES,
   UNITS,
   change,
+  defaultRange,
   fmtDate,
   getSeries,
   hasRealData,
@@ -56,7 +57,8 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 function IndicatorDetail() {
   const { indicator } = Route.useLoaderData();
-  const [range, setRange] = useState<RangeKey>("1Y");
+  const [range, setRange] = useState<RangeKey>(() => defaultRange(indicator.id));
+  useEffect(() => setRange(defaultRange(indicator.id)), [indicator.id]);
   const series = useMemo(() => sliceRange(getSeries(indicator.id), range), [indicator.id, range]);
   const ch = change(series);
   const last = series[series.length - 1];
@@ -149,7 +151,7 @@ function IndicatorDetail() {
                   formatter={(v) => [Number(v).toFixed(2), indicator.name]}
                 />
                 <Area
-                  type="monotone"
+                  type="linear"
                   dataKey="v"
                   stroke="var(--color-chart-1)"
                   strokeWidth={2}
