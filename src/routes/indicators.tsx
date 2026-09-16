@@ -7,6 +7,7 @@ import {
   RANGES,
   categories,
   change,
+  defaultRange,
   fmtDate,
   getSeries,
   lastUpdated,
@@ -143,6 +144,14 @@ function IndicatorsPage() {
               const ch = change(s);
               const lu = lastUpdated(ind.id);
               const up = ch >= 0;
+              // The trend line always shows this indicator's own best-available
+              // window (same logic as the detail page), independent of the
+              // shared comparison range above -- a stale-but-real indicator
+              // (e.g. one whose source went quiet years ago) would otherwise
+              // render a blank sparkline any time the shared range has nothing
+              // for it, even though real history exists further back. The %
+              // change figure still reflects the shared range as selected.
+              const trend = sliceRange(getSeries(ind.id), defaultRange(ind.id));
               return (
                 <li key={ind.id}>
                   <Link
@@ -170,7 +179,7 @@ function IndicatorsPage() {
                     <span className="hidden w-28 shrink-0 font-mono text-[11px] text-muted-foreground sm:block">
                       {lu ? fmtDate(lu) : "—"}
                     </span>
-                    <Sparkline data={s} positive={up} />
+                    <Sparkline data={trend} positive={up} />
                     <span
                       className={`w-20 shrink-0 text-right font-mono text-sm ${up ? "text-trend-up" : "text-trend-down"}`}
                     >
