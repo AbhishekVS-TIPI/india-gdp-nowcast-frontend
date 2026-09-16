@@ -240,6 +240,21 @@
   "unit": "\u20b9 crore"
  },
  {
+  "id": "bank_credit_non_food",
+  "code": "BANK_CREDIT_NON_FOOD.NA.M",
+  "name": "Bank Credit (Non-Food Credit)",
+  "category": "Credit and Finance",
+  "frequency": "Monthly",
+  "source": "https://data.rbi.org.in/DBIE/",
+  "sourceName": "RBI - Database on Indian Economy (DBIE)",
+  "availableFrom": "1997-06-06",
+  "remarks": "Fortnightly cadence; 'M' tolerance (40d) comfortably covers the gap. Found missing from the initial wiring pass during the automation survey -- green-marked and already had proven parsing logic in the notebook, just never carried into series.yaml. Lag placeholder.",
+  "notes": null,
+  "releaseDay": null,
+  "releaseLag": "~35 days after period end",
+  "unit": "\u20b9 crore"
+ },
+ {
   "id": "mibor_overnight",
   "code": "MIBOR_OVERNIGHT.NA.D",
   "name": "Mumbai Interbank Offer Rate (MIBOR)",
