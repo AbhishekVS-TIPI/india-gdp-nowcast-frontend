@@ -1,3 +1,4 @@
+import { IndicatorTable } from "@/components/IndicatorTable";
 import { SiteFooter } from "@/components/SiteFooter";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
@@ -17,11 +18,14 @@ import {
   defaultRange,
   fmtDate,
   getSeries,
+  getTable,
   hasRealData,
   indicators,
   sliceRange,
   type RangeKey,
 } from "@/lib/series";
+
+type ViewMode = "graph" | "table";
 
 export const Route = createFileRoute("/indicator/$id")({
   loader: ({ params }) => {
@@ -58,8 +62,11 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 function IndicatorDetail() {
   const { indicator } = Route.useLoaderData();
   const [range, setRange] = useState<RangeKey>(() => defaultRange(indicator.id));
+  const [view, setView] = useState<ViewMode>("graph");
   useEffect(() => setRange(defaultRange(indicator.id)), [indicator.id]);
   const series = useMemo(() => sliceRange(getSeries(indicator.id), range), [indicator.id, range]);
+  const fullSeries = useMemo(() => getSeries(indicator.id), [indicator.id]);
+  const table = useMemo(() => getTable(indicator.id), [indicator.id]);
   const ch = change(series);
   const last = series[series.length - 1];
 
@@ -93,73 +100,109 @@ function IndicatorDetail() {
                 {ch >= 0 ? "↑" : "↓"} {Math.abs(ch).toFixed(1)}% over {range}
               </span>
             </div>
-            <div className="flex gap-1 rounded-lg border border-border p-1">
-              {RANGES.map((r) => (
-                <button
-                  key={r.key}
-                  onClick={() => setRange(r.key)}
-                  className={`rounded-md px-2.5 py-1 font-mono text-xs transition-colors ${
-                    range === r.key
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
-                >
-                  {r.key}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center gap-3">
+              {view === "graph" ? (
+                <div className="flex gap-1 rounded-lg border border-border p-1">
+                  {RANGES.map((r) => (
+                    <button
+                      key={r.key}
+                      onClick={() => setRange(r.key)}
+                      className={`rounded-md px-2.5 py-1 font-mono text-xs transition-colors ${
+                        range === r.key
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                    >
+                      {r.key}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+              <div className="flex gap-1 rounded-lg border border-border p-1">
+                {(["graph", "table"] as const).map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setView(v)}
+                    className={`rounded-md px-2.5 py-1 font-mono text-xs uppercase tracking-wide transition-colors ${
+                      view === v
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="mt-5 h-[260px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={series} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="indFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--color-blue-lighter)" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="var(--color-blue-lighter)" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke="var(--color-border)" vertical={false} />
-                <XAxis
-                  dataKey="t"
-                  tickFormatter={(t: number) =>
-                    new Date(t).toLocaleDateString("en-IN", {
-                      month: "short",
-                      year: "2-digit",
-                      timeZone: "UTC",
-                    })
-                  }
-                  minTickGap={48}
-                  tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  width={56}
-                  tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: "var(--color-popover)",
-                    border: "1px solid var(--color-border)",
-                    borderRadius: 8,
-                    fontSize: 12,
-                  }}
-                  labelFormatter={(t) => fmtDate(Number(t))}
-                  formatter={(v) => [Number(v).toFixed(2), indicator.name]}
-                />
-                <Area
-                  type="linear"
-                  dataKey="v"
-                  stroke="var(--color-chart-1)"
-                  strokeWidth={2}
-                  fill="url(#indFill)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          {view === "graph" ? (
+            <div className="mt-5 h-[260px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={series} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="indFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--color-blue-lighter)" stopOpacity="0.85" />
+                      <stop offset="100%" stopColor="var(--color-blue-lighter)" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="var(--color-border)" vertical={false} />
+                  <XAxis
+                    dataKey="t"
+                    tickFormatter={(t: number) =>
+                      new Date(t).toLocaleDateString("en-IN", {
+                        month: "short",
+                        year: "2-digit",
+                        timeZone: "UTC",
+                      })
+                    }
+                    minTickGap={48}
+                    tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    width={56}
+                    tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "var(--color-popover)",
+                      border: "1px solid var(--color-border)",
+                      borderRadius: 8,
+                      fontSize: 12,
+                    }}
+                    labelFormatter={(t) => fmtDate(Number(t))}
+                    formatter={(v) => [Number(v).toFixed(2), indicator.name]}
+                  />
+                  <Area
+                    type="linear"
+                    dataKey="v"
+                    stroke="var(--color-chart-1)"
+                    strokeWidth={2}
+                    fill="url(#indFill)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div className="mt-5">
+              {table ? (
+                <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                  {table.baseYears.length} base years spliced -- every raw value shown alongside
+                  the continuous ("spliced") series the graph plots. Full history, {table.rows.length}{" "}
+                  rows.
+                </p>
+              ) : (
+                <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                  Full history, {fullSeries.length} rows.
+                </p>
+              )}
+              <IndicatorTable series={fullSeries} table={table} unit={UNITS[indicator.id] ?? null} />
+            </div>
+          )}
         </div>
 
         <dl className="mt-6 rounded-xl border border-border bg-card px-5 py-2">
