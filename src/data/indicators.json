@@ -465,15 +465,15 @@
   "unit": "Index"
  },
  {
-  "id": "net_foreign_exchange_assets_rbi",
-  "code": "NET_FOREIGN_EXCHANGE_ASSETS_RBI.NA.M",
+  "id": "net_foreign_exchange_assets_bankingsector",
+  "code": "NET_FOREIGN_EXCHANGE_ASSETS_BANKINGSECTOR.NA.M",
   "name": "Net Foreign Exchange Assets of Banking Sector",
   "category": "External Sector",
   "frequency": "Monthly",
   "source": "https://data.rbi.org.in/DBIE/",
   "sourceName": "RBI - Database on Indian Economy (DBIE)",
   "availableFrom": "1999-04-01",
-  "remarks": "Lag placeholder - verify against release calendar. RBI Monetary Survey, 'Net Foreign Exchange Assets of the banking sector (S.III.1+S.III.2)' -- the banking sector (RBI plus commercial banks), as the shortlist defines this indicator. An earlier version read RBI's own NFEA from the Reserve Money table, a narrower and different measure, and was replaced. One reading per month (the source stamps each with the last reporting Friday); re-dated to the first of the month. The series id keeps its historical '_rbi' suffix.",
+  "remarks": "Lag placeholder - verify against release calendar. RBI Monetary Survey, 'Net Foreign Exchange Assets of the banking sector (S.III.1+S.III.2)' -- the banking sector (RBI plus commercial banks), as the shortlist defines this indicator. An earlier version read RBI's own NFEA from the Reserve Money table, a narrower and different measure, and was replaced. One reading per month (the source stamps each with the last reporting Friday); re-dated to the first of the month.",
   "notes": null,
   "releaseDay": null,
   "releaseLag": "~10 days after period end",
