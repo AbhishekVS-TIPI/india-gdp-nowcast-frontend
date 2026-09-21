@@ -116,7 +116,7 @@
   "remarks": "Switched from FRED's INDIRLTLT01STM (an OECD relay of this same RBI data, starting only 2011) to RBI's own primary yield-curve table directly -- longer history (from 1996) and the actual originating source, not a third-party aggregator. Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -131,7 +131,7 @@
   "remarks": "Switched from FRED's INDIR3TIB01STM (monthly, since 2011) to RBI's own 91-Day T-Bill auction results -- genuinely primary (actual auction outcomes, not a relayed statistic), WEEKLY rather than monthly (auctions happen most weeks), and much longer history (back to 1993). Uses 'Implicit Yield at Cut-off Price' rather than 'Weighted Avg Yield', since the latter is only published from ~2010 onward -- using cut-off yield consistently avoids silently splicing two yield definitions partway through the series; both columns exist in the file if the other convention is ever preferred for the post-2010 portion specifically. Lag placeholder - RBI typically publishes auction results same-day.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~7 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "%"
  },
  {
@@ -146,7 +146,7 @@
   "remarks": "Derived: 10Y G-Sec yield minus 91-Day T-Bill yield. Both sides now read their own RBI primary files (see 10y_gsec_yield and tbill_91day_yield). The T-Bill side is weekly and the G-Sec side is a month-end snapshot, so the T-Bill series is resampled to ITS OWN month-end value (last auction on or before month-end) before subtracting -- not a monthly average, which would blend a different concept (typical yield during the month) into a spread that's otherwise a point-in-time reading on both legs.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -161,22 +161,22 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~7 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Paise"
  },
  {
   "id": "scb_aggregate_deposits",
-  "code": "SCB_AGGREGATE_DEPOSITS.NA.M",
+  "code": "SCB_AGGREGATE_DEPOSITS.NA.F",
   "name": "Aggregate SC Bank Deposits",
   "category": "Credit and Finance",
-  "frequency": "Monthly",
+  "frequency": "Fortnightly",
   "source": "https://data.rbi.org.in/DBIE/",
   "sourceName": "RBI - Database on Indian Economy (DBIE)",
   "availableFrom": "1997-05-30",
-  "remarks": "Fortnightly cadence; 'M' tolerance (40d) comfortably covers the gap. Lag placeholder - verify against release calendar.",
+  "remarks": "Fortnightly, frequency F - every reading kept at its exact reporting date, never bucketed to month. Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -191,7 +191,7 @@
   "remarks": "Lag placeholder - verify against release calendar. Old/new tab in the same file are two segments of one continuous series, not a rebasing.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -206,7 +206,7 @@
   "remarks": "Lag placeholder - verify against release calendar. Old/new tab in the same file are two segments of one continuous series, not a rebasing.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -221,7 +221,7 @@
   "remarks": "Lag placeholder - verify against release calendar. Old/new tab in the same file are two segments of one continuous series, not a rebasing.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -236,22 +236,22 @@
   "remarks": "Total Industry Credit is the sum of the 19 individual industry columns (RBI doesn't publish the total directly). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
   "id": "bank_credit_non_food",
-  "code": "BANK_CREDIT_NON_FOOD.NA.M",
+  "code": "BANK_CREDIT_NON_FOOD.NA.F",
   "name": "Bank Credit (Non-Food Credit)",
   "category": "Credit and Finance",
-  "frequency": "Monthly",
+  "frequency": "Fortnightly",
   "source": "https://data.rbi.org.in/DBIE/",
   "sourceName": "RBI - Database on Indian Economy (DBIE)",
   "availableFrom": "1997-06-06",
-  "remarks": "Fortnightly cadence; 'M' tolerance (40d) comfortably covers the gap. Found missing from the initial wiring pass during the automation survey -- green-marked and already had proven parsing logic in the notebook, just never carried into series.yaml. Lag placeholder.",
+  "remarks": "Fortnightly, frequency F - every reading kept at its exact reporting date, never bucketed to month. Found missing from the initial wiring pass during the automation survey -- green-marked and already had proven parsing logic in the notebook, just never carried into series.yaml. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -266,7 +266,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~7 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "%"
  },
  {
@@ -277,11 +277,11 @@
   "frequency": "Daily",
   "source": "https://fred.stlouisfed.org/series/DFEDTARU",
   "sourceName": "Federal Reserve Economic Data (FRED)",
-  "availableFrom": "2008-12-01",
+  "availableFrom": "2008-12-16",
   "remarks": "Lag placeholder - verify against FRED's own release schedule.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~7 days after period end",
+  "releaseLag": "~0 days after period end",
   "unit": "%"
  },
  {
@@ -296,7 +296,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -311,7 +311,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -326,7 +326,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -341,7 +341,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -356,7 +356,7 @@
   "remarks": "Lag placeholder. Multiple yearly files globbed and concatenated.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -371,7 +371,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "Index"
  },
  {
@@ -386,7 +386,7 @@
   "remarks": "Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~3 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "US$ per barrel"
  },
  {
@@ -401,7 +401,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -416,7 +416,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -431,7 +431,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -476,7 +476,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~10 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -506,7 +506,7 @@
   "remarks": "Lag placeholder - verify against release calendar. RBI does not publish an M2 column in this release (post-office savings data that fed M2 was discontinued) -- see the exclusions note at the end of this file.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -521,7 +521,7 @@
   "remarks": "Lag placeholder - verify against release calendar. RBI does not publish an M2 column in this release (post-office savings data that fed M2 was discontinued) -- see the exclusions note at the end of this file.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -536,7 +536,7 @@
   "remarks": "Lag placeholder - verify against release calendar. RBI does not publish an M2 column in this release (post-office savings data that fed M2 was discontinued) -- see the exclusions note at the end of this file.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -551,7 +551,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~75 days after period end",
+  "releaseLag": "~60 days after period end",
   "unit": "US$ million"
  },
  {
@@ -566,7 +566,7 @@
   "remarks": "Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~75 days after period end",
+  "releaseLag": "~60 days after period end",
   "unit": "US$ million"
  },
  {
@@ -581,7 +581,7 @@
   "remarks": "Broader 'Oil' category, not a crude-only split, but the only monthly-cadence source available. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -596,7 +596,7 @@
   "remarks": "Broader 'Oil' category, not a refined-only split, but the only monthly-cadence source available. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -611,7 +611,7 @@
   "remarks": "Switched from FRED's XTEITT01INM156S (an OECD MEI relay, frozen since Nov 2023) to a value computed directly from India's own Ministry of Commerce/DGCI&S trade statistics -- the same file already used for non_oil_non_gold_imports, and current through the latest release rather than stale. India's own trade classification doesn't exactly match OECD's methodology, so the ratio for a given month differs by several points from the old FRED-derived value (e.g. ~62% vs ~66% for Nov 2023) -- a genuine methodology difference, not a bug, and switching sources introduces a one-time level discontinuity in the stored history at the switchover date. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "%"
  },
  {
@@ -626,7 +626,7 @@
   "remarks": "Source column is 'Non-Oil Non-Gold Non-Silver', slightly narrower than a plain 'Non-Oil' figure -- closest available match. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -746,7 +746,7 @@
   "remarks": "Lag placeholder - verify against FRED's own release schedule.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~15 days after period end",
   "unit": "Index"
  },
  {
@@ -761,7 +761,7 @@
   "remarks": "HTML table saved with an .xls extension, not genuine binary Excel. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~10 days after period end",
   "unit": "MW"
  },
  {
@@ -776,7 +776,7 @@
   "remarks": "National total = within-state + outgoing-interstate e-way bills. Multiple yearly files globbed and concatenated. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~15 days after period end",
   "unit": "Count"
  },
  {
@@ -806,7 +806,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -821,7 +821,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -836,7 +836,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder. Note: this base-year download has no 2011-12-base row for Mining & Quarrying (RBI's own table skips it for the current base), so it's spliced from the 2004-05/1993-94 blocks only -- it won't reach the present the way the other IIP components here do.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -851,7 +851,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -866,7 +866,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -881,7 +881,7 @@
   "remarks": "IIP-RBI file also carries the MoSPI General Index cross-tabulated by base year, plus sector-wise, use-based and detailed-industry sub-indices in its other tabs -- iip_general itself is already wired from the MoSPI source (not duplicated here), but these sub-components aren't available anywhere else, so they're pulled from this file. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "Index"
  },
  {
@@ -896,7 +896,7 @@
   "remarks": "The same COMM_CODE/Commodity Code numeric scheme is stable across all three base-year files even though column layout differs. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~20 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "Index"
  },
  {
@@ -911,7 +911,7 @@
   "remarks": "The same COMM_CODE/Commodity Code numeric scheme is stable across all three base-year files even though column layout differs. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~20 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "Index"
  },
  {
@@ -926,7 +926,7 @@
   "remarks": "The same COMM_CODE/Commodity Code numeric scheme is stable across all three base-year files even though column layout differs. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~20 days after period end",
+  "releaseLag": "~14 days after period end",
   "unit": "Index"
  },
  {
@@ -941,7 +941,7 @@
   "remarks": "The 2024-base download (cpi_2024BY.xlsx) is item-level only -- no 'All Groups' headline row -- so that base year isn't spliced in here (see the exclusions note at the end of this file). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~12 days after period end",
   "unit": "Index"
  },
  {
@@ -971,7 +971,7 @@
   "remarks": "'All index' -- headline world commodity price index, 2016=100. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~7 days after period end",
   "unit": "Index"
  },
  {
@@ -986,7 +986,7 @@
   "remarks": "Columns are in fiscal POSITION (col1=April..col12=March), not literal calendar months -- the year comes from the row's own fiscal-year label. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~2 days after period end",
   "unit": "US$ per barrel"
  },
  {
@@ -1001,7 +1001,7 @@
   "remarks": "Source breaks wages out by individual task (Ploughing, Sowing, ...), not a single headline rate -- national headline here = the average of the 'Men' wage across all tasks, for All-India, Agriculture occupation. Source is stale (stops FY2013-14), not a live monthly feed.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "\u20b9"
  },
  {
@@ -1016,7 +1016,7 @@
   "remarks": "PLFS quarterly rounds are urban-only by design (the rural+urban combined estimate is an annual-only PLFS product) -- 'urban' is the headline the source's own title names, not a compromise. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~75 days after period end",
+  "releaseLag": "~40 days after period end",
   "unit": "%"
  },
  {
@@ -1031,7 +1031,7 @@
   "remarks": "PLFS quarterly rounds are urban-only by design (the rural+urban combined estimate is an annual-only PLFS product) -- 'urban' is the headline the source's own title names, not a compromise. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~75 days after period end",
+  "releaseLag": "~40 days after period end",
   "unit": "%"
  },
  {
@@ -1046,7 +1046,7 @@
   "remarks": "PLFS quarterly rounds are urban-only by design (the rural+urban combined estimate is an annual-only PLFS product) -- 'urban' is the headline the source's own title names, not a compromise. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~75 days after period end",
+  "releaseLag": "~40 days after period end",
   "unit": "%"
  },
  {
@@ -1061,7 +1061,7 @@
   "remarks": "Old Tab/New Tab in the same file are two segments of one continuous series, not a rebasing -- but their column layouts differ: Old Tab has an extra blank column after \"1.2 Non-Tax Revenue, Actual\" that New Tab does not, shifting every later column one position right. Column 29/30 = \"5 Capital Expenditure, Actual\" (verified against the file's own header row); a prior version of this entry used column 29 for both sheets, which on Old Tab actually reads \"4.1 Interest Payments, Revised Estimates\" -- wrong line item AND wrong estimate type. RBI's own notes on this table say figures are cumulative during the financial year (April-March), not a monthly flow -- confirmed directly: values ramp up each month and reset low every April (e.g. this series peaks near Rs 10.7 lakh crore in March, then drops to ~Rs 1.9 lakh crore in April). YoY comparison of the same calendar month's cumulative figure (this series' `transform: yoy`) is the correct way to read this, not a month-over-month comparison, which would show the seasonal reset as a fake collapse. Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -1076,7 +1076,7 @@
   "remarks": "Old Tab/New Tab in the same file are two segments of one continuous series, not a rebasing -- but their column layouts differ: Old Tab has an extra blank column after \"1.2 Non-Tax Revenue, Actual\" that New Tab does not, shifting every later column one position right. Column 23/24 = \"4 Revenue Expenditure, Actual\" (verified against the file's own header row); a prior version of this entry used column 23 for both sheets, which on Old Tab actually reads \"3 Total Receipts (excluding borrowings), Revised Estimates\" -- wrong line item AND wrong estimate type. Same cumulative-fiscal-year caveat as central_govt_capital_expenditure applies (RBI's figures reset every April, YoY not MoM is the correct comparison). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -1091,7 +1091,7 @@
   "remarks": "Old Tab/New Tab in the same file are two segments of one continuous series, not a rebasing. Column 5 = \"1.1 Tax Revenue (Net), Actual\" in both sheets -- verified against the file's own header row; this one column sits before the point where Old Tab's layout diverges from New Tab's (see the other three series from this same file for the divergence), so no per-sheet override is needed here. Same cumulative-fiscal-year caveat as central_govt_capital_expenditure applies (RBI's figures reset every April, YoY not MoM is the correct comparison). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -1106,7 +1106,7 @@
   "remarks": "Old Tab/New Tab in the same file are two segments of one continuous series, not a rebasing -- but their column layouts differ: Old Tab has an extra blank column after \"1.2 Non-Tax Revenue, Actual\" that New Tab does not, shifting every later column one position right. Column 20/21 = \"3 Total Receipts (excluding borrowings) (1+2), Actual\" (verified against the file's own header row); a prior version of this entry used column 20 for both sheets, which on Old Tab actually reads \"2.2 Other Receipts, Revised Estimates\" -- wrong line item entirely, and the wrong estimate type. The file's own note says the \"excluding borrowings\" definition only took effect from April 2019 (before that, published \"Total Receipts\" included borrowings) -- Old Tab's own data happens to start exactly at 2019-04-30, so this series is definitionally consistent throughout its own history, not a splice across two different measures. Same cumulative-fiscal-year caveat as central_govt_capital_expenditure applies (RBI's figures reset every April, YoY not MoM is the correct comparison). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~30 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -1121,7 +1121,7 @@
   "remarks": "2017-18/2018-19/2019-20 files use a different header layout and contribute no rows here (series effectively starts 2020-04). Lag placeholder.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~1 days after period end",
   "unit": "\u20b9 crore"
  },
  {
@@ -1136,7 +1136,7 @@
   "remarks": "The first sheet ('Historical (year-wise)') is annual and skipped; every other sheet is one fiscal year with monthly columns in fiscal position (col1=April..col12=March). All-products total row, '000 Metric Tonnes. Monthly downloads also available directly at https://ppac.gov.in/consumption/products-wise for future updates. Lag placeholder - verify against release calendar.",
   "notes": null,
   "releaseDay": null,
-  "releaseLag": "~35 days after period end",
+  "releaseLag": "~17 days after period end",
   "unit": "'000 Tonnes"
  }
 ]
