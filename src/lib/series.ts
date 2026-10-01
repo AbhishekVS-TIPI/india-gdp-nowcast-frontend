@@ -8,6 +8,7 @@ export type Indicator = {
   frequency: string;
   source: string | null;
   sourceName: string | null;
+  baseYear: string | null;
   availableFrom: string | null;
   remarks: string | null;
   notes: string | null;

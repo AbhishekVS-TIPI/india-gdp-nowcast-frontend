@@ -209,6 +209,7 @@ function IndicatorDetail() {
           {indicator.code ? <Row label="Code">{indicator.code}</Row> : null}
           <Row label="Category">{indicator.category}</Row>
           <Row label="Frequency">{indicator.frequency}</Row>
+          {indicator.baseYear ? <Row label="Base year">{indicator.baseYear}</Row> : null}
           <Row label="Data available from">{indicator.availableFrom ?? "Not recorded"}</Row>
           <Row label="Source path">{indicator.sourceName ?? "Not recorded"}</Row>
           <Row label="Source link">
