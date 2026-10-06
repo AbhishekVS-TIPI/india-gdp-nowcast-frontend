@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Sparkline } from "@/components/Sparkline";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Pct } from "@/components/Pct";
 import { RangeSwitch } from "@/components/RangeSwitch";
 import {
   categories,
@@ -42,16 +43,6 @@ function signed(v: number, unit: string | null) {
   const s = fmtNum(Math.abs(v), unit === "%" ? null : unit);
   const pp = unit === "%" ? "pp" : "";
   return `${v >= 0 ? "+" : "−"}${s}${pp}`;
-}
-
-function Pct({ v, className = "" }: { v: number; className?: string }) {
-  const up = v >= 0;
-  return (
-    <span className={`font-mono ${up ? "text-trend-up" : "text-trend-down"} ${className}`}>
-      {up ? "↑ +" : "↓ −"}
-      {Math.abs(v).toFixed(1)}%
-    </span>
-  );
 }
 
 function IndicatorsPage() {

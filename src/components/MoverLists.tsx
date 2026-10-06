@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Pct } from "@/components/Pct";
 import type { Mover } from "@/lib/series";
 
 function Column({ title, items }: { title: string; items: Mover[] }) {
@@ -7,7 +8,6 @@ function Column({ title, items }: { title: string; items: Mover[] }) {
       <p className="eyebrow">{title}</p>
       <ul className="mt-3 space-y-2">
         {items.map((m) => {
-          const up = m.change >= 0;
           return (
             <li key={m.id}>
               <Link
@@ -16,12 +16,7 @@ function Column({ title, items }: { title: string; items: Mover[] }) {
                 className="flex items-baseline justify-between gap-3 text-sm text-navy hover:underline"
               >
                 <span className="min-w-0 truncate">{m.name}</span>
-                <span
-                  className={`shrink-0 font-mono text-xs ${up ? "text-trend-up" : "text-trend-down"}`}
-                >
-                  {up ? "↑ +" : "↓ −"}
-                  {Math.abs(m.change).toFixed(1)}%
-                </span>
+                <Pct v={m.change} className="shrink-0 text-xs" />
               </Link>
             </li>
           );

@@ -62,34 +62,26 @@ export const REAL: Record<string, Point[]> = Object.fromEntries(
 );
 
 /**
- * Per-base-year raw table, for the ~19 indicators whose base years get
- * rescaled ("spliced") into one continuous line for the chart. Only these
- * indicators have a `<id>.table.json` file (see export_frontend.py); every
- * other indicator's table view falls back to its plain level series.
+ * Per-base-year raw table, for the indicators whose base years get rescaled
+ * ("spliced") into one continuous line for the chart. Only these indicators
+ * have a `<id>.table.json` file (see export_frontend.py). Only the detail page
+ * needs them, so they are loaded on demand instead of being bundled into
+ * every page.
  */
 export type TableRow = { d: string; spliced: number | null } & Record<string, number | null>;
 export type IndicatorTable = { baseYears: string[]; rows: TableRow[] };
 
-const tableModules = import.meta.glob("../data/series/*.table.json", {
-  eager: true,
-}) as Record<string, { default: IndicatorTable }>;
-
-const TABLES: Record<string, IndicatorTable> = Object.fromEntries(
-  Object.entries(tableModules).map(([path, mod]) => {
-    const id = path
-      .split("/")
-      .pop()!
-      .replace(/\.table\.json$/, "");
-    return [id, mod.default];
-  }),
-);
+const tableLoaders = import.meta.glob("../data/series/*.table.json", {
+  import: "default",
+}) as Record<string, () => Promise<IndicatorTable>>;
 
 /**
  * The full per-base-year breakdown for an indicator with more than one base
  * year, or null for a single-base indicator (its plain series IS the table).
  */
-export function getTable(id: string): IndicatorTable | null {
-  return TABLES[id] ?? null;
+export async function loadTable(id: string): Promise<IndicatorTable | null> {
+  const load = tableLoaders[`../data/series/${id}.table.json`];
+  return load ? load() : null;
 }
 
 export const UNITS: Record<string, string> = Object.fromEntries(
@@ -198,6 +190,16 @@ export type Mover = { id: string; name: string; category: string; change: number
  * window) are left out rather than shown as a flat 0%.
  */
 export function movers(range: RangeKey): Mover[] {
+  const cached = moversCache.get(range);
+  if (cached) return cached;
+  const result = computeMovers(range);
+  moversCache.set(range, result);
+  return result;
+}
+
+const moversCache = new Map<RangeKey, Mover[]>();
+
+function computeMovers(range: RangeKey): Mover[] {
   return indicators
     .map((ind) => {
       const s = sliceRange(getSeries(ind.id), range);

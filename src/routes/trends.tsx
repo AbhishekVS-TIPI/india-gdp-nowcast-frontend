@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { MoverLists } from "@/components/MoverLists";
+import { DensityChart, NowcastVsActualChart } from "@/components/NowcastCharts";
 import { RangeSwitch } from "@/components/RangeSwitch";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -45,7 +46,9 @@ function tint(ch: number, scale: number): string {
 function TrendsPage() {
   const [range, setRange] = useState<RangeKey>("1Y");
   const headline = NOWCAST?.nowcast ?? null;
+  const model = NOWCAST?.model ?? null;
   const ci90 = ciFor(0.9);
+  const ci68 = ciFor(0.68);
 
   const items = useMemo(() => movers(range), [range]);
   const stale = indicators.length - items.length;
@@ -59,10 +62,7 @@ function TrendsPage() {
 
   const rising = items.filter((m) => m.change > 0).length;
   const falling = items.filter((m) => m.change < 0).length;
-  const bars = useMemo(
-    () => [...items.slice(0, 8), ...items.slice(-8)].filter((m, i, a) => a.indexOf(m) === i),
-    [items],
-  );
+  const bars = useMemo(() => [...items.slice(0, 8), ...items.slice(-8)], [items]);
   const barMax = Math.max(1, ...bars.map((m) => Math.abs(m.change)));
 
   return (
@@ -70,75 +70,67 @@ function TrendsPage() {
       <SiteHeader subtitle={`${indicators.length} high-frequency indicators`} />
 
       <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
-        <section className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-card p-5 sm:p-6">
-          <div>
-            <p className="eyebrow">
-              Nowcast GDP growth (y/y){headline ? ` · ${headline.label}` : ""}
-            </p>
-            {headline ? (
-              <p className="mt-2 flex flex-wrap items-baseline gap-3">
-                <span className="font-mono text-4xl font-semibold text-navy">
-                  {headline.pointEstimate >= 0 ? "+" : ""}
-                  {headline.pointEstimate.toFixed(2)}%
+        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+          <p className="eyebrow">
+            Nowcast GDP growth (y/y){headline ? ` · ${headline.label}` : ""}
+          </p>
+          {headline ? (
+            <p className="mt-2 flex flex-wrap items-baseline gap-3">
+              <span className="font-mono text-4xl font-semibold text-navy">
+                {headline.pointEstimate >= 0 ? "+" : ""}
+                {headline.pointEstimate.toFixed(2)}%
+              </span>
+              {ci90 ? (
+                <span className="font-mono text-sm text-muted-foreground">
+                  90% CI [{ci90.lower.toFixed(1)}%, {ci90.upper.toFixed(1)}%]
                 </span>
-                {ci90 ? (
-                  <span className="font-mono text-sm text-muted-foreground">
-                    90% CI [{ci90.lower.toFixed(1)}%, {ci90.upper.toFixed(1)}%]
-                  </span>
-                ) : null}
-              </p>
-            ) : (
-              <p className="mt-2 font-mono text-2xl font-semibold text-muted-foreground">
-                Model in development
-              </p>
-            )}
-          </div>
-          <RangeSwitch value={range} onChange={setRange} />
+              ) : null}
+            </p>
+          ) : (
+            <p className="mt-2 font-mono text-2xl font-semibold text-muted-foreground">
+              Model in development
+            </p>
+          )}
+
+          {headline ? (
+            <div className="mt-6 grid gap-8 lg:grid-cols-[1.45fr_1fr]">
+              <NowcastVsActualChart />
+              <div>
+                <p className="text-center text-[11px] uppercase tracking-wider text-muted-foreground">
+                  Probability density — {headline.label}
+                </p>
+                <div className="mt-2">
+                  <DensityChart />
+                </div>
+                <p className="mt-2 text-center text-[11px] leading-relaxed text-muted-foreground">
+                  Shaded: 90% interval
+                  {ci68
+                    ? ` · 68% interval [${ci68.lower.toFixed(1)}%, ${ci68.upper.toFixed(1)}%]`
+                    : ""}
+                </p>
+              </div>
+            </div>
+          ) : null}
+
+          {model ? (
+            <details className="mt-6 rounded-lg border border-border/70 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
+              <summary className="cursor-pointer font-mono uppercase tracking-wider">
+                Model notes ({model.trainingQuarters} training quarters, R²{" "}
+                {model.rSquared.toFixed(2)})
+              </summary>
+              <ul className="mt-3 list-disc space-y-2 pl-4">
+                {NOWCAST?.caveats.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
         </section>
 
-        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="eyebrow">
-              Indicator heat map · {items.length} indicators · {range}
-            </h2>
-            <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-              <span className="text-trend-down">▼ −{scale.toFixed(0)}%</span>
-              <span
-                className="h-2 w-28 rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(90deg, var(--trend-down), var(--card), var(--trend-up))",
-                }}
-              />
-              <span className="text-trend-up">▲ +{scale.toFixed(0)}%</span>
-            </div>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6">
-            {items.map((m) => (
-              <Link
-                key={m.id}
-                to="/indicator/$id"
-                params={{ id: m.id }}
-                title={`${m.name} · ${m.category} · ${m.change >= 0 ? "+" : "−"}${Math.abs(m.change).toFixed(1)}% over ${range}`}
-                className="flex min-h-[72px] flex-col justify-between rounded-lg p-2.5 text-navy transition-transform hover:-translate-y-0.5"
-                style={{ background: tint(m.change, scale) }}
-              >
-                <span className="line-clamp-2 text-[11px] font-medium leading-tight">{m.name}</span>
-                <span className="mt-2 font-mono text-xs font-semibold">
-                  {m.change >= 0 ? "+" : "−"}
-                  {Math.abs(m.change).toFixed(1)}%
-                </span>
-              </Link>
-            ))}
-          </div>
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            Hover a cell for details. Colour intensity scales with the size of the change over the
-            selected period; red is a decline, green a gain.
-            {stale > 0
-              ? ` ${stale} indicator${stale === 1 ? " has" : "s have"} no usable reading (nothing in this window, or the series crosses zero) and ${stale === 1 ? "is" : "are"} left out.`
-              : ""}
-          </p>
-        </section>
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <h2 className="eyebrow">Indicator movers · {PERIOD[range]}</h2>
+          <RangeSwitch value={range} onChange={setRange} />
+        </div>
 
         <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
           <h2 className="eyebrow">Trend analysis</h2>
@@ -195,6 +187,50 @@ function TrendsPage() {
           <p className="mt-4 text-xs text-muted-foreground">
             Bar length is the % change in the indicator's level over the selected period (not a
             contribution to the nowcast). Latest data: {fmtDate(TODAY)}.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="eyebrow">
+              Indicator heat map · {items.length} indicators · {range}
+            </h2>
+            <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
+              <span className="text-trend-down">▼ −{scale.toFixed(0)}%</span>
+              <span
+                className="h-2 w-28 rounded-full"
+                style={{
+                  background:
+                    "linear-gradient(90deg, var(--trend-down), var(--card), var(--trend-up))",
+                }}
+              />
+              <span className="text-trend-up">▲ +{scale.toFixed(0)}%</span>
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6">
+            {items.map((m) => (
+              <Link
+                key={m.id}
+                to="/indicator/$id"
+                params={{ id: m.id }}
+                title={`${m.name} · ${m.category} · ${m.change >= 0 ? "+" : "−"}${Math.abs(m.change).toFixed(1)}% over ${range}`}
+                className="flex min-h-[72px] flex-col justify-between rounded-lg p-2.5 text-navy transition-transform hover:-translate-y-0.5"
+                style={{ background: tint(m.change, scale) }}
+              >
+                <span className="line-clamp-2 text-[11px] font-medium leading-tight">{m.name}</span>
+                <span className="mt-2 font-mono text-xs font-semibold">
+                  {m.change >= 0 ? "+" : "−"}
+                  {Math.abs(m.change).toFixed(1)}%
+                </span>
+              </Link>
+            ))}
+          </div>
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+            Hover a cell for details. Colour intensity scales with the size of the change over the
+            selected period; red is a decline, green a gain.
+            {stale > 0
+              ? ` ${stale} indicator${stale === 1 ? " has" : "s have"} no usable reading (nothing in this window, or the series crosses zero) and ${stale === 1 ? "is" : "are"} left out.`
+              : ""}
           </p>
         </section>
 

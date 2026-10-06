@@ -1,5 +1,7 @@
 import { IndicatorTable } from "@/components/IndicatorTable";
+import { RangeSwitch } from "@/components/RangeSwitch";
 import { SiteFooter } from "@/components/SiteFooter";
+import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -12,13 +14,13 @@ import {
   YAxis,
 } from "recharts";
 import {
-  RANGES,
   UNITS,
   change,
   defaultRange,
   fmtDate,
+  fmtNum,
   getSeries,
-  getTable,
+  loadTable,
   hasRealData,
   indicators,
   sliceRange,
@@ -28,10 +30,10 @@ import {
 type ViewMode = "graph" | "table";
 
 export const Route = createFileRoute("/indicator/$id")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const indicator = indicators.find((i) => i.id === params.id);
     if (!indicator) throw notFound();
-    return { indicator };
+    return { indicator, table: await loadTable(params.id) };
   },
   head: ({ loaderData }) => {
     const name = loaderData?.indicator.name ?? "Indicator";
@@ -60,20 +62,22 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 function IndicatorDetail() {
-  const { indicator } = Route.useLoaderData();
+  const { indicator, table } = Route.useLoaderData();
   const [range, setRange] = useState<RangeKey>(() => defaultRange(indicator.id));
   const [view, setView] = useState<ViewMode>("graph");
   useEffect(() => setRange(defaultRange(indicator.id)), [indicator.id]);
   const series = useMemo(() => sliceRange(getSeries(indicator.id), range), [indicator.id, range]);
   const fullSeries = useMemo(() => getSeries(indicator.id), [indicator.id]);
-  const table = useMemo(() => getTable(indicator.id), [indicator.id]);
   const ch = change(series);
   const last = series[series.length - 1];
 
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl px-5 py-8">
-        <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">
+        <Link
+          to="/indicators"
+          className="font-mono text-xs text-muted-foreground hover:text-foreground"
+        >
           ← All indicators
         </Link>
 
@@ -92,7 +96,7 @@ function IndicatorDetail() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="flex items-baseline gap-3">
               <span className="font-mono text-3xl font-semibold text-navy">
-                {last ? last.v.toFixed(2) : "—"}
+                {last ? fmtNum(last.v, indicator.unit) : "—"}
               </span>
               <span
                 className={`font-mono text-sm ${ch >= 0 ? "text-trend-up" : "text-trend-down"}`}
@@ -101,23 +105,7 @@ function IndicatorDetail() {
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              {view === "graph" ? (
-                <div className="flex gap-1 rounded-lg border border-border p-1">
-                  {RANGES.map((r) => (
-                    <button
-                      key={r.key}
-                      onClick={() => setRange(r.key)}
-                      className={`rounded-md px-2.5 py-1 font-mono text-xs transition-colors ${
-                        range === r.key
-                          ? "bg-primary text-primary-foreground"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      }`}
-                    >
-                      {r.key}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+              {view === "graph" ? <RangeSwitch value={range} onChange={setRange} /> : null}
               <div className="flex gap-1 rounded-lg border border-border p-1">
                 {(["graph", "table"] as const).map((v) => (
                   <button
@@ -157,23 +145,13 @@ function IndicatorDetail() {
                       })
                     }
                     minTickGap={48}
-                    tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                    tick={axisTick()}
                     axisLine={false}
                     tickLine={false}
                   />
-                  <YAxis
-                    width={56}
-                    tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
+                  <YAxis width={56} tick={axisTick()} axisLine={false} tickLine={false} />
                   <Tooltip
-                    contentStyle={{
-                      background: "var(--color-popover)",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: 8,
-                      fontSize: 12,
-                    }}
+                    contentStyle={TOOLTIP_STYLE}
                     labelFormatter={(t) => fmtDate(Number(t))}
                     formatter={(v) => [Number(v).toFixed(2), indicator.name]}
                   />

@@ -67,3 +67,35 @@ export function ciFor(level: number): ConfidenceInterval | null {
   if (!intervals) return null;
   return intervals.find((c) => Math.abs(c.level - level) < 1e-6) ?? null;
 }
+
+export type NowcastRow = {
+  quarterStart: string;
+  label: string;
+  /** Released GDP y/y growth, or null if not yet published. */
+  actual: number | null;
+  /** Model estimate: in-sample fit, or the out-of-sample projection for the open quarter. */
+  estimate: number | null;
+};
+
+/**
+ * History for charting, from the model's training start. The export also
+ * carries estimates for earlier quarters, but those predate both the released
+ * GDP series and the fitted sample, so they are unvalidated backcasts.
+ */
+export const NOWCAST_ROWS: NowcastRow[] = (() => {
+  if (!NOWCAST) return [];
+  const from = NOWCAST.model.trainingStart;
+  return NOWCAST.history
+    .filter((h) => h.quarterStart >= from)
+    .map((h) => ({
+      quarterStart: h.quarterStart,
+      label: h.label,
+      actual: h.actual,
+      estimate: h.fitted ?? h.projected,
+    }));
+})();
+
+/** The latest quarter for which GDP has been released. */
+export function lastReleasedGdp(): NowcastRow | null {
+  return [...NOWCAST_ROWS].reverse().find((r) => r.actual != null) ?? null;
+}
