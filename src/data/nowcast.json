@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-06T10:41:42+00:00",
+ "generatedAt": "2026-10-06T12:24:33+00:00",
  "dataAsOf": "2026-09-18",
  "unit": "% y/y",
  "model": {
@@ -10457,7 +10457,7 @@
    "quarterStart": "2025-10-01",
    "label": "Oct-Dec 2025",
    "asOf": "2026-02-28",
-   "estimate": null,
+   "estimate": 6.61,
    "naive": 7.39,
    "official": 7.96
   },
