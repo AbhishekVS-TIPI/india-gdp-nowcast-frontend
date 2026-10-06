@@ -1,16 +1,17 @@
 {
- "generatedAt": "2026-10-06T12:24:33+00:00",
- "dataAsOf": "2026-09-18",
+ "generatedAt": "2026-10-06T17:21:50+00:00",
+ "dataAsOf": "2026-08-28",
+ "frozenAsOf": "2026-08-28",
  "unit": "% y/y",
  "model": {
   "name": "Dynamic factor model (demo)",
   "description": "Two-step dynamic factor model: 3 common factor(s) extracted from 68 monthly indicators by EM (statsmodels DynamicFactorMQ), averaged to quarters, and GDP y/y growth regressed on them by OLS.",
-  "trainingQuarters": 85,
+  "trainingQuarters": 84,
   "trainingStart": "2005-04-01",
-  "trainingEnd": "2026-04-01",
-  "rSquared": 0.772,
-  "cvRSquared": 0.689,
-  "residualStdDev": 2.28,
+  "trainingEnd": "2026-01-01",
+  "rSquared": 0.767,
+  "cvRSquared": 0.682,
+  "residualStdDev": 2.32,
   "nFactors": 3,
   "factorSelection": "Bai-Ng ICP2 on a 65-series block",
   "panelSeries": 68,
@@ -21,7 +22,7 @@
    "quarterStart": "2005-04-01",
    "label": "Apr-Jun 2005",
    "actual": 9.22,
-   "fitted": 5.4,
+   "fitted": 5.35,
    "projected": null
   },
   {
@@ -35,28 +36,28 @@
    "quarterStart": "2005-10-01",
    "label": "Oct-Dec 2005",
    "actual": 8.97,
-   "fitted": 8.52,
+   "fitted": 8.37,
    "projected": null
   },
   {
    "quarterStart": "2006-01-01",
    "label": "Jan-Mar 2006",
    "actual": 10.36,
-   "fitted": 11.63,
+   "fitted": 11.36,
    "projected": null
   },
   {
    "quarterStart": "2006-04-01",
    "label": "Apr-Jun 2006",
    "actual": 7.41,
-   "fitted": 10.13,
+   "fitted": 10.17,
    "projected": null
   },
   {
    "quarterStart": "2006-07-01",
    "label": "Jul-Sep 2006",
    "actual": 10.24,
-   "fitted": 9.69,
+   "fitted": 9.62,
    "projected": null
   },
   {
@@ -70,56 +71,56 @@
    "quarterStart": "2007-01-01",
    "label": "Jan-Mar 2007",
    "actual": 9.8,
-   "fitted": 10.31,
+   "fitted": 10.21,
    "projected": null
   },
   {
    "quarterStart": "2007-04-01",
    "label": "Apr-Jun 2007",
    "actual": 10.81,
-   "fitted": 11.92,
+   "fitted": 11.75,
    "projected": null
   },
   {
    "quarterStart": "2007-07-01",
    "label": "Jul-Sep 2007",
    "actual": 9.14,
-   "fitted": 11.11,
+   "fitted": 11.0,
    "projected": null
   },
   {
    "quarterStart": "2007-10-01",
    "label": "Oct-Dec 2007",
    "actual": 10.55,
-   "fitted": 10.29,
+   "fitted": 10.22,
    "projected": null
   },
   {
    "quarterStart": "2008-01-01",
    "label": "Jan-Mar 2008",
    "actual": 8.83,
-   "fitted": 9.88,
+   "fitted": 9.71,
    "projected": null
   },
   {
    "quarterStart": "2008-04-01",
    "label": "Apr-Jun 2008",
    "actual": 8.08,
-   "fitted": 8.41,
+   "fitted": 8.32,
    "projected": null
   },
   {
    "quarterStart": "2008-07-01",
    "label": "Jul-Sep 2008",
    "actual": 6.74,
-   "fitted": 8.12,
+   "fitted": 8.1,
    "projected": null
   },
   {
    "quarterStart": "2008-10-01",
    "label": "Oct-Dec 2008",
    "actual": 1.53,
-   "fitted": 4.09,
+   "fitted": 3.82,
    "projected": null
   },
   {
@@ -133,7 +134,7 @@
    "quarterStart": "2009-04-01",
    "label": "Apr-Jun 2009",
    "actual": 4.99,
-   "fitted": 3.62,
+   "fitted": 3.71,
    "projected": null
   },
   {
@@ -147,189 +148,189 @@
    "quarterStart": "2009-10-01",
    "label": "Oct-Dec 2009",
    "actual": 8.21,
-   "fitted": 7.99,
+   "fitted": 8.23,
    "projected": null
   },
   {
    "quarterStart": "2010-01-01",
    "label": "Jan-Mar 2010",
    "actual": 13.26,
-   "fitted": 10.67,
+   "fitted": 10.74,
    "projected": null
   },
   {
    "quarterStart": "2010-04-01",
    "label": "Apr-Jun 2010",
    "actual": 10.29,
-   "fitted": 9.21,
+   "fitted": 9.22,
    "projected": null
   },
   {
    "quarterStart": "2010-07-01",
    "label": "Jul-Sep 2010",
    "actual": 9.68,
-   "fitted": 7.71,
+   "fitted": 7.67,
    "projected": null
   },
   {
    "quarterStart": "2010-10-01",
    "label": "Oct-Dec 2010",
    "actual": 10.69,
-   "fitted": 8.38,
+   "fitted": 8.3,
    "projected": null
   },
   {
    "quarterStart": "2011-01-01",
    "label": "Jan-Mar 2011",
    "actual": 10.33,
-   "fitted": 8.14,
+   "fitted": 8.05,
    "projected": null
   },
   {
    "quarterStart": "2011-04-01",
    "label": "Apr-Jun 2011",
    "actual": 9.96,
-   "fitted": 7.73,
+   "fitted": 7.61,
    "projected": null
   },
   {
    "quarterStart": "2011-07-01",
    "label": "Jul-Sep 2011",
    "actual": 5.26,
-   "fitted": 6.72,
+   "fitted": 6.69,
    "projected": null
   },
   {
    "quarterStart": "2011-10-01",
    "label": "Oct-Dec 2011",
    "actual": 4.1,
-   "fitted": 5.68,
+   "fitted": 5.6,
    "projected": null
   },
   {
    "quarterStart": "2012-01-01",
    "label": "Jan-Mar 2012",
    "actual": 3.42,
-   "fitted": 5.68,
+   "fitted": 5.7,
    "projected": null
   },
   {
    "quarterStart": "2012-04-01",
    "label": "Apr-Jun 2012",
    "actual": 4.87,
-   "fitted": 3.72,
+   "fitted": 3.75,
    "projected": null
   },
   {
    "quarterStart": "2012-07-01",
    "label": "Jul-Sep 2012",
    "actual": 7.49,
-   "fitted": 3.9,
+   "fitted": 3.92,
    "projected": null
   },
   {
    "quarterStart": "2012-10-01",
    "label": "Oct-Dec 2012",
    "actual": 5.38,
-   "fitted": 3.83,
+   "fitted": 3.91,
    "projected": null
   },
   {
    "quarterStart": "2013-01-01",
    "label": "Jan-Mar 2013",
    "actual": 4.3,
-   "fitted": 3.07,
+   "fitted": 3.15,
    "projected": null
   },
   {
    "quarterStart": "2013-04-01",
    "label": "Apr-Jun 2013",
    "actual": 6.45,
-   "fitted": 5.2,
+   "fitted": 5.19,
    "projected": null
   },
   {
    "quarterStart": "2013-07-01",
    "label": "Jul-Sep 2013",
    "actual": 7.34,
-   "fitted": 6.62,
+   "fitted": 6.48,
    "projected": null
   },
   {
    "quarterStart": "2013-10-01",
    "label": "Oct-Dec 2013",
    "actual": 6.53,
-   "fitted": 6.11,
+   "fitted": 6.1,
    "projected": null
   },
   {
    "quarterStart": "2014-01-01",
    "label": "Jan-Mar 2014",
    "actual": 5.34,
-   "fitted": 6.37,
+   "fitted": 6.32,
    "projected": null
   },
   {
    "quarterStart": "2014-04-01",
    "label": "Apr-Jun 2014",
    "actual": 8.02,
-   "fitted": 7.52,
+   "fitted": 7.55,
    "projected": null
   },
   {
    "quarterStart": "2014-07-01",
    "label": "Jul-Sep 2014",
    "actual": 8.7,
-   "fitted": 6.89,
+   "fitted": 7.07,
    "projected": null
   },
   {
    "quarterStart": "2014-10-01",
    "label": "Oct-Dec 2014",
    "actual": 5.92,
-   "fitted": 6.77,
+   "fitted": 6.87,
    "projected": null
   },
   {
    "quarterStart": "2015-01-01",
    "label": "Jan-Mar 2015",
    "actual": 7.11,
-   "fitted": 5.29,
+   "fitted": 5.33,
    "projected": null
   },
   {
    "quarterStart": "2015-04-01",
    "label": "Apr-Jun 2015",
    "actual": 7.59,
-   "fitted": 4.65,
+   "fitted": 4.62,
    "projected": null
   },
   {
    "quarterStart": "2015-07-01",
    "label": "Jul-Sep 2015",
    "actual": 8.03,
-   "fitted": 5.12,
+   "fitted": 5.1,
    "projected": null
   },
   {
    "quarterStart": "2015-10-01",
    "label": "Oct-Dec 2015",
    "actual": 7.2,
-   "fitted": 5.31,
+   "fitted": 5.26,
    "projected": null
   },
   {
    "quarterStart": "2016-01-01",
    "label": "Jan-Mar 2016",
    "actual": 9.09,
-   "fitted": 6.57,
+   "fitted": 6.49,
    "projected": null
   },
   {
    "quarterStart": "2016-04-01",
    "label": "Apr-Jun 2016",
    "actual": 8.68,
-   "fitted": 7.3,
+   "fitted": 7.32,
    "projected": null
   },
   {
@@ -343,14 +344,14 @@
    "quarterStart": "2016-10-01",
    "label": "Oct-Dec 2016",
    "actual": 8.58,
-   "fitted": 6.41,
+   "fitted": 6.38,
    "projected": null
   },
   {
    "quarterStart": "2017-01-01",
    "label": "Jan-Mar 2017",
    "actual": 6.29,
-   "fitted": 6.02,
+   "fitted": 6.04,
    "projected": null
   },
   {
@@ -364,7 +365,7 @@
    "quarterStart": "2017-07-01",
    "label": "Jul-Sep 2017",
    "actual": 5.32,
-   "fitted": 5.86,
+   "fitted": 5.81,
    "projected": null
   },
   {
@@ -378,112 +379,112 @@
    "quarterStart": "2018-01-01",
    "label": "Jan-Mar 2018",
    "actual": 8.93,
-   "fitted": 7.7,
+   "fitted": 7.65,
    "projected": null
   },
   {
    "quarterStart": "2018-04-01",
    "label": "Apr-Jun 2018",
    "actual": 7.5,
-   "fitted": 7.05,
+   "fitted": 7.0,
    "projected": null
   },
   {
    "quarterStart": "2018-07-01",
    "label": "Jul-Sep 2018",
    "actual": 6.46,
-   "fitted": 7.42,
+   "fitted": 7.4,
    "projected": null
   },
   {
    "quarterStart": "2018-10-01",
    "label": "Oct-Dec 2018",
    "actual": 6.23,
-   "fitted": 6.21,
+   "fitted": 6.1,
    "projected": null
   },
   {
    "quarterStart": "2019-01-01",
    "label": "Jan-Mar 2019",
    "actual": 5.72,
-   "fitted": 5.6,
+   "fitted": 5.61,
    "projected": null
   },
   {
    "quarterStart": "2019-04-01",
    "label": "Apr-Jun 2019",
    "actual": 4.93,
-   "fitted": 5.97,
+   "fitted": 6.09,
    "projected": null
   },
   {
    "quarterStart": "2019-07-01",
    "label": "Jul-Sep 2019",
    "actual": 4.19,
-   "fitted": 4.04,
+   "fitted": 4.12,
    "projected": null
   },
   {
    "quarterStart": "2019-10-01",
    "label": "Oct-Dec 2019",
    "actual": 3.15,
-   "fitted": 4.03,
+   "fitted": 4.11,
    "projected": null
   },
   {
    "quarterStart": "2020-01-01",
    "label": "Jan-Mar 2020",
    "actual": 2.79,
-   "fitted": 0.32,
+   "fitted": -0.16,
    "projected": null
   },
   {
    "quarterStart": "2020-04-01",
    "label": "Apr-Jun 2020",
    "actual": -23.82,
-   "fitted": -19.02,
+   "fitted": -18.8,
    "projected": null
   },
   {
    "quarterStart": "2020-07-01",
    "label": "Jul-Sep 2020",
    "actual": -6.64,
-   "fitted": 1.35,
+   "fitted": 1.1,
    "projected": null
   },
   {
    "quarterStart": "2020-10-01",
    "label": "Oct-Dec 2020",
    "actual": 0.74,
-   "fitted": 4.82,
+   "fitted": 4.8,
    "projected": null
   },
   {
    "quarterStart": "2021-01-01",
    "label": "Jan-Mar 2021",
    "actual": 2.53,
-   "fitted": 9.36,
+   "fitted": 9.95,
    "projected": null
   },
   {
    "quarterStart": "2021-04-01",
    "label": "Apr-Jun 2021",
    "actual": 20.08,
-   "fitted": 25.49,
+   "fitted": 25.41,
    "projected": null
   },
   {
    "quarterStart": "2021-07-01",
    "label": "Jul-Sep 2021",
    "actual": 8.4,
-   "fitted": 9.32,
+   "fitted": 9.43,
    "projected": null
   },
   {
    "quarterStart": "2021-10-01",
    "label": "Oct-Dec 2021",
    "actual": 5.4,
-   "fitted": 6.38,
+   "fitted": 6.41,
    "projected": null
   },
   {
@@ -497,77 +498,77 @@
    "quarterStart": "2022-04-01",
    "label": "Apr-Jun 2022",
    "actual": 13.51,
-   "fitted": 10.17,
+   "fitted": 9.95,
    "projected": null
   },
   {
    "quarterStart": "2022-07-01",
    "label": "Jul-Sep 2022",
    "actual": 1.03,
-   "fitted": 6.76,
+   "fitted": 6.86,
    "projected": null
   },
   {
    "quarterStart": "2022-10-01",
    "label": "Oct-Dec 2022",
    "actual": 6.75,
-   "fitted": 6.69,
+   "fitted": 6.73,
    "projected": null
   },
   {
    "quarterStart": "2023-01-01",
    "label": "Jan-Mar 2023",
    "actual": 3.82,
-   "fitted": 6.85,
+   "fitted": 6.89,
    "projected": null
   },
   {
    "quarterStart": "2023-04-01",
    "label": "Apr-Jun 2023",
    "actual": 6.58,
-   "fitted": 6.54,
+   "fitted": 6.63,
    "projected": null
   },
   {
    "quarterStart": "2023-07-01",
    "label": "Jul-Sep 2023",
    "actual": 7.64,
-   "fitted": 7.84,
+   "fitted": 7.98,
    "projected": null
   },
   {
    "quarterStart": "2023-10-01",
    "label": "Oct-Dec 2023",
    "actual": 7.09,
-   "fitted": 6.8,
+   "fitted": 6.89,
    "projected": null
   },
   {
    "quarterStart": "2024-01-01",
    "label": "Jan-Mar 2024",
    "actual": 7.51,
-   "fitted": 6.76,
+   "fitted": 6.79,
    "projected": null
   },
   {
    "quarterStart": "2024-04-01",
    "label": "Apr-Jun 2024",
    "actual": 7.46,
-   "fitted": 7.29,
+   "fitted": 7.34,
    "projected": null
   },
   {
    "quarterStart": "2024-07-01",
    "label": "Jul-Sep 2024",
    "actual": 6.59,
-   "fitted": 6.16,
+   "fitted": 6.14,
    "projected": null
   },
   {
    "quarterStart": "2024-10-01",
    "label": "Oct-Dec 2024",
    "actual": 7.36,
-   "fitted": 6.8,
+   "fitted": 6.76,
    "projected": null
   },
   {
@@ -581,833 +582,881 @@
    "quarterStart": "2025-04-01",
    "label": "Apr-Jun 2025",
    "actual": 6.82,
-   "fitted": 6.14,
+   "fitted": 6.18,
    "projected": null
   },
   {
    "quarterStart": "2025-07-01",
    "label": "Jul-Sep 2025",
    "actual": 8.35,
-   "fitted": 6.88,
+   "fitted": 6.89,
    "projected": null
   },
   {
    "quarterStart": "2025-10-01",
    "label": "Oct-Dec 2025",
    "actual": 7.96,
-   "fitted": 6.92,
+   "fitted": 6.99,
    "projected": null
   },
   {
    "quarterStart": "2026-01-01",
    "label": "Jan-Mar 2026",
    "actual": 7.83,
-   "fitted": 6.73,
+   "fitted": 6.71,
    "projected": null
   },
   {
    "quarterStart": "2026-04-01",
    "label": "Apr-Jun 2026",
-   "actual": 7.97,
-   "fitted": 7.19,
-   "projected": null
-  },
-  {
-   "quarterStart": "2026-07-01",
-   "label": "Jul-Sep 2026",
    "actual": null,
    "fitted": null,
-   "projected": 7.38
+   "projected": 7.16
   }
  ],
  "nowcast": {
-  "quarterStart": "2026-07-01",
-  "label": "Jul-Sep 2026",
-  "pointEstimate": 7.38,
-  "standardError": 2.3,
+  "quarterStart": "2026-04-01",
+  "label": "Apr-Jun 2026",
+  "pointEstimate": 7.16,
+  "standardError": 2.36,
   "confidenceIntervals": [
    {
     "level": 0.68,
-    "lower": 5.08,
-    "upper": 9.68
+    "lower": 4.8,
+    "upper": 9.52
    },
    {
     "level": 0.9,
-    "lower": 3.55,
-    "upper": 11.21
+    "lower": 3.23,
+    "upper": 11.09
    }
   ],
   "pdf": [
    {
-    "x": -1.82,
-    "y": 5.8e-05
+    "x": -2.28,
+    "y": 5.7e-05
    },
    {
-    "x": -1.705,
-    "y": 7.1e-05
+    "x": -2.162,
+    "y": 6.9e-05
    },
    {
-    "x": -1.59,
-    "y": 8.6e-05
+    "x": -2.044,
+    "y": 8.4e-05
    },
    {
-    "x": -1.475,
-    "y": 0.000105
+    "x": -1.926,
+    "y": 0.000102
    },
    {
-    "x": -1.36,
-    "y": 0.000127
+    "x": -1.808,
+    "y": 0.000124
    },
    {
-    "x": -1.245,
-    "y": 0.000153
+    "x": -1.69,
+    "y": 0.000149
    },
    {
-    "x": -1.13,
-    "y": 0.000185
+    "x": -1.572,
+    "y": 0.00018
    },
    {
-    "x": -1.015,
-    "y": 0.000222
+    "x": -1.454,
+    "y": 0.000216
    },
    {
-    "x": -0.9,
-    "y": 0.000266
+    "x": -1.336,
+    "y": 0.000259
    },
    {
-    "x": -0.785,
-    "y": 0.000318
+    "x": -1.218,
+    "y": 0.00031
    },
    {
-    "x": -0.67,
-    "y": 0.000379
+    "x": -1.1,
+    "y": 0.00037
    },
    {
-    "x": -0.555,
-    "y": 0.000451
+    "x": -0.982,
+    "y": 0.00044
    },
    {
-    "x": -0.44,
-    "y": 0.000536
+    "x": -0.864,
+    "y": 0.000522
    },
    {
-    "x": -0.325,
-    "y": 0.000634
+    "x": -0.746,
+    "y": 0.000618
    },
    {
-    "x": -0.21,
-    "y": 0.000749
+    "x": -0.628,
+    "y": 0.00073
    },
    {
-    "x": -0.095,
-    "y": 0.000882
+    "x": -0.51,
+    "y": 0.00086
    },
    {
-    "x": 0.02,
-    "y": 0.001037
+    "x": -0.392,
+    "y": 0.00101
    },
    {
-    "x": 0.135,
-    "y": 0.001215
+    "x": -0.274,
+    "y": 0.001184
    },
    {
-    "x": 0.25,
-    "y": 0.00142
+    "x": -0.156,
+    "y": 0.001384
    },
    {
-    "x": 0.365,
-    "y": 0.001656
+    "x": -0.038,
+    "y": 0.001614
    },
    {
-    "x": 0.48,
-    "y": 0.001927
+    "x": 0.08,
+    "y": 0.001878
    },
    {
-    "x": 0.595,
-    "y": 0.002236
+    "x": 0.198,
+    "y": 0.002179
    },
    {
-    "x": 0.71,
-    "y": 0.002588
+    "x": 0.316,
+    "y": 0.002522
    },
    {
-    "x": 0.825,
-    "y": 0.002988
+    "x": 0.434,
+    "y": 0.002912
    },
    {
-    "x": 0.94,
-    "y": 0.003442
+    "x": 0.552,
+    "y": 0.003354
    },
    {
-    "x": 1.055,
-    "y": 0.003954
+    "x": 0.67,
+    "y": 0.003853
    },
    {
-    "x": 1.17,
-    "y": 0.004531
+    "x": 0.788,
+    "y": 0.004416
    },
    {
-    "x": 1.285,
-    "y": 0.005179
+    "x": 0.906,
+    "y": 0.005048
    },
    {
-    "x": 1.4,
-    "y": 0.005906
+    "x": 1.024,
+    "y": 0.005755
    },
    {
-    "x": 1.515,
-    "y": 0.006717
+    "x": 1.142,
+    "y": 0.006546
    },
    {
-    "x": 1.63,
-    "y": 0.007621
+    "x": 1.26,
+    "y": 0.007427
    },
    {
-    "x": 1.745,
-    "y": 0.008625
+    "x": 1.378,
+    "y": 0.008406
    },
    {
-    "x": 1.86,
-    "y": 0.009737
+    "x": 1.496,
+    "y": 0.009489
    },
    {
-    "x": 1.975,
-    "y": 0.010964
+    "x": 1.614,
+    "y": 0.010686
    },
    {
-    "x": 2.09,
-    "y": 0.012316
+    "x": 1.732,
+    "y": 0.012003
    },
    {
-    "x": 2.205,
-    "y": 0.0138
+    "x": 1.85,
+    "y": 0.013449
    },
    {
-    "x": 2.32,
-    "y": 0.015424
+    "x": 1.968,
+    "y": 0.015032
    },
    {
-    "x": 2.435,
-    "y": 0.017196
+    "x": 2.086,
+    "y": 0.016758
    },
    {
-    "x": 2.55,
-    "y": 0.019123
+    "x": 2.204,
+    "y": 0.018637
    },
    {
-    "x": 2.665,
-    "y": 0.021214
+    "x": 2.322,
+    "y": 0.020675
    },
    {
-    "x": 2.78,
-    "y": 0.023474
+    "x": 2.44,
+    "y": 0.022878
    },
    {
-    "x": 2.895,
-    "y": 0.025911
+    "x": 2.558,
+    "y": 0.025252
    },
    {
-    "x": 3.01,
-    "y": 0.028529
+    "x": 2.676,
+    "y": 0.027803
    },
    {
-    "x": 3.125,
-    "y": 0.031333
+    "x": 2.794,
+    "y": 0.030536
    },
    {
-    "x": 3.24,
-    "y": 0.034326
+    "x": 2.912,
+    "y": 0.033453
    },
    {
-    "x": 3.355,
-    "y": 0.037512
+    "x": 3.03,
+    "y": 0.036558
    },
    {
-    "x": 3.47,
-    "y": 0.040891
+    "x": 3.148,
+    "y": 0.039851
    },
    {
-    "x": 3.585,
-    "y": 0.044463
+    "x": 3.266,
+    "y": 0.043333
    },
    {
-    "x": 3.7,
-    "y": 0.048226
+    "x": 3.384,
+    "y": 0.047
    },
    {
-    "x": 3.815,
-    "y": 0.052178
+    "x": 3.502,
+    "y": 0.050851
    },
    {
-    "x": 3.93,
-    "y": 0.056312
+    "x": 3.62,
+    "y": 0.05488
    },
    {
-    "x": 4.045,
-    "y": 0.060622
+    "x": 3.738,
+    "y": 0.059081
    },
    {
-    "x": 4.16,
-    "y": 0.065099
+    "x": 3.856,
+    "y": 0.063444
    },
    {
-    "x": 4.275,
-    "y": 0.069732
+    "x": 3.974,
+    "y": 0.067959
    },
    {
-    "x": 4.39,
-    "y": 0.074508
+    "x": 4.092,
+    "y": 0.072614
    },
    {
-    "x": 4.505,
-    "y": 0.079413
+    "x": 4.21,
+    "y": 0.077394
    },
    {
-    "x": 4.62,
-    "y": 0.084429
+    "x": 4.328,
+    "y": 0.082282
    },
    {
-    "x": 4.735,
-    "y": 0.089538
+    "x": 4.446,
+    "y": 0.087261
    },
    {
-    "x": 4.85,
-    "y": 0.094718
+    "x": 4.564,
+    "y": 0.09231
    },
    {
-    "x": 4.965,
-    "y": 0.099949
+    "x": 4.682,
+    "y": 0.097408
    },
    {
-    "x": 5.08,
-    "y": 0.105205
+    "x": 4.8,
+    "y": 0.10253
    },
    {
-    "x": 5.195,
-    "y": 0.11046
+    "x": 4.918,
+    "y": 0.107652
    },
    {
-    "x": 5.31,
-    "y": 0.115689
+    "x": 5.036,
+    "y": 0.112748
    },
    {
-    "x": 5.425,
-    "y": 0.120863
+    "x": 5.154,
+    "y": 0.11779
    },
    {
-    "x": 5.54,
-    "y": 0.125953
+    "x": 5.272,
+    "y": 0.122751
    },
    {
-    "x": 5.655,
-    "y": 0.130929
+    "x": 5.39,
+    "y": 0.127601
    },
    {
-    "x": 5.77,
-    "y": 0.135763
+    "x": 5.508,
+    "y": 0.132311
    },
    {
-    "x": 5.885,
-    "y": 0.140423
+    "x": 5.626,
+    "y": 0.136853
    },
    {
-    "x": 6.0,
-    "y": 0.14488
+    "x": 5.744,
+    "y": 0.141197
    },
    {
-    "x": 6.115,
-    "y": 0.149106
+    "x": 5.862,
+    "y": 0.145315
    },
    {
-    "x": 6.23,
-    "y": 0.153072
+    "x": 5.98,
+    "y": 0.14918
    },
    {
-    "x": 6.345,
-    "y": 0.156751
+    "x": 6.098,
+    "y": 0.152766
    },
    {
-    "x": 6.46,
-    "y": 0.160117
+    "x": 6.216,
+    "y": 0.156047
    },
    {
-    "x": 6.575,
-    "y": 0.163148
+    "x": 6.334,
+    "y": 0.159
    },
    {
-    "x": 6.69,
-    "y": 0.165821
+    "x": 6.452,
+    "y": 0.161605
    },
    {
-    "x": 6.805,
-    "y": 0.168117
+    "x": 6.57,
+    "y": 0.163842
    },
    {
-    "x": 6.92,
-    "y": 0.170019
+    "x": 6.688,
+    "y": 0.165696
    },
    {
-    "x": 7.035,
-    "y": 0.171513
+    "x": 6.806,
+    "y": 0.167152
    },
    {
-    "x": 7.15,
-    "y": 0.172588
+    "x": 6.924,
+    "y": 0.1682
    },
    {
-    "x": 7.265,
-    "y": 0.173236
+    "x": 7.042,
+    "y": 0.168832
    },
    {
-    "x": 7.38,
-    "y": 0.173453
+    "x": 7.16,
+    "y": 0.169043
    },
    {
-    "x": 7.495,
-    "y": 0.173236
+    "x": 7.278,
+    "y": 0.168832
    },
    {
-    "x": 7.61,
-    "y": 0.172588
+    "x": 7.396,
+    "y": 0.1682
    },
    {
-    "x": 7.725,
-    "y": 0.171513
+    "x": 7.514,
+    "y": 0.167152
    },
    {
-    "x": 7.84,
-    "y": 0.170019
+    "x": 7.632,
+    "y": 0.165696
    },
    {
-    "x": 7.955,
-    "y": 0.168117
+    "x": 7.75,
+    "y": 0.163842
    },
    {
-    "x": 8.07,
-    "y": 0.165821
+    "x": 7.868,
+    "y": 0.161605
    },
    {
-    "x": 8.185,
-    "y": 0.163148
+    "x": 7.986,
+    "y": 0.159
    },
    {
-    "x": 8.3,
-    "y": 0.160117
+    "x": 8.104,
+    "y": 0.156047
    },
    {
-    "x": 8.415,
-    "y": 0.156751
+    "x": 8.222,
+    "y": 0.152766
    },
    {
-    "x": 8.53,
-    "y": 0.153072
+    "x": 8.34,
+    "y": 0.14918
    },
    {
-    "x": 8.645,
-    "y": 0.149106
+    "x": 8.458,
+    "y": 0.145315
    },
    {
-    "x": 8.76,
-    "y": 0.14488
+    "x": 8.576,
+    "y": 0.141197
    },
    {
-    "x": 8.875,
-    "y": 0.140423
+    "x": 8.694,
+    "y": 0.136853
    },
    {
-    "x": 8.99,
-    "y": 0.135763
+    "x": 8.812,
+    "y": 0.132311
    },
    {
-    "x": 9.105,
-    "y": 0.130929
+    "x": 8.93,
+    "y": 0.127601
    },
    {
-    "x": 9.22,
-    "y": 0.125953
+    "x": 9.048,
+    "y": 0.122751
    },
    {
-    "x": 9.335,
-    "y": 0.120863
+    "x": 9.166,
+    "y": 0.11779
    },
    {
-    "x": 9.45,
-    "y": 0.115689
+    "x": 9.284,
+    "y": 0.112748
    },
    {
-    "x": 9.565,
-    "y": 0.11046
+    "x": 9.402,
+    "y": 0.107652
    },
    {
-    "x": 9.68,
-    "y": 0.105205
+    "x": 9.52,
+    "y": 0.10253
    },
    {
-    "x": 9.795,
-    "y": 0.099949
+    "x": 9.638,
+    "y": 0.097408
    },
    {
-    "x": 9.91,
-    "y": 0.094718
+    "x": 9.756,
+    "y": 0.09231
    },
    {
-    "x": 10.025,
-    "y": 0.089538
+    "x": 9.874,
+    "y": 0.087261
    },
    {
-    "x": 10.14,
-    "y": 0.084429
+    "x": 9.992,
+    "y": 0.082282
    },
    {
-    "x": 10.255,
-    "y": 0.079413
+    "x": 10.11,
+    "y": 0.077394
    },
    {
-    "x": 10.37,
-    "y": 0.074508
+    "x": 10.228,
+    "y": 0.072614
    },
    {
-    "x": 10.485,
-    "y": 0.069732
+    "x": 10.346,
+    "y": 0.067959
    },
    {
-    "x": 10.6,
-    "y": 0.065099
+    "x": 10.464,
+    "y": 0.063444
    },
    {
-    "x": 10.715,
-    "y": 0.060622
+    "x": 10.582,
+    "y": 0.059081
    },
    {
-    "x": 10.83,
-    "y": 0.056312
+    "x": 10.7,
+    "y": 0.05488
    },
    {
-    "x": 10.945,
-    "y": 0.052178
+    "x": 10.818,
+    "y": 0.050851
    },
    {
-    "x": 11.06,
-    "y": 0.048226
+    "x": 10.936,
+    "y": 0.047
    },
    {
-    "x": 11.175,
-    "y": 0.044463
+    "x": 11.054,
+    "y": 0.043333
+   },
+   {
+    "x": 11.172,
+    "y": 0.039851
    },
    {
     "x": 11.29,
-    "y": 0.040891
+    "y": 0.036558
    },
    {
-    "x": 11.405,
-    "y": 0.037512
+    "x": 11.408,
+    "y": 0.033453
    },
    {
-    "x": 11.52,
-    "y": 0.034326
+    "x": 11.526,
+    "y": 0.030536
    },
    {
-    "x": 11.635,
-    "y": 0.031333
+    "x": 11.644,
+    "y": 0.027803
    },
    {
-    "x": 11.75,
-    "y": 0.028529
+    "x": 11.762,
+    "y": 0.025252
    },
    {
-    "x": 11.865,
-    "y": 0.025911
+    "x": 11.88,
+    "y": 0.022878
    },
    {
-    "x": 11.98,
-    "y": 0.023474
+    "x": 11.998,
+    "y": 0.020675
    },
    {
-    "x": 12.095,
-    "y": 0.021214
+    "x": 12.116,
+    "y": 0.018637
    },
    {
-    "x": 12.21,
-    "y": 0.019123
+    "x": 12.234,
+    "y": 0.016758
    },
    {
-    "x": 12.325,
-    "y": 0.017196
+    "x": 12.352,
+    "y": 0.015032
    },
    {
-    "x": 12.44,
-    "y": 0.015424
+    "x": 12.47,
+    "y": 0.013449
    },
    {
-    "x": 12.555,
-    "y": 0.0138
+    "x": 12.588,
+    "y": 0.012003
    },
    {
-    "x": 12.67,
-    "y": 0.012316
+    "x": 12.706,
+    "y": 0.010686
    },
    {
-    "x": 12.785,
-    "y": 0.010964
+    "x": 12.824,
+    "y": 0.009489
    },
    {
-    "x": 12.9,
-    "y": 0.009737
+    "x": 12.942,
+    "y": 0.008406
    },
    {
-    "x": 13.015,
-    "y": 0.008625
+    "x": 13.06,
+    "y": 0.007427
    },
    {
-    "x": 13.13,
-    "y": 0.007621
+    "x": 13.178,
+    "y": 0.006546
    },
    {
-    "x": 13.245,
-    "y": 0.006717
+    "x": 13.296,
+    "y": 0.005755
    },
    {
-    "x": 13.36,
-    "y": 0.005906
+    "x": 13.414,
+    "y": 0.005048
    },
    {
-    "x": 13.475,
-    "y": 0.005179
+    "x": 13.532,
+    "y": 0.004416
    },
    {
-    "x": 13.59,
-    "y": 0.004531
+    "x": 13.65,
+    "y": 0.003853
    },
    {
-    "x": 13.705,
-    "y": 0.003954
+    "x": 13.768,
+    "y": 0.003354
    },
    {
-    "x": 13.82,
-    "y": 0.003442
+    "x": 13.886,
+    "y": 0.002912
    },
    {
-    "x": 13.935,
-    "y": 0.002988
+    "x": 14.004,
+    "y": 0.002522
    },
    {
-    "x": 14.05,
-    "y": 0.002588
+    "x": 14.122,
+    "y": 0.002179
    },
    {
-    "x": 14.165,
-    "y": 0.002236
+    "x": 14.24,
+    "y": 0.001878
    },
    {
-    "x": 14.28,
-    "y": 0.001927
+    "x": 14.358,
+    "y": 0.001614
    },
    {
-    "x": 14.395,
-    "y": 0.001656
+    "x": 14.476,
+    "y": 0.001384
    },
    {
-    "x": 14.51,
-    "y": 0.00142
+    "x": 14.594,
+    "y": 0.001184
    },
    {
-    "x": 14.625,
-    "y": 0.001215
+    "x": 14.712,
+    "y": 0.00101
    },
    {
-    "x": 14.74,
-    "y": 0.001037
+    "x": 14.83,
+    "y": 0.00086
    },
    {
-    "x": 14.855,
-    "y": 0.000882
+    "x": 14.948,
+    "y": 0.00073
    },
    {
-    "x": 14.97,
-    "y": 0.000749
+    "x": 15.066,
+    "y": 0.000618
    },
    {
-    "x": 15.085,
-    "y": 0.000634
+    "x": 15.184,
+    "y": 0.000522
    },
    {
-    "x": 15.2,
-    "y": 0.000536
+    "x": 15.302,
+    "y": 0.00044
    },
    {
-    "x": 15.315,
-    "y": 0.000451
+    "x": 15.42,
+    "y": 0.00037
    },
    {
-    "x": 15.43,
-    "y": 0.000379
+    "x": 15.538,
+    "y": 0.00031
    },
    {
-    "x": 15.545,
-    "y": 0.000318
+    "x": 15.656,
+    "y": 0.000259
    },
    {
-    "x": 15.66,
-    "y": 0.000266
+    "x": 15.774,
+    "y": 0.000216
    },
    {
-    "x": 15.775,
-    "y": 0.000222
+    "x": 15.892,
+    "y": 0.00018
    },
    {
-    "x": 15.89,
-    "y": 0.000185
+    "x": 16.01,
+    "y": 0.000149
    },
    {
-    "x": 16.005,
-    "y": 0.000153
+    "x": 16.128,
+    "y": 0.000124
    },
    {
-    "x": 16.12,
-    "y": 0.000127
+    "x": 16.246,
+    "y": 0.000102
    },
    {
-    "x": 16.235,
-    "y": 0.000105
+    "x": 16.364,
+    "y": 8.4e-05
    },
    {
-    "x": 16.35,
-    "y": 8.6e-05
+    "x": 16.482,
+    "y": 6.9e-05
    },
    {
-    "x": 16.465,
-    "y": 7.1e-05
-   },
-   {
-    "x": 16.58,
-    "y": 5.8e-05
+    "x": 16.6,
+    "y": 5.7e-05
    }
   ],
   "indicatorsReporting": [
    "10-Year Government Security (G-Sec) Yield",
+   "10Y G-Sec - 91-Day T-Bill Yield Spread",
+   "6 month USD/INR Forward Premia",
    "91-Day Treasury Bill Yield",
+   "Aggregate SC Bank Deposits",
    "Agricultural Wages",
    "BSE 500",
    "Bank Credit (Non-Food Credit)",
+   "Bank Credit - Housing Loans",
+   "Bank Credit - Personal Loans (Retail Credit)",
+   "Bank Credit to Industry",
+   "Bank Credit to Services Sector",
    "Brent Crude Oil Spot Price",
+   "Broad Money Supply (M3)",
+   "CPI (Agricultural Labourers)",
+   "CPI (Industrial Workers)",
+   "CPI (Rural Labourers)",
+   "Cement Production",
+   "Central Government Capital Expenditure",
+   "Central Government Revenue Expenditure",
+   "Central Government Tax Revenue",
+   "Central Government Total Receipts",
+   "Coal Production",
+   "Crude Oil Imports",
+   "Crude Oil Production",
+   "Electricity Generation",
+   "Euro Area Industrial Production",
    "Foreign Exchange Reserves - Total",
+   "GST Collections",
+   "GST E-Way Bill Volumes",
+   "Gold Prices",
    "IMF World Commodity Price Index",
+   "Index of Core Industries (ICI)",
+   "Index of Industrial Production - General Index",
    "India VIX (Volatility Index)",
+   "Merchandise Trade Export to Import Ratio",
+   "Mumbai Interbank Offer Rate (MIBOR)",
+   "NSE Nifty 50 Index",
+   "NSE Nifty 500 Index",
+   "Narrow Money (M1)",
+   "Net Foreign Exchange Assets of Banking Sector",
+   "Nominal Effective Exchange Rate (NEER, 40-Currency)",
+   "Non-Oil Imports",
+   "Petroleum Products Exports",
+   "RBI Policy Repo Rate",
+   "RBI Reverse Repo",
+   "RBI SLR Rate",
+   "Real Effective Exchange Rate (REER)",
+   "Reserve Money (M0)",
    "S&P 500 Index",
    "S&P BSE SENSEX",
+   "Steel Production",
    "US Federal Funds Target Rate",
-   "US Industrial Production Index"
+   "US Industrial Production Index",
+   "USD/INR Exchange Rate (Reference Rate)",
+   "WPI - Manufactured Products",
+   "WPI - Non-Food Articles",
+   "Wholesale Price Index (WPI) - All Commodities"
   ],
   "indicatorsTotal": 68,
-  "signalShare": 0.073,
-  "nextOfficialRelease": "2026-11-29"
+  "signalShare": 0.603,
+  "nextOfficialRelease": "2026-08-29"
  },
  "decomposition": {
-  "baseline": 6.7,
-  "reported": -0.46,
-  "carriedForward": 1.13,
-  "nowcast": 7.38
+  "baseline": 6.69,
+  "reported": -0.7,
+  "carriedForward": 1.17,
+  "nowcast": 7.16
  },
  "drivers": [
   {
    "id": "iip_general",
-   "weight": 0.998,
-   "contribution": null
+   "weight": 0.923,
+   "contribution": 0.137
   },
   {
    "id": "iip_manufacturing_sector",
-   "weight": 0.898,
-   "contribution": null
-  },
-  {
-   "id": "iip_infrastructure_construction_goods",
-   "weight": 0.443,
+   "weight": 0.828,
    "contribution": null
   },
   {
    "id": "iip_basic_metals",
-   "weight": 0.418,
+   "weight": 0.423,
    "contribution": null
   },
   {
    "id": "iip_intermediate_goods",
-   "weight": 0.34,
+   "weight": 0.413,
+   "contribution": null
+  },
+  {
+   "id": "iip_infrastructure_construction_goods",
+   "weight": 0.401,
    "contribution": null
   },
   {
    "id": "ici_overall",
-   "weight": 0.312,
-   "contribution": null
-  },
-  {
-   "id": "gst_eway_bill_volume",
-   "weight": 0.299,
-   "contribution": null
+   "weight": 0.366,
+   "contribution": -0.094
   },
   {
    "id": "steel_production_index",
-   "weight": 0.283,
-   "contribution": null
+   "weight": 0.317,
+   "contribution": -0.072
   },
   {
-   "id": "gst_gross_revenue_collection",
-   "weight": 0.231,
-   "contribution": null
+   "id": "gst_eway_bill_volume",
+   "weight": 0.294,
+   "contribution": -0.038
   },
   {
    "id": "cement_production_index",
-   "weight": 0.181,
-   "contribution": null
+   "weight": 0.206,
+   "contribution": 0.048
   },
   {
-   "id": "us_industrial_production_index",
-   "weight": 0.132,
-   "contribution": -0.109
+   "id": "gst_gross_revenue_collection",
+   "weight": 0.197,
+   "contribution": -0.104
   },
   {
    "id": "non_oil_non_gold_imports",
-   "weight": 0.107,
-   "contribution": null
+   "weight": 0.122,
+   "contribution": 0.157
   },
   {
    "id": "euro_area_industrial_production",
-   "weight": 0.088,
-   "contribution": null
-  },
-  {
-   "id": "brent_crude_spot_price",
-   "weight": 0.083,
-   "contribution": 0.122
+   "weight": 0.116,
+   "contribution": -0.02
   },
   {
    "id": "iip_electricity_sector",
-   "weight": 0.079,
+   "weight": 0.106,
    "contribution": null
   },
   {
    "id": "electricity_generation_index",
-   "weight": 0.075,
-   "contribution": null
+   "weight": 0.099,
+   "contribution": 0.108
+  },
+  {
+   "id": "brent_crude_spot_price",
+   "weight": 0.091,
+   "contribution": 0.126
   },
   {
    "id": "petroleum_product_consumption",
-   "weight": 0.067,
+   "weight": 0.088,
    "contribution": null
   },
   {
    "id": "iip_mining_sector",
-   "weight": 0.064,
+   "weight": 0.088,
    "contribution": null
+  },
+  {
+   "id": "us_industrial_production_index",
+   "weight": 0.075,
+   "contribution": -0.011
   },
   {
    "id": "crude_oil_imports_value",
+   "weight": 0.065,
+   "contribution": 0.016
+  },
+  {
+   "id": "central_govt_total_receipts_ex_borrowing",
    "weight": 0.062,
-   "contribution": null
+   "contribution": -0.047
   },
   {
    "id": "imf_world_commodity_price_index",
-   "weight": 0.056,
-   "contribution": 0.096
+   "weight": 0.057,
+   "contribution": 0.049
+  },
+  {
+   "id": "central_govt_tax_revenue",
+   "weight": 0.053,
+   "contribution": -0.024
   },
   {
    "id": "indian_crude_oil_basket_price",
@@ -1415,243 +1464,234 @@
    "contribution": null
   },
   {
-   "id": "central_govt_total_receipts_ex_borrowing",
-   "weight": 0.048,
-   "contribution": null
-  },
-  {
-   "id": "central_govt_tax_revenue",
-   "weight": 0.041,
-   "contribution": null
-  },
-  {
    "id": "nifty_50_close",
-   "weight": 0.035,
-   "contribution": null
-  },
-  {
-   "id": "electricity_peak_demand",
-   "weight": 0.031,
-   "contribution": null
+   "weight": 0.047,
+   "contribution": -0.073
   },
   {
    "id": "nifty_500_close",
-   "weight": 0.031,
+   "weight": 0.042,
+   "contribution": -0.048
+  },
+  {
+   "id": "electricity_peak_demand",
+   "weight": 0.04,
    "contribution": null
   },
   {
    "id": "bse_sensex_close",
-   "weight": 0.028,
-   "contribution": -0.13
+   "weight": 0.039,
+   "contribution": -0.057
   },
   {
    "id": "bse_500_close",
-   "weight": 0.027,
-   "contribution": -0.243
-  },
-  {
-   "id": "wpi_all_commodities",
-   "weight": 0.026,
-   "contribution": null
+   "weight": 0.036,
+   "contribution": -0.033
   },
   {
    "id": "india_vix_close",
-   "weight": -0.026,
-   "contribution": -0.119
+   "weight": -0.036,
+   "contribution": -0.016
   },
   {
    "id": "usdinr_exchange_rate",
-   "weight": -0.025,
-   "contribution": null
-  },
-  {
-   "id": "wpi_manufactured_products",
-   "weight": 0.025,
-   "contribution": null
+   "weight": -0.035,
+   "contribution": -0.173
   },
   {
    "id": "sp500_close",
-   "weight": 0.023,
-   "contribution": 0.332
+   "weight": 0.033,
+   "contribution": 0.068
   },
   {
    "id": "coal_production_index",
-   "weight": 0.022,
-   "contribution": null
+   "weight": 0.029,
+   "contribution": -0.076
   },
   {
-   "id": "us_fed_funds_rate_upper",
-   "weight": 0.017,
-   "contribution": -0.494
+   "id": "bank_credit_industries",
+   "weight": -0.025,
+   "contribution": -0.03
   },
   {
    "id": "neer_40currency",
-   "weight": 0.016,
-   "contribution": null
+   "weight": 0.024,
+   "contribution": -0.066
+  },
+  {
+   "id": "us_fed_funds_rate_upper",
+   "weight": 0.024,
+   "contribution": -0.036
   },
   {
    "id": "gold_price_mumbai_inr",
-   "weight": -0.015,
+   "weight": -0.023,
+   "contribution": -0.099
+  },
+  {
+   "id": "cpi_combined_urban_rural",
+   "weight": -0.023,
    "contribution": null
+  },
+  {
+   "id": "bank_credit_personal_loans",
+   "weight": 0.021,
+   "contribution": 0.002
+  },
+  {
+   "id": "wpi_all_commodities",
+   "weight": 0.018,
+   "contribution": -0.055
+  },
+  {
+   "id": "agricultural_rural_wages_men_avg",
+   "weight": -0.016,
+   "contribution": -0.042
+  },
+  {
+   "id": "reer_40currency",
+   "weight": 0.014,
+   "contribution": -0.071
+  },
+  {
+   "id": "money_supply_m0",
+   "weight": 0.014,
+   "contribution": -0.01
   },
   {
    "id": "tbill_91day_yield",
    "weight": 0.014,
-   "contribution": -0.027
+   "contribution": -0.001
   },
   {
-   "id": "bank_credit_personal_loans",
-   "weight": 0.014,
-   "contribution": null
+   "id": "bank_credit_housing",
+   "weight": 0.013,
+   "contribution": -0.013
   },
   {
    "id": "petroleum_products_exports_value",
    "weight": 0.013,
-   "contribution": null
+   "contribution": 0.004
   },
   {
-   "id": "10y_gsec_yield",
-   "weight": 0.012,
-   "contribution": 0.078
-  },
-  {
-   "id": "wpi_non_food_articles",
-   "weight": 0.012,
-   "contribution": null
-  },
-  {
-   "id": "cpi_combined_urban_rural",
-   "weight": -0.012,
-   "contribution": null
-  },
-  {
-   "id": "bank_credit_industries",
-   "weight": -0.012,
-   "contribution": null
-  },
-  {
-   "id": "reverse_repo_rate",
-   "weight": 0.012,
-   "contribution": null
-  },
-  {
-   "id": "money_supply_m0",
-   "weight": 0.012,
-   "contribution": null
-  },
-  {
-   "id": "reer_40currency",
-   "weight": 0.009,
-   "contribution": null
+   "id": "forex_total_reserves",
+   "weight": 0.013,
+   "contribution": -0.033
   },
   {
    "id": "central_govt_capital_expenditure",
-   "weight": 0.009,
-   "contribution": null
+   "weight": 0.012,
+   "contribution": 0.0
+  },
+  {
+   "id": "wpi_manufactured_products",
+   "weight": 0.012,
+   "contribution": -0.056
+  },
+  {
+   "id": "scb_aggregate_deposits",
+   "weight": -0.012,
+   "contribution": 0.02
+  },
+  {
+   "id": "money_supply_m1",
+   "weight": 0.012,
+   "contribution": 0.006
+  },
+  {
+   "id": "central_govt_revenue_expenditure",
+   "weight": -0.012,
+   "contribution": -0.006
+  },
+  {
+   "id": "10y_gsec_yield",
+   "weight": 0.01,
+   "contribution": -0.007
+  },
+  {
+   "id": "usdinr_6m_forward_premia",
+   "weight": -0.01,
+   "contribution": -0.048
+  },
+  {
+   "id": "reverse_repo_rate",
+   "weight": 0.01,
+   "contribution": -0.001
   },
   {
    "id": "gsec10y_minus_tbill91d_spread",
    "weight": -0.009,
-   "contribution": null
+   "contribution": -0.008
   },
   {
-   "id": "bank_credit_housing",
+   "id": "wpi_non_food_articles",
    "weight": 0.009,
-   "contribution": null
-  },
-  {
-   "id": "slr",
-   "weight": 0.009,
-   "contribution": null
-  },
-  {
-   "id": "forex_total_reserves",
-   "weight": 0.008,
-   "contribution": -0.03
-  },
-  {
-   "id": "money_supply_m1",
-   "weight": 0.008,
-   "contribution": null
-  },
-  {
-   "id": "central_govt_revenue_expenditure",
-   "weight": -0.008,
-   "contribution": null
-  },
-  {
-   "id": "mibor_overnight",
-   "weight": 0.008,
-   "contribution": null
-  },
-  {
-   "id": "crude_oil_production_index",
-   "weight": 0.008,
-   "contribution": null
-  },
-  {
-   "id": "agricultural_rural_wages_men_avg",
-   "weight": -0.008,
-   "contribution": 0.063
-  },
-  {
-   "id": "repo_rate",
-   "weight": 0.007,
-   "contribution": null
+   "contribution": -0.014
   },
   {
    "id": "net_foreign_exchange_assets_bankingsector",
-   "weight": -0.007,
-   "contribution": null
+   "weight": -0.008,
+   "contribution": -0.0
   },
   {
-   "id": "usdinr_6m_forward_premia",
-   "weight": -0.005,
-   "contribution": null
+   "id": "crude_oil_production_index",
+   "weight": 0.007,
+   "contribution": -0.002
   },
   {
-   "id": "scb_aggregate_deposits",
-   "weight": -0.005,
-   "contribution": null
+   "id": "slr",
+   "weight": 0.006,
+   "contribution": -0.007
   },
   {
-   "id": "merchandise_export_import_ratio",
-   "weight": -0.005,
-   "contribution": null
-  },
-  {
-   "id": "bank_credit_services",
-   "weight": 0.003,
-   "contribution": null
-  },
-  {
-   "id": "cpi_iw",
-   "weight": 0.002,
-   "contribution": null
-  },
-  {
-   "id": "cpi_rl",
-   "weight": -0.001,
-   "contribution": null
-  },
-  {
-   "id": "cpi_al",
-   "weight": -0.001,
-   "contribution": null
+   "id": "mibor_overnight",
+   "weight": 0.005,
+   "contribution": 0.002
   },
   {
    "id": "bank_credit_non_food",
-   "weight": 0.001,
+   "weight": -0.005,
+   "contribution": 0.003
+  },
+  {
+   "id": "bank_credit_services",
+   "weight": 0.005,
+   "contribution": 0.02
+  },
+  {
+   "id": "cpi_rl",
+   "weight": -0.004,
+   "contribution": 0.015
+  },
+  {
+   "id": "cpi_al",
+   "weight": -0.004,
+   "contribution": 0.013
+  },
+  {
+   "id": "merchandise_export_import_ratio",
+   "weight": -0.004,
+   "contribution": -0.001
+  },
+  {
+   "id": "repo_rate",
+   "weight": 0.004,
    "contribution": 0.005
   },
   {
+   "id": "cpi_iw",
+   "weight": 0.003,
+   "contribution": -0.006
+  },
+  {
    "id": "money_supply_m3",
-   "weight": -0.001,
-   "contribution": null
+   "weight": -0.003,
+   "contribution": -0.002
   }
  ],
  "signals": {
   "months": [
+   "2016-09",
    "2016-10",
    "2016-11",
    "2016-12",
@@ -1770,13 +1810,13 @@
    "2026-05",
    "2026-06",
    "2026-07",
-   "2026-08",
-   "2026-09"
+   "2026-08"
   ],
   "rows": [
    {
     "id": "iip_general",
     "z": [
+     -0.02,
      -0.11,
      -0.01,
      -0.32,
@@ -1895,13 +1935,13 @@
      -0.02,
      0.24,
      null,
-     null,
      null
     ]
    },
    {
     "id": "ici_overall",
     "z": [
+     0.13,
      0.41,
      -0.22,
      0.17,
@@ -2020,13 +2060,13 @@
      -0.22,
      0.08,
      null,
-     null,
      null
     ]
    },
    {
     "id": "cpi_iw",
     "z": [
+     -0.61,
      -0.77,
      -0.9,
      -0.98,
@@ -2145,13 +2185,13 @@
      -0.49,
      -0.48,
      null,
-     null,
      null
     ]
    },
    {
     "id": "cpi_al",
     "z": [
+     -0.45,
      -0.68,
      -0.75,
      -0.81,
@@ -2270,13 +2310,13 @@
      -0.44,
      -0.34,
      null,
-     null,
      null
     ]
    },
    {
     "id": "cpi_rl",
     "z": [
+     -0.47,
      -0.68,
      -0.75,
      -0.81,
@@ -2395,13 +2435,13 @@
      -0.56,
      -0.45,
      null,
-     null,
      null
     ]
    },
    {
     "id": "forex_total_reserves",
     "z": [
+     -0.41,
      -0.48,
      -0.5,
      -0.59,
@@ -2520,19 +2560,19 @@
      -0.8,
      -1.06,
      -1.0,
-     null,
      null
     ]
    },
    {
     "id": "10y_gsec_yield",
     "z": [
+     -0.5,
      -0.87,
-     -1.54,
+     -1.53,
      -0.7,
      -0.15,
-     -0.33,
-     -0.13,
+     -0.32,
+     -0.12,
      -0.43,
      -0.73,
      -0.97,
@@ -2559,10 +2599,10 @@
      0.17,
      -0.12,
      -0.58,
-     -0.84,
+     -0.83,
      -0.94,
      -1.08,
-     -0.96,
+     -0.95,
      -0.75,
      -0.87,
      -0.3,
@@ -2570,11 +2610,11 @@
      -0.58,
      -0.41,
      -0.69,
-     -1.13,
+     -1.12,
      -0.73,
      -0.66,
      -0.38,
-     -0.51,
+     -0.5,
      -0.76,
      -0.53,
      -0.71,
@@ -2591,7 +2631,7 @@
      0.76,
      0.76,
      0.87,
-     0.69,
+     0.7,
      0.67,
      1.03,
      1.43,
@@ -2608,19 +2648,19 @@
      0.22,
      -0.2,
      -0.03,
-     -0.01,
+     -0.0,
      0.17,
      0.0,
      0.16,
-     0.22,
+     0.23,
      0.09,
-     0.0,
+     0.01,
      -0.14,
-     -0.06,
+     -0.05,
      0.22,
      0.17,
      0.14,
-     -0.0,
+     0.0,
      -0.03,
      -0.24,
      -0.32,
@@ -2643,17 +2683,17 @@
      0.68,
      0.89,
      1.02,
-     0.58,
+     0.59,
      0.61,
-     0.53,
      null
     ]
    },
    {
     "id": "tbill_91day_yield",
     "z": [
+     -0.41,
      -0.29,
-     -0.47,
+     -0.46,
      -0.53,
      -0.46,
      -0.56,
@@ -2665,7 +2705,7 @@
      -0.16,
      -0.17,
      -0.1,
-     0.06,
+     0.05,
      0.09,
      0.12,
      0.18,
@@ -2679,7 +2719,7 @@
      0.54,
      0.48,
      0.34,
-     0.23,
+     0.22,
      0.12,
      0.13,
      0.16,
@@ -2697,10 +2737,10 @@
      -1.08,
      -1.49,
      -1.36,
-     -1.33,
+     -1.32,
      -1.12,
      -1.03,
-     -0.94,
+     -0.93,
      -0.96,
      -0.93,
      -0.92,
@@ -2717,14 +2757,14 @@
      0.31,
      0.29,
      0.34,
-     0.34,
+     0.33,
      0.37,
      0.7,
-     0.91,
+     0.9,
      1.06,
-     1.25,
+     1.24,
      1.34,
-     1.55,
+     1.54,
      1.6,
      1.57,
      1.52,
@@ -2740,9 +2780,9 @@
      0.32,
      0.36,
      0.36,
-     0.25,
+     0.24,
      0.08,
-     0.11,
+     0.1,
      0.12,
      0.1,
      0.08,
@@ -2770,13 +2810,13 @@
      -0.14,
      0.02,
      0.03,
-     -0.03,
-     -0.07
+     -0.03
     ]
    },
    {
     "id": "gsec10y_minus_tbill91d_spread",
     "z": [
+     -0.04,
      -0.18,
      -0.34,
      0.13,
@@ -2895,13 +2935,13 @@
      0.78,
      0.52,
      null,
-     null,
      null
     ]
    },
    {
     "id": "usdinr_6m_forward_premia",
     "z": [
+     -0.54,
      -0.77,
      -1.31,
      -1.55,
@@ -3020,13 +3060,13 @@
      1.7,
      1.58,
      null,
-     null,
      null
     ]
    },
    {
     "id": "scb_aggregate_deposits",
     "z": [
+     -1.25,
      -1.04,
      0.03,
      0.02,
@@ -3145,13 +3185,13 @@
      -0.63,
      -0.51,
      null,
-     null,
      null
     ]
    },
    {
     "id": "bank_credit_housing",
     "z": [
+     0.45,
      0.22,
      0.06,
      -0.07,
@@ -3270,13 +3310,13 @@
      -0.72,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "bank_credit_personal_loans",
     "z": [
+     0.76,
      0.29,
      -0.02,
      -0.32,
@@ -3395,13 +3435,13 @@
      0.01,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "bank_credit_services",
     "z": [
+     -0.09,
      -0.63,
      -0.77,
      -0.69,
@@ -3520,13 +3560,13 @@
      3.24,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "bank_credit_industries",
     "z": [
+     -1.09,
      -1.41,
      -1.62,
      -1.74,
@@ -3645,13 +3685,13 @@
      0.79,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "bank_credit_non_food",
     "z": [
+     -1.01,
      -1.14,
      -1.39,
      -1.45,
@@ -3770,13 +3810,13 @@
      -0.15,
      0.08,
      -0.07,
-     null,
      null
     ]
    },
    {
     "id": "mibor_overnight",
     "z": [
+     -0.33,
      -0.22,
      -0.3,
      -0.3,
@@ -3895,7 +3935,6 @@
      -0.28,
      null,
      null,
-     null,
      null
     ]
    },
@@ -3904,38 +3943,39 @@
     "z": [
      0.03,
      0.03,
+     0.03,
      0.04,
      0.03,
      0.03,
      0.14,
-     0.25,
-     0.25,
-     0.36,
+     0.24,
+     0.24,
+     0.35,
+     0.45,
+     0.45,
+     0.45,
+     0.45,
+     0.45,
+     0.45,
+     0.45,
+     0.45,
+     0.41,
+     0.45,
+     0.45,
      0.46,
-     0.46,
-     0.46,
-     0.46,
-     0.46,
-     0.46,
-     0.46,
-     0.46,
-     0.42,
-     0.46,
-     0.46,
-     0.47,
-     0.46,
-     0.46,
-     0.49,
+     0.45,
+     0.45,
+     0.48,
      0.67,
      0.67,
      0.63,
      0.67,
      0.67,
      0.6,
-     0.46,
-     0.46,
-     0.34,
-     0.25,
+     0.45,
+     0.45,
+     0.33,
+     0.24,
      0.03,
      -0.08,
      -0.4,
@@ -3943,19 +3983,19 @@
      -0.69,
      -0.82,
      -0.82,
-     -1.64,
+     -1.65,
      -2.1,
      -2.1,
      -2.1,
      -2.09,
-     -1.88,
+     -1.89,
      -1.79,
      -1.66,
      -1.46,
      -1.46,
      -1.46,
      -1.46,
-     -0.63,
+     -0.64,
      -0.18,
      -0.18,
      -0.18,
@@ -3970,30 +4010,30 @@
      -0.08,
      0.03,
      0.4,
-     0.78,
-     1.18,
-     1.74,
-     1.93,
+     0.77,
+     1.17,
+     1.73,
+     1.92,
      2.37,
-     2.97,
-     3.25,
-     3.44,
+     2.96,
+     3.24,
+     3.43,
      3.64,
-     3.61,
+     3.6,
      3.65,
      3.47,
-     3.12,
+     3.11,
      2.75,
      2.37,
      2.18,
-     1.74,
-     1.14,
+     1.73,
+     1.13,
      0.86,
      0.67,
-     0.47,
+     0.46,
      0.39,
-     0.25,
-     0.05,
+     0.24,
+     0.04,
      0.03,
      -0.01,
      -0.18,
@@ -4009,10 +4049,10 @@
      -1.03,
      -1.03,
      -1.03,
-     -0.95,
-     -0.83,
+     -0.96,
+     -0.84,
      -0.87,
-     -0.87,
+     -0.88,
      -0.82,
      -0.82,
      -0.82,
@@ -4020,13 +4060,13 @@
      -0.82,
      -0.82,
      -0.82,
-     -0.82,
-     -0.78
+     -0.82
     ]
    },
    {
     "id": "bse_sensex_close",
     "z": [
+     -0.08,
      -0.34,
      -0.36,
      -0.37,
@@ -4145,13 +4185,13 @@
      -0.74,
      -0.78,
      -0.72,
-     null,
      null
     ]
    },
    {
     "id": "bse_500_close",
     "z": [
+     0.06,
      -0.12,
      -0.21,
      -0.28,
@@ -4270,13 +4310,13 @@
      -0.46,
      -0.54,
      -0.51,
-     -0.33,
-     null
+     -0.33
     ]
    },
    {
     "id": "nifty_50_close",
     "z": [
+     -0.07,
      -0.36,
      -0.4,
      -0.44,
@@ -4395,13 +4435,13 @@
      -0.81,
      -0.88,
      null,
-     null,
      null
     ]
    },
    {
     "id": "nifty_500_close",
     "z": [
+     0.0,
      -0.2,
      -0.3,
      -0.37,
@@ -4520,13 +4560,13 @@
      -0.55,
      -0.66,
      null,
-     null,
      null
     ]
    },
    {
     "id": "india_vix_close",
     "z": [
+     -1.23,
      -0.46,
      0.11,
      0.2,
@@ -4645,13 +4685,13 @@
      0.03,
      0.09,
      0.39,
-     0.15,
-     null
+     0.15
     ]
    },
    {
     "id": "sp500_close",
     "z": [
+     0.09,
      -0.23,
      -0.35,
      0.0,
@@ -4770,13 +4810,13 @@
      1.0,
      0.78,
      0.54,
-     0.72,
-     null
+     0.72
     ]
    },
    {
     "id": "brent_crude_spot_price",
     "z": [
+     -0.18,
      -0.04,
      -0.08,
      0.9,
@@ -4895,13 +4935,13 @@
      1.34,
      0.4,
      0.35,
-     null,
      null
     ]
    },
    {
     "id": "repo_rate",
     "z": [
+     -0.66,
      -0.39,
      -0.39,
      -0.39,
@@ -5020,13 +5060,13 @@
      -0.66,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "reverse_repo_rate",
     "z": [
+     -0.06,
      0.3,
      0.3,
      0.3,
@@ -5145,13 +5185,13 @@
      0.3,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "slr",
     "z": [
+     -0.18,
      -0.71,
      -0.71,
      -0.71,
@@ -5268,7 +5308,6 @@
      0.88,
      0.88,
      0.88,
-     null,
      null,
      null,
      null
@@ -5277,6 +5316,7 @@
    {
     "id": "neer_40currency",
     "z": [
+     0.39,
      0.29,
      0.42,
      0.59,
@@ -5395,13 +5435,13 @@
      -1.33,
      -0.96,
      null,
-     null,
      null
     ]
    },
    {
     "id": "reer_40currency",
     "z": [
+     0.3,
      0.13,
      0.16,
      0.35,
@@ -5520,13 +5560,13 @@
      -2.28,
      -1.67,
      null,
-     null,
      null
     ]
    },
    {
     "id": "net_foreign_exchange_assets_bankingsector",
     "z": [
+     -0.14,
      -0.18,
      -0.06,
      -0.15,
@@ -5645,13 +5685,13 @@
      -0.27,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "usdinr_exchange_rate",
     "z": [
+     -0.26,
      -0.05,
      -0.03,
      -0.05,
@@ -5770,13 +5810,13 @@
      2.33,
      2.09,
      null,
-     null,
      null
     ]
    },
    {
     "id": "money_supply_m0",
     "z": [
+     0.19,
      0.42,
      -3.92,
      -6.11,
@@ -5895,13 +5935,13 @@
      -0.73,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "money_supply_m1",
     "z": [
+     1.11,
      0.25,
      -4.81,
      -6.04,
@@ -6020,13 +6060,13 @@
      -0.22,
      0.08,
      null,
-     null,
      null
     ]
    },
    {
     "id": "money_supply_m3",
     "z": [
+     -0.21,
      -1.03,
      -1.66,
      -2.16,
@@ -6145,13 +6185,13 @@
      -0.62,
      -0.38,
      null,
-     null,
      null
     ]
    },
    {
     "id": "crude_oil_imports_value",
     "z": [
+     -0.28,
      -0.17,
      -0.16,
      0.05,
@@ -6270,13 +6310,13 @@
      1.16,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "petroleum_products_exports_value",
     "z": [
+     -0.24,
      -0.04,
      -0.13,
      0.0,
@@ -6395,13 +6435,13 @@
      0.79,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "merchandise_export_import_ratio",
     "z": [
+     0.41,
      -0.07,
      -0.54,
      0.41,
@@ -6520,13 +6560,13 @@
      -0.06,
      -0.78,
      null,
-     null,
      null
     ]
    },
    {
     "id": "non_oil_non_gold_imports",
     "z": [
+     -0.55,
      -0.13,
      0.2,
      -0.08,
@@ -6645,13 +6685,13 @@
      0.64,
      1.54,
      null,
-     null,
      null
     ]
    },
    {
     "id": "cement_production_index",
     "z": [
+     0.01,
      -0.01,
      -0.31,
      -0.82,
@@ -6770,13 +6810,13 @@
      0.1,
      0.16,
      null,
-     null,
      null
     ]
    },
    {
     "id": "coal_production_index",
     "z": [
+     -1.58,
      -0.89,
      0.18,
      -0.15,
@@ -6895,13 +6935,13 @@
      -2.0,
      -0.44,
      null,
-     null,
      null
     ]
    },
    {
     "id": "crude_oil_production_index",
     "z": [
+     -0.7,
      -0.49,
      -1.0,
      0.04,
@@ -7020,13 +7060,13 @@
      -0.72,
      -0.73,
      null,
-     null,
      null
     ]
    },
    {
     "id": "electricity_generation_index",
     "z": [
+     -0.07,
      -0.43,
      0.66,
      0.16,
@@ -7145,13 +7185,13 @@
      0.93,
      0.72,
      null,
-     null,
      null
     ]
    },
    {
     "id": "steel_production_index",
     "z": [
+     0.47,
      0.53,
      -0.08,
      0.46,
@@ -7270,13 +7310,13 @@
      -0.1,
      -0.12,
      null,
-     null,
      null
     ]
    },
    {
     "id": "euro_area_industrial_production",
     "z": [
+     -0.0,
      0.1,
      0.26,
      0.2,
@@ -7395,13 +7435,13 @@
      -0.17,
      -0.08,
      null,
-     null,
      null
     ]
    },
    {
     "id": "us_industrial_production_index",
     "z": [
+     -0.81,
      -0.7,
      -0.63,
      -0.38,
@@ -7520,13 +7560,13 @@
      -0.04,
      -0.09,
      -0.14,
-     null,
      null
     ]
    },
    {
     "id": "electricity_peak_demand",
     "z": [
+     null,
      null,
      null,
      null,
@@ -7645,13 +7685,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "gst_eway_bill_volume",
     "z": [
+     null,
      null,
      null,
      null,
@@ -7770,13 +7810,13 @@
      -0.11,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "iip_manufacturing_sector",
     "z": [
+     0.04,
      -0.04,
      -0.11,
      -0.44,
@@ -7895,13 +7935,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "iip_electricity_sector",
     "z": [
+     -0.05,
      -0.45,
      0.75,
      0.19,
@@ -8020,18 +8060,17 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "iip_mining_sector",
     "z": [
+     -1.35,
      -0.8,
      0.25,
      0.55,
      0.51,
-     null,
      null,
      null,
      null,
@@ -8152,6 +8191,7 @@
    {
     "id": "iip_intermediate_goods",
     "z": [
+     -0.3,
      -0.03,
      0.06,
      -0.27,
@@ -8270,13 +8310,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "iip_infrastructure_construction_goods",
     "z": [
+     0.14,
      0.08,
      -0.06,
      0.01,
@@ -8395,13 +8435,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "iip_basic_metals",
     "z": [
+     0.14,
      0.16,
      -0.11,
      0.14,
@@ -8520,13 +8560,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "wpi_all_commodities",
     "z": [
+     -0.59,
      -0.61,
      -0.5,
      -0.44,
@@ -8645,13 +8685,13 @@
      2.02,
      2.08,
      null,
-     null,
      null
     ]
    },
    {
     "id": "wpi_manufactured_products",
     "z": [
+     -0.74,
      -0.69,
      -0.46,
      -0.31,
@@ -8770,13 +8810,13 @@
      1.19,
      1.19,
      null,
-     null,
      null
     ]
    },
    {
     "id": "wpi_non_food_articles",
     "z": [
+     -0.15,
      -0.65,
      -0.99,
      -0.93,
@@ -8895,13 +8935,13 @@
      1.04,
      1.33,
      null,
-     null,
      null
     ]
    },
    {
     "id": "cpi_combined_urban_rural",
     "z": [
+     -0.51,
      -0.59,
      -0.83,
      -0.93,
@@ -9020,13 +9060,13 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "gold_price_mumbai_inr",
     "z": [
+     0.49,
      0.15,
      0.33,
      -0.04,
@@ -9145,13 +9185,13 @@
      2.72,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "imf_world_commodity_price_index",
     "z": [
+     -0.13,
      0.03,
      0.27,
      0.83,
@@ -9270,13 +9310,13 @@
      1.22,
      0.59,
      0.56,
-     null,
      null
     ]
    },
    {
     "id": "indian_crude_oil_basket_price",
     "z": [
+     -0.15,
      0.04,
      0.01,
      0.66,
@@ -9395,24 +9435,24 @@
      null,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "agricultural_rural_wages_men_avg",
     "z": [
+     -0.48,
      -0.24,
      -0.21,
-     -0.09,
+     -0.1,
      -0.07,
      -0.09,
      -0.16,
      -0.12,
      -0.22,
-     -0.34,
+     -0.35,
      -0.22,
-     -0.25,
+     -0.26,
      -0.32,
      -0.53,
      -0.66,
@@ -9420,10 +9460,10 @@
      -0.79,
      -0.69,
      -0.69,
-     -0.74,
+     -0.75,
      -0.73,
      -0.74,
-     -0.79,
+     -0.8,
      -0.72,
      -0.73,
      -0.62,
@@ -9442,7 +9482,7 @@
      -0.65,
      -0.67,
      -0.57,
-     -0.56,
+     -0.57,
      -0.62,
      null,
      -0.63,
@@ -9453,9 +9493,9 @@
      -0.35,
      -0.38,
      -0.31,
-     -0.38,
+     -0.39,
      -0.28,
-     -0.19,
+     -0.2,
      null,
      -0.13,
      -0.84,
@@ -9464,10 +9504,10 @@
      -0.37,
      -0.4,
      -0.4,
-     -0.37,
+     -0.38,
      -0.45,
      -0.42,
-     -0.37,
+     -0.38,
      -0.37,
      -0.35,
      -0.31,
@@ -9477,12 +9517,12 @@
      null,
      null,
      null,
-     -0.03,
-     -0.19,
-     -0.27,
+     -0.04,
+     -0.2,
+     -0.28,
      -0.33,
      -0.25,
-     -0.19,
+     -0.2,
      null,
      null,
      null,
@@ -9491,35 +9531,34 @@
      null,
      -0.39,
      -0.4,
-     -0.42,
-     -0.39,
+     -0.43,
+     -0.4,
      -0.42,
      -0.44,
      -0.47,
-     -0.32,
+     -0.33,
      -0.23,
      -0.22,
+     -0.21,
      -0.2,
-     -0.2,
-     -0.16,
+     -0.17,
      -0.11,
      -0.02,
      0.02,
      0.02,
-     0.03,
+     0.02,
      1.48,
-     1.36,
+     1.35,
      1.37,
-     1.38,
+     1.37,
      1.28,
-     1.22,
+     1.21,
      1.16,
      1.1,
      1.01,
      0.91,
      0.84,
      0.76,
-     -0.73,
      null,
      null
     ]
@@ -9527,6 +9566,7 @@
    {
     "id": "central_govt_capital_expenditure",
     "z": [
+     -0.22,
      -0.69,
      -0.62,
      -0.44,
@@ -9645,13 +9685,13 @@
      -0.03,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "central_govt_revenue_expenditure",
     "z": [
+     0.1,
      0.18,
      0.17,
      0.11,
@@ -9770,13 +9810,13 @@
      0.28,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "central_govt_tax_revenue",
     "z": [
+     0.21,
      0.27,
      0.48,
      0.21,
@@ -9895,13 +9935,13 @@
      -0.33,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "central_govt_total_receipts_ex_borrowing",
     "z": [
+     0.09,
      0.09,
      0.09,
      0.07,
@@ -10020,13 +10060,13 @@
      -0.32,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "gst_gross_revenue_collection",
     "z": [
+     null,
      null,
      null,
      null,
@@ -10145,13 +10185,13 @@
      -0.55,
      null,
      null,
-     null,
      null
     ]
    },
    {
     "id": "petroleum_product_consumption",
     "z": [
+     -0.71,
      0.42,
      0.82,
      -0.29,
@@ -10270,7 +10310,6 @@
      null,
      null,
      null,
-     null,
      null
     ]
    }
@@ -10278,109 +10317,1078 @@
  },
  "vintages": [
   {
-   "asOf": "2026-08-29",
-   "estimate": 6.58,
-   "lower90": 2.68,
-   "upper90": 10.48,
-   "signalShare": 0.07,
+   "asOf": "2026-06-07",
+   "estimate": 6.49,
+   "lower90": 2.57,
+   "upper90": 10.41,
+   "signalShare": 0.59,
    "contributions": {
-    "forex_total_reserves": -0.092,
-    "10y_gsec_yield": 0.003,
-    "tbill_91day_yield": -0.014,
-    "bank_credit_non_food": 0.012,
-    "us_fed_funds_rate_upper": -0.526,
-    "bse_sensex_close": -0.285,
-    "bse_500_close": -0.431,
-    "india_vix_close": -0.237,
-    "sp500_close": 0.6,
-    "brent_crude_spot_price": 0.228,
-    "us_industrial_production_index": -0.099,
-    "imf_world_commodity_price_index": 0.166
+    "iip_general": -0.017,
+    "ici_overall": -0.07,
+    "cpi_iw": -0.002,
+    "cpi_al": 0.009,
+    "cpi_rl": 0.009,
+    "forex_total_reserves": -0.017,
+    "10y_gsec_yield": -0.001,
+    "tbill_91day_yield": -0.002,
+    "gsec10y_minus_tbill91d_spread": -0.004,
+    "usdinr_6m_forward_premia": -0.245,
+    "scb_aggregate_deposits": 0.093,
+    "bank_credit_housing": -0.006,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.014,
+    "bank_credit_industries": -0.013,
+    "bank_credit_non_food": 0.023,
+    "mibor_overnight": -0.0,
+    "us_fed_funds_rate_upper": -0.239,
+    "bse_sensex_close": -0.358,
+    "bse_500_close": -0.215,
+    "nifty_50_close": -0.458,
+    "nifty_500_close": -0.301,
+    "india_vix_close": -0.032,
+    "sp500_close": 0.411,
+    "brent_crude_spot_price": 1.042,
+    "repo_rate": 0.003,
+    "reverse_repo_rate": -0.0,
+    "slr": -0.003,
+    "neer_40currency": -0.022,
+    "reer_40currency": -0.023,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.06,
+    "money_supply_m0": -0.005,
+    "money_supply_m1": 0.007,
+    "money_supply_m3": -0.001,
+    "crude_oil_imports_value": -0.013,
+    "petroleum_products_exports_value": 0.002,
+    "merchandise_export_import_ratio": -0.0,
+    "non_oil_non_gold_imports": 0.043,
+    "cement_production_index": 0.012,
+    "coal_production_index": -0.035,
+    "crude_oil_production_index": -0.001,
+    "electricity_generation_index": 0.0,
+    "steel_production_index": -0.024,
+    "us_industrial_production_index": -0.004,
+    "gst_eway_bill_volume": -0.017,
+    "wpi_all_commodities": -0.006,
+    "wpi_manufactured_products": -0.009,
+    "wpi_non_food_articles": -0.001,
+    "gold_price_mumbai_inr": -0.05,
+    "imf_world_commodity_price_index": 0.214,
+    "agricultural_rural_wages_men_avg": -0.015,
+    "central_govt_capital_expenditure": 0.001,
+    "central_govt_revenue_expenditure": -0.004,
+    "central_govt_tax_revenue": -0.015,
+    "central_govt_total_receipts_ex_borrowing": -0.039,
+    "gst_gross_revenue_collection": -0.489
    },
    "released": []
   },
   {
-   "asOf": "2026-09-05",
-   "estimate": 7.18,
-   "lower90": 3.31,
-   "upper90": 11.06,
-   "signalShare": 0.072,
+   "asOf": "2026-06-14",
+   "estimate": 6.16,
+   "lower90": 2.26,
+   "upper90": 10.05,
+   "signalShare": 0.58,
    "contributions": {
-    "forex_total_reserves": -0.045,
-    "10y_gsec_yield": 0.008,
-    "tbill_91day_yield": -0.034,
-    "bank_credit_non_food": 0.008,
-    "us_fed_funds_rate_upper": -0.653,
-    "bse_sensex_close": -0.183,
-    "bse_500_close": -0.282,
-    "india_vix_close": -0.155,
-    "sp500_close": 0.395,
-    "brent_crude_spot_price": 0.156,
-    "us_industrial_production_index": -0.064,
-    "imf_world_commodity_price_index": 0.117,
-    "agricultural_rural_wages_men_avg": 0.091
-   },
-   "released": [
-    "agricultural_rural_wages_men_avg",
-    "tbill_91day_yield",
-    "us_fed_funds_rate_upper"
-   ]
-  },
-  {
-   "asOf": "2026-09-12",
-   "estimate": 7.13,
-   "lower90": 3.26,
-   "upper90": 11.0,
-   "signalShare": 0.073,
-   "contributions": {
-    "forex_total_reserves": -0.051,
-    "10y_gsec_yield": 0.003,
-    "tbill_91day_yield": -0.032,
-    "bank_credit_non_food": 0.007,
-    "us_fed_funds_rate_upper": -0.594,
-    "bse_sensex_close": -0.175,
-    "bse_500_close": -0.271,
-    "india_vix_close": -0.146,
-    "sp500_close": 0.377,
-    "brent_crude_spot_price": 0.144,
-    "us_industrial_production_index": -0.07,
-    "imf_world_commodity_price_index": 0.105,
-    "agricultural_rural_wages_men_avg": 0.089
-   },
-   "released": [
-    "tbill_91day_yield",
-    "us_fed_funds_rate_upper"
-   ]
-  },
-  {
-   "asOf": "2026-09-18",
-   "estimate": 7.38,
-   "lower90": 3.55,
-   "upper90": 11.21,
-   "signalShare": 0.073,
-   "contributions": {
-    "forex_total_reserves": -0.03,
-    "10y_gsec_yield": 0.078,
-    "tbill_91day_yield": -0.027,
-    "bank_credit_non_food": 0.005,
-    "us_fed_funds_rate_upper": -0.494,
-    "bse_sensex_close": -0.13,
-    "bse_500_close": -0.243,
-    "india_vix_close": -0.119,
-    "sp500_close": 0.332,
-    "brent_crude_spot_price": 0.122,
-    "us_industrial_production_index": -0.109,
-    "imf_world_commodity_price_index": 0.096,
-    "agricultural_rural_wages_men_avg": 0.063
+    "iip_general": -0.018,
+    "ici_overall": -0.06,
+    "cpi_iw": -0.001,
+    "cpi_al": 0.006,
+    "cpi_rl": 0.007,
+    "forex_total_reserves": -0.036,
+    "10y_gsec_yield": -0.002,
+    "tbill_91day_yield": 0.001,
+    "gsec10y_minus_tbill91d_spread": -0.013,
+    "usdinr_6m_forward_premia": -0.231,
+    "scb_aggregate_deposits": 0.061,
+    "bank_credit_housing": -0.04,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.073,
+    "bank_credit_industries": -0.104,
+    "bank_credit_non_food": 0.012,
+    "mibor_overnight": 0.004,
+    "us_fed_funds_rate_upper": -0.201,
+    "bse_sensex_close": -0.319,
+    "bse_500_close": -0.206,
+    "nifty_50_close": -0.411,
+    "nifty_500_close": -0.282,
+    "india_vix_close": -0.067,
+    "sp500_close": 0.333,
+    "brent_crude_spot_price": 0.795,
+    "repo_rate": 0.014,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.014,
+    "neer_40currency": -0.015,
+    "reer_40currency": -0.016,
+    "net_foreign_exchange_assets_bankingsector": 0.007,
+    "usdinr_exchange_rate": -0.041,
+    "money_supply_m0": -0.018,
+    "money_supply_m1": -0.001,
+    "money_supply_m3": 0.028,
+    "crude_oil_imports_value": 0.112,
+    "petroleum_products_exports_value": 0.015,
+    "merchandise_export_import_ratio": 0.0,
+    "non_oil_non_gold_imports": 0.194,
+    "cement_production_index": 0.011,
+    "coal_production_index": -0.024,
+    "crude_oil_production_index": -0.0,
+    "electricity_generation_index": 0.0,
+    "steel_production_index": -0.023,
+    "euro_area_industrial_production": -0.001,
+    "us_industrial_production_index": -0.003,
+    "gst_eway_bill_volume": -0.02,
+    "wpi_all_commodities": -0.064,
+    "wpi_manufactured_products": -0.1,
+    "wpi_non_food_articles": -0.015,
+    "gold_price_mumbai_inr": -0.036,
+    "imf_world_commodity_price_index": 0.104,
+    "agricultural_rural_wages_men_avg": -0.01,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.003,
+    "central_govt_tax_revenue": -0.011,
+    "central_govt_total_receipts_ex_borrowing": -0.027,
+    "gst_gross_revenue_collection": -0.635
    },
    "released": [
     "10y_gsec_yield",
+    "bank_credit_housing",
+    "bank_credit_industries",
+    "bank_credit_non_food",
+    "bank_credit_personal_loans",
+    "bank_credit_services",
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "crude_oil_imports_value",
+    "euro_area_industrial_production",
+    "forex_total_reserves",
+    "gsec10y_minus_tbill91d_spread",
+    "india_vix_close",
+    "merchandise_export_import_ratio",
+    "money_supply_m0",
+    "money_supply_m1",
+    "money_supply_m3",
+    "net_foreign_exchange_assets_bankingsector",
+    "nifty_500_close",
+    "nifty_50_close",
+    "non_oil_non_gold_imports",
+    "petroleum_products_exports_value",
+    "repo_rate",
+    "reverse_repo_rate",
+    "scb_aggregate_deposits",
+    "slr",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "usdinr_6m_forward_premia",
+    "wpi_all_commodities",
+    "wpi_manufactured_products",
+    "wpi_non_food_articles"
+   ]
+  },
+  {
+   "asOf": "2026-06-21",
+   "estimate": 6.44,
+   "lower90": 2.51,
+   "upper90": 10.37,
+   "signalShare": 0.607,
+   "contributions": {
+    "iip_general": -0.016,
+    "ici_overall": -0.149,
+    "cpi_iw": -0.002,
+    "cpi_al": 0.014,
+    "cpi_rl": 0.016,
+    "forex_total_reserves": -0.085,
+    "10y_gsec_yield": -0.01,
+    "tbill_91day_yield": 0.002,
+    "gsec10y_minus_tbill91d_spread": -0.009,
+    "usdinr_6m_forward_premia": -0.175,
+    "scb_aggregate_deposits": 0.008,
+    "bank_credit_housing": -0.017,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.023,
+    "bank_credit_industries": -0.042,
+    "bank_credit_non_food": 0.003,
+    "mibor_overnight": 0.003,
+    "us_fed_funds_rate_upper": -0.172,
+    "bse_sensex_close": -0.266,
+    "bse_500_close": -0.166,
+    "nifty_50_close": -0.349,
+    "nifty_500_close": -0.234,
+    "india_vix_close": -0.033,
+    "sp500_close": 0.271,
+    "brent_crude_spot_price": 0.48,
+    "repo_rate": 0.009,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.011,
+    "neer_40currency": -0.021,
+    "reer_40currency": -0.022,
+    "net_foreign_exchange_assets_bankingsector": -0.005,
+    "usdinr_exchange_rate": -0.058,
+    "money_supply_m0": -0.022,
+    "money_supply_m1": 0.001,
+    "money_supply_m3": -0.016,
+    "crude_oil_imports_value": 0.044,
+    "petroleum_products_exports_value": 0.007,
+    "merchandise_export_import_ratio": -0.0,
+    "non_oil_non_gold_imports": 0.097,
+    "cement_production_index": 0.032,
+    "coal_production_index": -0.092,
+    "crude_oil_production_index": -0.004,
+    "electricity_generation_index": 0.099,
+    "steel_production_index": -0.056,
+    "euro_area_industrial_production": -0.002,
+    "us_industrial_production_index": -0.008,
+    "gst_eway_bill_volume": -0.054,
+    "wpi_all_commodities": -0.037,
+    "wpi_manufactured_products": -0.033,
+    "wpi_non_food_articles": -0.007,
+    "gold_price_mumbai_inr": -0.049,
+    "imf_world_commodity_price_index": 0.065,
+    "agricultural_rural_wages_men_avg": -0.015,
+    "central_govt_capital_expenditure": 0.001,
+    "central_govt_revenue_expenditure": -0.004,
+    "central_govt_tax_revenue": -0.015,
+    "central_govt_total_receipts_ex_borrowing": -0.037,
+    "gst_gross_revenue_collection": -0.165
+   },
+   "released": [
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "cement_production_index",
+    "coal_production_index",
+    "cpi_al",
+    "cpi_rl",
+    "crude_oil_production_index",
+    "electricity_generation_index",
+    "forex_total_reserves",
+    "gst_eway_bill_volume",
+    "ici_overall",
+    "india_vix_close",
+    "nifty_500_close",
+    "nifty_50_close",
+    "sp500_close",
+    "steel_production_index",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "us_industrial_production_index",
+    "usdinr_6m_forward_premia"
+   ]
+  },
+  {
+   "asOf": "2026-06-28",
+   "estimate": 7.81,
+   "lower90": 3.83,
+   "upper90": 11.79,
+   "signalShare": 0.686,
+   "contributions": {
+    "iip_general": -0.019,
+    "ici_overall": -0.13,
+    "cpi_iw": -0.002,
+    "cpi_al": -0.009,
+    "cpi_rl": -0.01,
+    "forex_total_reserves": -0.141,
+    "10y_gsec_yield": 0.048,
+    "tbill_91day_yield": -0.008,
+    "gsec10y_minus_tbill91d_spread": -0.031,
+    "usdinr_6m_forward_premia": 0.012,
+    "scb_aggregate_deposits": -0.023,
+    "bank_credit_housing": -0.007,
+    "bank_credit_personal_loans": 0.001,
+    "bank_credit_services": 0.001,
+    "bank_credit_industries": 0.005,
+    "bank_credit_non_food": -0.012,
+    "mibor_overnight": -0.013,
+    "us_fed_funds_rate_upper": -0.166,
+    "bse_sensex_close": -0.233,
+    "bse_500_close": -0.153,
+    "nifty_50_close": -0.338,
+    "nifty_500_close": -0.214,
+    "india_vix_close": -0.031,
+    "sp500_close": 0.181,
+    "brent_crude_spot_price": 0.442,
+    "repo_rate": -0.02,
+    "reverse_repo_rate": 0.008,
+    "slr": 0.037,
+    "neer_40currency": -0.013,
+    "reer_40currency": -0.016,
+    "net_foreign_exchange_assets_bankingsector": 0.002,
+    "usdinr_exchange_rate": -0.077,
+    "money_supply_m0": -0.031,
+    "money_supply_m1": 0.006,
+    "money_supply_m3": -0.018,
+    "crude_oil_imports_value": 0.045,
+    "petroleum_products_exports_value": 0.025,
+    "merchandise_export_import_ratio": -0.002,
+    "non_oil_non_gold_imports": 0.135,
+    "cement_production_index": 0.022,
+    "coal_production_index": -0.102,
+    "crude_oil_production_index": -0.024,
+    "electricity_generation_index": 0.079,
+    "steel_production_index": -0.038,
+    "euro_area_industrial_production": -0.002,
+    "us_industrial_production_index": -0.009,
+    "gst_eway_bill_volume": -0.027,
+    "wpi_all_commodities": 0.126,
+    "wpi_manufactured_products": 0.077,
+    "wpi_non_food_articles": 0.047,
+    "gold_price_mumbai_inr": -0.029,
+    "imf_world_commodity_price_index": 0.131,
+    "agricultural_rural_wages_men_avg": 0.012,
+    "central_govt_capital_expenditure": 0.001,
+    "central_govt_revenue_expenditure": -0.004,
+    "central_govt_tax_revenue": -0.023,
+    "central_govt_total_receipts_ex_borrowing": -0.064,
+    "gst_gross_revenue_collection": -0.113
+   },
+   "released": [
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "forex_total_reserves",
+    "iip_general",
+    "india_vix_close",
+    "nifty_500_close",
+    "nifty_50_close",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "usdinr_6m_forward_premia"
+   ]
+  },
+  {
+   "asOf": "2026-07-05",
+   "estimate": 6.37,
+   "lower90": 2.44,
+   "upper90": 10.3,
+   "signalShare": 0.605,
+   "contributions": {
+    "iip_general": -0.027,
+    "ici_overall": -0.116,
+    "cpi_iw": -0.004,
+    "cpi_al": 0.011,
+    "cpi_rl": 0.012,
+    "forex_total_reserves": -0.118,
+    "10y_gsec_yield": -0.004,
+    "tbill_91day_yield": 0.001,
+    "gsec10y_minus_tbill91d_spread": -0.007,
+    "usdinr_6m_forward_premia": -0.151,
+    "scb_aggregate_deposits": 0.098,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.021,
+    "bank_credit_industries": -0.031,
+    "bank_credit_non_food": 0.006,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.161,
+    "bse_sensex_close": -0.25,
+    "bse_500_close": -0.156,
+    "nifty_50_close": -0.333,
+    "nifty_500_close": -0.224,
+    "india_vix_close": -0.036,
+    "sp500_close": 0.233,
+    "brent_crude_spot_price": 0.353,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.0,
+    "slr": -0.006,
+    "neer_40currency": -0.045,
+    "reer_40currency": -0.047,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.115,
+    "money_supply_m0": -0.011,
+    "money_supply_m1": 0.005,
+    "money_supply_m3": -0.002,
+    "crude_oil_imports_value": 0.02,
+    "petroleum_products_exports_value": 0.005,
+    "merchandise_export_import_ratio": 0.0,
+    "non_oil_non_gold_imports": 0.076,
+    "cement_production_index": 0.024,
+    "coal_production_index": -0.067,
+    "crude_oil_production_index": -0.002,
+    "electricity_generation_index": 0.059,
+    "steel_production_index": -0.043,
+    "euro_area_industrial_production": -0.002,
+    "us_industrial_production_index": -0.006,
+    "gst_eway_bill_volume": -0.039,
+    "wpi_all_commodities": -0.022,
+    "wpi_manufactured_products": -0.026,
+    "wpi_non_food_articles": -0.004,
+    "gold_price_mumbai_inr": -0.101,
+    "imf_world_commodity_price_index": 0.045,
+    "agricultural_rural_wages_men_avg": -0.028,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.025,
+    "central_govt_total_receipts_ex_borrowing": -0.048,
+    "gst_gross_revenue_collection": -0.107
+   },
+   "released": [
+    "agricultural_rural_wages_men_avg",
+    "bank_credit_non_food",
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "central_govt_capital_expenditure",
+    "central_govt_revenue_expenditure",
+    "central_govt_tax_revenue",
+    "central_govt_total_receipts_ex_borrowing",
+    "cpi_iw",
+    "forex_total_reserves",
+    "gold_price_mumbai_inr",
+    "india_vix_close",
+    "neer_40currency",
+    "reer_40currency",
+    "scb_aggregate_deposits",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "usdinr_6m_forward_premia",
+    "usdinr_exchange_rate"
+   ]
+  },
+  {
+   "asOf": "2026-07-12",
+   "estimate": 5.76,
+   "lower90": 1.86,
+   "upper90": 9.65,
+   "signalShare": 0.565,
+   "contributions": {
+    "iip_general": -0.026,
+    "ici_overall": -0.119,
+    "cpi_iw": -0.005,
+    "cpi_al": 0.011,
+    "cpi_rl": 0.012,
+    "forex_total_reserves": -0.089,
+    "10y_gsec_yield": -0.01,
+    "tbill_91day_yield": 0.001,
+    "gsec10y_minus_tbill91d_spread": -0.004,
+    "usdinr_6m_forward_premia": -0.182,
+    "scb_aggregate_deposits": 0.159,
+    "bank_credit_housing": -0.01,
+    "bank_credit_personal_loans": 0.001,
+    "bank_credit_services": 0.015,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.007,
+    "mibor_overnight": 0.003,
+    "us_fed_funds_rate_upper": -0.142,
+    "bse_sensex_close": -0.245,
+    "bse_500_close": -0.161,
+    "nifty_50_close": -0.317,
+    "nifty_500_close": -0.223,
+    "india_vix_close": -0.033,
+    "sp500_close": 0.237,
+    "brent_crude_spot_price": 0.266,
+    "repo_rate": 0.009,
+    "reverse_repo_rate": -0.003,
+    "slr": -0.01,
+    "neer_40currency": -0.036,
+    "reer_40currency": -0.038,
+    "net_foreign_exchange_assets_bankingsector": -0.001,
+    "usdinr_exchange_rate": -0.088,
+    "money_supply_m0": -0.009,
+    "money_supply_m1": 0.005,
+    "money_supply_m3": -0.007,
+    "crude_oil_imports_value": 0.01,
+    "petroleum_products_exports_value": 0.002,
+    "merchandise_export_import_ratio": 0.0,
+    "non_oil_non_gold_imports": 0.045,
+    "cement_production_index": 0.027,
+    "coal_production_index": -0.051,
+    "crude_oil_production_index": -0.0,
+    "electricity_generation_index": 0.047,
+    "steel_production_index": -0.048,
+    "euro_area_industrial_production": -0.001,
+    "us_industrial_production_index": -0.005,
+    "gst_eway_bill_volume": -0.053,
+    "wpi_all_commodities": -0.04,
+    "wpi_manufactured_products": -0.041,
+    "wpi_non_food_articles": -0.009,
+    "gold_price_mumbai_inr": -0.091,
+    "imf_world_commodity_price_index": 0.152,
+    "agricultural_rural_wages_men_avg": -0.025,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.004,
+    "central_govt_tax_revenue": -0.018,
+    "central_govt_total_receipts_ex_borrowing": -0.034,
+    "gst_gross_revenue_collection": -0.183
+   },
+   "released": [
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "forex_total_reserves",
+    "imf_world_commodity_price_index",
+    "india_vix_close",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper"
+   ]
+  },
+  {
+   "asOf": "2026-07-19",
+   "estimate": 6.49,
+   "lower90": 2.55,
+   "upper90": 10.43,
+   "signalShare": 0.605,
+   "contributions": {
+    "iip_general": -0.027,
+    "ici_overall": -0.114,
+    "cpi_iw": -0.004,
+    "cpi_al": 0.011,
+    "cpi_rl": 0.012,
+    "forex_total_reserves": -0.091,
+    "10y_gsec_yield": -0.011,
+    "tbill_91day_yield": -0.0,
+    "gsec10y_minus_tbill91d_spread": -0.02,
+    "usdinr_6m_forward_premia": -0.151,
+    "scb_aggregate_deposits": 0.07,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.021,
+    "bank_credit_industries": -0.031,
+    "bank_credit_non_food": -0.003,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.122,
+    "bse_sensex_close": -0.197,
+    "bse_500_close": -0.12,
+    "nifty_50_close": -0.255,
+    "nifty_500_close": -0.173,
+    "india_vix_close": -0.03,
+    "sp500_close": 0.193,
+    "brent_crude_spot_price": 0.238,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.045,
+    "reer_40currency": -0.046,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.113,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.01,
+    "money_supply_m3": 0.011,
+    "crude_oil_imports_value": 0.017,
+    "petroleum_products_exports_value": 0.005,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.754,
+    "cement_production_index": 0.024,
+    "coal_production_index": -0.066,
+    "crude_oil_production_index": -0.001,
+    "electricity_generation_index": 0.057,
+    "steel_production_index": -0.043,
+    "euro_area_industrial_production": -0.013,
+    "us_industrial_production_index": -0.041,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.142,
+    "wpi_manufactured_products": -0.175,
+    "wpi_non_food_articles": -0.039,
+    "gold_price_mumbai_inr": -0.1,
+    "imf_world_commodity_price_index": 0.121,
+    "agricultural_rural_wages_men_avg": -0.028,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.048,
+    "gst_gross_revenue_collection": -0.105
+   },
+   "released": [
+    "10y_gsec_yield",
+    "bank_credit_non_food",
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "euro_area_industrial_production",
+    "forex_total_reserves",
+    "gsec10y_minus_tbill91d_spread",
+    "india_vix_close",
+    "merchandise_export_import_ratio",
+    "money_supply_m1",
+    "money_supply_m3",
+    "non_oil_non_gold_imports",
+    "scb_aggregate_deposits",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "us_industrial_production_index",
+    "wpi_all_commodities",
+    "wpi_manufactured_products",
+    "wpi_non_food_articles"
+   ]
+  },
+  {
+   "asOf": "2026-07-26",
+   "estimate": 6.73,
+   "lower90": 2.79,
+   "upper90": 10.66,
+   "signalShare": 0.605,
+   "contributions": {
+    "iip_general": -0.027,
+    "ici_overall": -0.076,
+    "cpi_iw": -0.004,
+    "cpi_al": 0.016,
+    "cpi_rl": 0.02,
+    "forex_total_reserves": -0.087,
+    "10y_gsec_yield": -0.015,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.011,
+    "usdinr_6m_forward_premia": -0.067,
+    "scb_aggregate_deposits": 0.011,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.021,
+    "bank_credit_industries": -0.031,
+    "bank_credit_non_food": 0.005,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.046,
+    "bse_sensex_close": -0.089,
+    "bse_500_close": -0.051,
+    "nifty_50_close": -0.114,
+    "nifty_500_close": -0.076,
+    "india_vix_close": -0.018,
+    "sp500_close": 0.09,
+    "brent_crude_spot_price": 0.145,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.045,
+    "reer_40currency": -0.046,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.113,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.008,
+    "money_supply_m3": -0.017,
+    "crude_oil_imports_value": 0.017,
+    "petroleum_products_exports_value": 0.005,
+    "merchandise_export_import_ratio": -0.004,
+    "non_oil_non_gold_imports": 0.222,
+    "cement_production_index": 0.071,
+    "coal_production_index": -0.085,
+    "crude_oil_production_index": -0.006,
+    "electricity_generation_index": 0.157,
+    "steel_production_index": -0.098,
+    "euro_area_industrial_production": -0.013,
+    "us_industrial_production_index": -0.017,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.093,
+    "wpi_manufactured_products": -0.075,
+    "wpi_non_food_articles": -0.023,
+    "gold_price_mumbai_inr": -0.1,
+    "imf_world_commodity_price_index": 0.063,
+    "agricultural_rural_wages_men_avg": -0.028,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.048,
+    "gst_gross_revenue_collection": -0.105
+   },
+   "released": [
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "cement_production_index",
+    "coal_production_index",
+    "cpi_al",
+    "cpi_rl",
+    "crude_oil_production_index",
+    "electricity_generation_index",
+    "forex_total_reserves",
+    "ici_overall",
+    "india_vix_close",
+    "sp500_close",
+    "steel_production_index",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper"
+   ]
+  },
+  {
+   "asOf": "2026-08-02",
+   "estimate": 7.14,
+   "lower90": 3.21,
+   "upper90": 11.07,
+   "signalShare": 0.603,
+   "contributions": {
+    "iip_general": 0.146,
+    "ici_overall": -0.093,
+    "cpi_iw": -0.007,
+    "cpi_al": 0.013,
+    "cpi_rl": 0.016,
+    "forex_total_reserves": -0.039,
+    "10y_gsec_yield": -0.008,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.008,
+    "usdinr_6m_forward_premia": -0.048,
+    "scb_aggregate_deposits": 0.018,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.02,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.004,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.036,
+    "bse_sensex_close": -0.059,
+    "bse_500_close": -0.034,
+    "nifty_50_close": -0.075,
+    "nifty_500_close": -0.05,
+    "india_vix_close": -0.016,
+    "sp500_close": 0.069,
+    "brent_crude_spot_price": 0.128,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.044,
+    "reer_40currency": -0.046,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.112,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.006,
+    "money_supply_m3": -0.004,
+    "crude_oil_imports_value": 0.016,
+    "petroleum_products_exports_value": 0.004,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.16,
+    "cement_production_index": 0.049,
+    "coal_production_index": -0.076,
+    "crude_oil_production_index": -0.002,
+    "electricity_generation_index": 0.11,
+    "steel_production_index": -0.073,
+    "euro_area_industrial_production": -0.013,
+    "us_industrial_production_index": -0.011,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.056,
+    "wpi_manufactured_products": -0.055,
+    "wpi_non_food_articles": -0.014,
+    "gold_price_mumbai_inr": -0.099,
+    "imf_world_commodity_price_index": 0.05,
+    "agricultural_rural_wages_men_avg": -0.043,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.047,
+    "gst_gross_revenue_collection": -0.103
+   },
+   "released": [
+    "agricultural_rural_wages_men_avg",
+    "bank_credit_non_food",
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "bse_sensex_close",
+    "cpi_iw",
+    "forex_total_reserves",
+    "iip_general",
+    "india_vix_close",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper"
+   ]
+  },
+  {
+   "asOf": "2026-08-09",
+   "estimate": 7.15,
+   "lower90": 3.22,
+   "upper90": 11.08,
+   "signalShare": 0.603,
+   "contributions": {
+    "iip_general": 0.143,
+    "ici_overall": -0.093,
+    "cpi_iw": -0.006,
+    "cpi_al": 0.013,
+    "cpi_rl": 0.015,
+    "forex_total_reserves": -0.034,
+    "10y_gsec_yield": -0.007,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.008,
+    "usdinr_6m_forward_premia": -0.048,
+    "scb_aggregate_deposits": 0.019,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.02,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.003,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.036,
+    "bse_sensex_close": -0.058,
+    "bse_500_close": -0.034,
+    "nifty_50_close": -0.074,
+    "nifty_500_close": -0.049,
+    "india_vix_close": -0.016,
+    "sp500_close": 0.068,
+    "brent_crude_spot_price": 0.128,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.067,
+    "reer_40currency": -0.072,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.176,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.006,
+    "money_supply_m3": -0.002,
+    "crude_oil_imports_value": 0.016,
+    "petroleum_products_exports_value": 0.004,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.165,
+    "cement_production_index": 0.049,
+    "coal_production_index": -0.076,
+    "crude_oil_production_index": -0.002,
+    "electricity_generation_index": 0.11,
+    "steel_production_index": -0.073,
+    "euro_area_industrial_production": -0.013,
+    "us_industrial_production_index": -0.011,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.051,
+    "wpi_manufactured_products": -0.053,
+    "wpi_non_food_articles": -0.012,
+    "gold_price_mumbai_inr": -0.099,
+    "imf_world_commodity_price_index": 0.051,
+    "agricultural_rural_wages_men_avg": -0.042,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.047,
+    "gst_gross_revenue_collection": -0.104
+   },
+   "released": [
+    "brent_crude_spot_price",
+    "bse_500_close",
+    "imf_world_commodity_price_index",
+    "india_vix_close",
+    "neer_40currency",
+    "reer_40currency",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "usdinr_exchange_rate"
+   ]
+  },
+  {
+   "asOf": "2026-08-16",
+   "estimate": 7.17,
+   "lower90": 3.24,
+   "upper90": 11.1,
+   "signalShare": 0.603,
+   "contributions": {
+    "iip_general": 0.139,
+    "ici_overall": -0.093,
+    "cpi_iw": -0.006,
+    "cpi_al": 0.013,
+    "cpi_rl": 0.015,
+    "forex_total_reserves": -0.031,
+    "10y_gsec_yield": -0.007,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.008,
+    "usdinr_6m_forward_premia": -0.047,
+    "scb_aggregate_deposits": 0.021,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.02,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.004,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.035,
+    "bse_sensex_close": -0.056,
+    "bse_500_close": -0.032,
+    "nifty_50_close": -0.071,
+    "nifty_500_close": -0.047,
+    "india_vix_close": -0.016,
+    "sp500_close": 0.067,
+    "brent_crude_spot_price": 0.123,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.065,
+    "reer_40currency": -0.069,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.168,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.005,
+    "money_supply_m3": -0.001,
+    "crude_oil_imports_value": 0.016,
+    "petroleum_products_exports_value": 0.004,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.154,
+    "cement_production_index": 0.048,
+    "coal_production_index": -0.074,
+    "crude_oil_production_index": -0.001,
+    "electricity_generation_index": 0.107,
+    "steel_production_index": -0.072,
+    "euro_area_industrial_production": -0.019,
+    "us_industrial_production_index": -0.01,
+    "gst_eway_bill_volume": -0.039,
+    "wpi_all_commodities": -0.055,
+    "wpi_manufactured_products": -0.057,
+    "wpi_non_food_articles": -0.014,
+    "gold_price_mumbai_inr": -0.097,
+    "imf_world_commodity_price_index": 0.047,
+    "agricultural_rural_wages_men_avg": -0.041,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.046,
+    "gst_gross_revenue_collection": -0.106
+   },
+   "released": [
+    "10y_gsec_yield",
+    "bse_500_close",
+    "euro_area_industrial_production",
+    "india_vix_close",
+    "sp500_close",
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper",
+    "us_industrial_production_index"
+   ]
+  },
+  {
+   "asOf": "2026-08-23",
+   "estimate": 7.16,
+   "lower90": 3.23,
+   "upper90": 11.09,
+   "signalShare": 0.603,
+   "contributions": {
+    "iip_general": 0.137,
+    "ici_overall": -0.094,
+    "cpi_iw": -0.006,
+    "cpi_al": 0.013,
+    "cpi_rl": 0.015,
+    "forex_total_reserves": -0.033,
+    "10y_gsec_yield": -0.007,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.008,
+    "usdinr_6m_forward_premia": -0.048,
+    "scb_aggregate_deposits": 0.02,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.02,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.003,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.036,
+    "bse_sensex_close": -0.057,
+    "bse_500_close": -0.033,
+    "nifty_50_close": -0.073,
+    "nifty_500_close": -0.048,
+    "india_vix_close": -0.016,
+    "sp500_close": 0.068,
+    "brent_crude_spot_price": 0.126,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.066,
+    "reer_40currency": -0.071,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.173,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.006,
+    "money_supply_m3": -0.002,
+    "crude_oil_imports_value": 0.016,
+    "petroleum_products_exports_value": 0.004,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.157,
+    "cement_production_index": 0.048,
+    "coal_production_index": -0.076,
+    "crude_oil_production_index": -0.002,
+    "electricity_generation_index": 0.108,
+    "steel_production_index": -0.072,
+    "euro_area_industrial_production": -0.02,
+    "us_industrial_production_index": -0.011,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.055,
+    "wpi_manufactured_products": -0.056,
+    "wpi_non_food_articles": -0.014,
+    "gold_price_mumbai_inr": -0.099,
+    "imf_world_commodity_price_index": 0.049,
+    "agricultural_rural_wages_men_avg": -0.042,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.047,
+    "gst_gross_revenue_collection": -0.104
+   },
+   "released": [
+    "tbill_91day_yield",
+    "us_fed_funds_rate_upper"
+   ]
+  },
+  {
+   "asOf": "2026-08-28",
+   "estimate": 7.16,
+   "lower90": 3.23,
+   "upper90": 11.09,
+   "signalShare": 0.603,
+   "contributions": {
+    "iip_general": 0.137,
+    "ici_overall": -0.094,
+    "cpi_iw": -0.006,
+    "cpi_al": 0.013,
+    "cpi_rl": 0.015,
+    "forex_total_reserves": -0.033,
+    "10y_gsec_yield": -0.007,
+    "tbill_91day_yield": -0.001,
+    "gsec10y_minus_tbill91d_spread": -0.008,
+    "usdinr_6m_forward_premia": -0.048,
+    "scb_aggregate_deposits": 0.02,
+    "bank_credit_housing": -0.013,
+    "bank_credit_personal_loans": 0.002,
+    "bank_credit_services": 0.02,
+    "bank_credit_industries": -0.03,
+    "bank_credit_non_food": 0.003,
+    "mibor_overnight": 0.002,
+    "us_fed_funds_rate_upper": -0.036,
+    "bse_sensex_close": -0.057,
+    "bse_500_close": -0.033,
+    "nifty_50_close": -0.073,
+    "nifty_500_close": -0.048,
+    "india_vix_close": -0.016,
+    "sp500_close": 0.068,
+    "brent_crude_spot_price": 0.126,
+    "repo_rate": 0.005,
+    "reverse_repo_rate": -0.001,
+    "slr": -0.007,
+    "neer_40currency": -0.066,
+    "reer_40currency": -0.071,
+    "net_foreign_exchange_assets_bankingsector": -0.0,
+    "usdinr_exchange_rate": -0.173,
+    "money_supply_m0": -0.01,
+    "money_supply_m1": 0.006,
+    "money_supply_m3": -0.002,
+    "crude_oil_imports_value": 0.016,
+    "petroleum_products_exports_value": 0.004,
+    "merchandise_export_import_ratio": -0.001,
+    "non_oil_non_gold_imports": 0.157,
+    "cement_production_index": 0.048,
+    "coal_production_index": -0.076,
+    "crude_oil_production_index": -0.002,
+    "electricity_generation_index": 0.108,
+    "steel_production_index": -0.072,
+    "euro_area_industrial_production": -0.02,
+    "us_industrial_production_index": -0.011,
+    "gst_eway_bill_volume": -0.038,
+    "wpi_all_commodities": -0.055,
+    "wpi_manufactured_products": -0.056,
+    "wpi_non_food_articles": -0.014,
+    "gold_price_mumbai_inr": -0.099,
+    "imf_world_commodity_price_index": 0.049,
+    "agricultural_rural_wages_men_avg": -0.042,
+    "central_govt_capital_expenditure": 0.0,
+    "central_govt_revenue_expenditure": -0.006,
+    "central_govt_tax_revenue": -0.024,
+    "central_govt_total_receipts_ex_borrowing": -0.047,
+    "gst_gross_revenue_collection": -0.104
+   },
+   "released": [
     "tbill_91day_yield",
     "us_fed_funds_rate_upper"
    ]
   }
  ],
  "trackRecord": [
+  {
+   "quarterStart": "2023-04-01",
+   "label": "Apr-Jun 2023",
+   "asOf": "2023-08-28",
+   "estimate": 6.54,
+   "naive": 5.29,
+   "official": 6.58
+  },
   {
    "quarterStart": "2023-07-01",
    "label": "Jul-Sep 2023",
@@ -10468,14 +11476,6 @@
    "estimate": 6.68,
    "naive": 7.22,
    "official": 7.83
-  },
-  {
-   "quarterStart": "2026-04-01",
-   "label": "Apr-Jun 2026",
-   "asOf": "2026-08-28",
-   "estimate": 7.16,
-   "naive": 7.17,
-   "official": 7.97
   }
  ],
  "caveats": [

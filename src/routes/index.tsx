@@ -4,6 +4,7 @@ import { ComingUp } from "@/components/briefing/ComingUp";
 import { GdpBarsChart } from "@/components/briefing/GdpBarsChart";
 import { SectorTiles } from "@/components/briefing/SectorTiles";
 import { Waterfall } from "@/components/briefing/Waterfall";
+import { FrozenNote } from "@/components/FrozenNote";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SECTOR_CONTRIBUTIONS } from "@/lib/attribution";
@@ -82,7 +83,9 @@ function threeThings(): { title: string; text: string }[] {
     const sentences: string[] = [];
     if (Math.abs(d.carriedForward) > Math.abs(d.reported)) {
       sentences.push(
-        `Most of the estimate still rests on momentum from earlier months (${signedPp(d.carriedForward)}), because little of this quarter's data is in.`,
+        isTooEarly()
+          ? `Most of the estimate still rests on momentum from earlier months (${signedPp(d.carriedForward)}), because little of this quarter's data is in.`
+          : `Momentum carried from earlier months (${signedPp(d.carriedForward)}) outweighs what this quarter's reported data adds (${signedPp(d.reported)}).`,
       );
     }
     const plus =
@@ -169,10 +172,15 @@ function Briefing() {
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader
-        subtitle={`${indicators.length} high-frequency indicators · data to ${fmtDate(TODAY)}`}
+        subtitle={
+          NOWCAST?.frozenAsOf
+            ? `${indicators.length} high-frequency indicators · estimate as of ${isoDate(NOWCAST.frozenAsOf)}`
+            : `${indicators.length} high-frequency indicators · data to ${fmtDate(TODAY)}`
+        }
       />
 
       <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
+        <FrozenNote />
         <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
           <Card>
             <Headline />

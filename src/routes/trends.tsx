@@ -8,6 +8,7 @@ import { SignalMovers } from "@/components/evidence/SignalMovers";
 import { TrackRecordTable } from "@/components/evidence/TrackRecord";
 import { Vintages } from "@/components/evidence/Vintages";
 import { NowcastVsActualChart } from "@/components/NowcastCharts";
+import { FrozenNote } from "@/components/FrozenNote";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { NOWCAST, ciFor } from "@/lib/nowcast";
@@ -43,6 +44,7 @@ function EvidencePage() {
       <SiteHeader subtitle={`${indicators.length} high-frequency indicators`} />
 
       <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
+        <FrozenNote />
         <Card>
           <p className="eyebrow">The evidence{headline ? ` · ${headline.label}` : ""}</p>
           {headline ? (

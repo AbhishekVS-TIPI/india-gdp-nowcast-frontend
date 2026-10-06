@@ -103,6 +103,8 @@ export type NowcastData = {
   generatedAt: string;
   /** Latest release date in the data the model saw. */
   dataAsOf?: string;
+  /** Set when the export is deliberately frozen at a past date (only data released by then). */
+  frozenAsOf?: string | null;
   unit: string;
   model: NowcastModel;
   history: NowcastHistoryPoint[];
