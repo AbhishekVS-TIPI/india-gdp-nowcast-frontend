@@ -30,6 +30,10 @@ export type NowcastHeadline = {
   pdf: { x: number; y: number }[];
   indicatorsReporting: string[];
   indicatorsTotal: number;
+  /** Share of the model's total indicator weight already reporting (DFM only). */
+  signalShare?: number;
+  /** Expected date of the official GDP release for this quarter. */
+  nextOfficialRelease?: string | null;
 };
 
 export type NowcastModel = {
@@ -53,12 +57,61 @@ export type NowcastModel = {
   slope?: number;
 };
 
+/** nowcast = baseline (long-run average) + reported contributions + carriedForward. */
+export type Decomposition = {
+  baseline: number;
+  reported: number;
+  carriedForward: number;
+  nowcast: number;
+};
+
+export type Driver = {
+  id: string;
+  /** pp of GDP growth per one-standard-deviation move in this indicator. */
+  weight: number;
+  /** pp contributed to this quarter's nowcast, or null if it hasn't reported. */
+  contribution: number | null;
+};
+
+/** The standardised panel the model sees: standard deviations from each series' own normal. */
+export type Signals = {
+  months: string[];
+  rows: { id: string; z: (number | null)[] }[];
+};
+
+export type Vintage = {
+  asOf: string;
+  estimate: number | null;
+  lower90: number | null;
+  upper90: number | null;
+  signalShare: number;
+  contributions: Record<string, number>;
+  /** Indicators that published new figures since the previous vintage. */
+  released: string[];
+};
+
+export type TrackRecordRow = {
+  quarterStart: string;
+  label: string;
+  asOf: string;
+  estimate: number | null;
+  naive: number | null;
+  official: number | null;
+};
+
 export type NowcastData = {
   generatedAt: string;
+  /** Latest release date in the data the model saw. */
+  dataAsOf?: string;
   unit: string;
   model: NowcastModel;
   history: NowcastHistoryPoint[];
   nowcast: NowcastHeadline | null;
+  decomposition?: Decomposition | null;
+  drivers?: Driver[];
+  signals?: Signals;
+  vintages?: Vintage[];
+  trackRecord?: TrackRecordRow[];
   caveats: string[];
 };
 
@@ -108,4 +161,50 @@ export const NOWCAST_ROWS: NowcastRow[] = (() => {
 /** The latest quarter for which GDP has been released. */
 export function lastReleasedGdp(): NowcastRow | null {
   return [...NOWCAST_ROWS].reverse().find((r) => r.actual != null) ?? null;
+}
+
+/** Below this share of the model's signal, the headline says "too early to call". */
+export const TOO_EARLY_SIGNAL_SHARE = 0.25;
+
+export function isTooEarly(): boolean {
+  const share = NOWCAST?.nowcast?.signalShare;
+  return share != null && share < TOO_EARLY_SIGNAL_SHARE;
+}
+
+export const DRIVERS: Driver[] = NOWCAST?.drivers ?? [];
+export const WEIGHT: Record<string, number> = Object.fromEntries(
+  DRIVERS.map((d) => [d.id, d.weight]),
+);
+
+/** Standard normal CDF (Abramowitz & Stegun 7.1.26, |error| < 1.5e-7). */
+function normalCdf(z: number): number {
+  const t = 1 / (1 + (0.3275911 * Math.abs(z)) / Math.SQRT2);
+  const poly =
+    t *
+    (0.254829592 + t * (-0.284496736 + t * (1.421413741 + t * (-1.453152027 + t * 1.061405429))));
+  const erf = 1 - poly * Math.exp(-(z * z) / 2);
+  return z >= 0 ? 0.5 * (1 + erf) : 0.5 * (1 - erf);
+}
+
+/** Probability that this quarter's growth comes in above `threshold`, under the model's normal error. */
+export function probabilityAbove(threshold: number): number | null {
+  const n = NOWCAST?.nowcast;
+  if (!n || !n.standardError) return null;
+  return 1 - normalCdf((threshold - n.pointEstimate) / n.standardError);
+}
+
+export type TrackSummary = { quarters: number; modelMiss: number; naiveMiss: number };
+
+/** Average absolute miss over the last `n` quarters where both estimates exist. */
+export function trackSummary(n = 8): TrackSummary | null {
+  const rows = (NOWCAST?.trackRecord ?? [])
+    .filter((r) => r.estimate != null && r.naive != null && r.official != null)
+    .slice(-n);
+  if (!rows.length) return null;
+  const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+  return {
+    quarters: rows.length,
+    modelMiss: mean(rows.map((r) => Math.abs(r.estimate! - r.official!))),
+    naiveMiss: mean(rows.map((r) => Math.abs(r.naive! - r.official!))),
+  };
 }

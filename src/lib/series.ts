@@ -14,6 +14,7 @@ export type Indicator = {
   notes: string | null;
   releaseDay: string | null;
   releaseLag: string | null;
+  releaseLagDays: number | null;
   unit: string | null;
 };
 
@@ -182,39 +183,70 @@ export function latestPair(id: string): { current: Point; previous: Point } | nu
   return { current: s[s.length - 1]!, previous: s[s.length - 2]! };
 }
 
-export type Mover = { id: string; name: string; category: string; change: number };
+const DAY_MS = 86_400_000;
+
+export type YearOnYear = { value: number; kind: "pct" | "pp"; at: number };
 
 /**
- * Indicators that actually have two or more observations inside the window,
- * with their % change, sorted high to low. Stale series (nothing in the
- * window) are left out rather than shown as a flat 0%.
+ * Change from the same period a year earlier: percentage-point change for
+ * rates (unit "%"), % growth for everything else. Null when there is no
+ * observation about a year back, or when the series touches zero or below in
+ * the comparison (balances and net flows, where a % change means nothing).
  */
-export function movers(range: RangeKey): Mover[] {
-  const cached = moversCache.get(range);
-  if (cached) return cached;
-  const result = computeMovers(range);
-  moversCache.set(range, result);
-  return result;
+export function yearOnYear(id: string): YearOnYear | null {
+  const s = getSeries(id);
+  const last = s[s.length - 1];
+  if (!last) return null;
+  const target = last.t - 365 * DAY_MS;
+  let prior: Point | undefined;
+  for (const p of s) {
+    if (
+      Math.abs(p.t - target) <= 20 * DAY_MS &&
+      (!prior || Math.abs(p.t - target) < Math.abs(prior.t - target))
+    ) {
+      prior = p;
+    }
+  }
+  if (!prior) return null;
+  if (UNITS[id] === "%") return { value: last.v - prior.v, kind: "pp", at: last.t };
+  if (prior.v <= 0 || last.v <= 0) return null;
+  return { value: (last.v / prior.v - 1) * 100, kind: "pct", at: last.t };
 }
 
-const moversCache = new Map<RangeKey, Mover[]>();
+export function fmtYearOnYear(y: YearOnYear): string {
+  const sign = y.value >= 0 ? "+" : "−";
+  return y.kind === "pp"
+    ? `${sign}${Math.abs(y.value).toFixed(2)} pp`
+    : `${sign}${Math.abs(y.value).toFixed(1)}%`;
+}
 
-function computeMovers(range: RangeKey): Mover[] {
-  return indicators
-    .map((ind) => {
-      const s = sliceRange(getSeries(ind.id), range);
-      // A % change of a level is meaningless when the series crosses zero
-      // (balances, net flows), so those are left out of the movers.
-      const signed = s.some((p) => p.v <= 0) && s.some((p) => p.v > 0);
-      return {
-        id: ind.id,
-        name: ind.name,
-        category: ind.category,
-        n: signed ? 0 : s.length,
-        change: change(s),
-      };
-    })
-    .filter((m) => m.n >= 2 && Number.isFinite(m.change))
-    .sort((a, b) => b.change - a.change)
-    .map(({ n: _n, ...m }) => m);
+export const INDICATOR_BY_ID: Record<string, Indicator> = Object.fromEntries(
+  indicators.map((i) => [i.id, i]),
+);
+
+const endOfMonth = (t: number, addMonths: number) => {
+  const d = new Date(t);
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + addMonths + 1, 0);
+};
+
+/**
+ * When the period after an indicator's latest reading should be published:
+ * the end of that next period plus the indicator's typical release lag.
+ * Monthly and quarterly dates are period starts in the data.
+ */
+export function nextRelease(id: string): { period: number; due: number } | null {
+  const ind = INDICATOR_BY_ID[id];
+  const last = lastUpdated(id);
+  if (!ind || last == null || ind.releaseLagDays == null) return null;
+  const step: Record<string, (t: number) => number> = {
+    Daily: (t) => t + DAY_MS,
+    Weekly: (t) => t + 7 * DAY_MS,
+    Fortnightly: (t) => t + 14 * DAY_MS,
+    Monthly: (t) => endOfMonth(t, 1),
+    Quarterly: (t) => endOfMonth(t, 5),
+  };
+  const next = step[ind.frequency];
+  if (!next) return null;
+  const period = next(last);
+  return { period, due: period + ind.releaseLagDays * DAY_MS };
 }

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/methodology")({
       {
         name: "description",
         content:
-          "How India GDP Pulse builds its indicator panel: sourcing from MoSPI, RBI and the Labour Bureau, base-year splicing, manual corrections, and the current state of the nowcast model.",
+          "How India GDP Pulse builds its indicator panel and nowcast: sourcing, base-year splicing, corrections, the dynamic factor model, and how the briefing explains and checks the estimate.",
       },
       { property: "og:title", content: "Methodology — India GDP Pulse" },
       {
@@ -88,18 +88,35 @@ function MethodologyPage() {
           <section>
             <p className="eyebrow">Interpretation</p>
             <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
-              Reading the movers and the heat map
+              Reading the briefing and the evidence
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              The Trends and Indicators pages show how far each indicator's level has moved over the
-              selected window (1M to MAX), coloured green for a rise and red for a fall. Series with
-              no readings in the window, and series that cross zero (balances and net flows, where a
-              percentage change is not meaningful), are left out of the rankings.
+              <span className="font-medium text-navy">Relative to normal.</span> Each indicator's
+              growth is compared with its own long-run average, in standard deviations — the same
+              scale the model uses. A reading counts as pointing to stronger growth when the model
+              links a rise in that indicator to faster GDP growth, so a rise in unemployment or
+              market volatility counts as weaker. Prices are shown as background and never counted
+              either way. Sector tiles use the median of their indicators' latest readings; breadth
+              is the share of growth indicators above normal in a month.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              These movements describe each indicator on its own. They are not the nowcast model's
-              weights or contributions; the headline estimate comes only from the quarterly model
-              described below.
+              <span className="font-medium text-navy">What moves the estimate.</span> Each indicator
+              has a weight in the model: how many percentage points of GDP growth a
+              one-standard-deviation move in it is worth, read off the factor loadings and the GDP
+              regression. Its contribution this quarter is that weight times its reading, recomputed
+              for whichever indicators have reported. Starting from the long-run average, the
+              contributions add up to the estimate, apart from one remainder: the model's own
+              carry-forward from earlier months for data not yet in. That remainder is shown, not
+              spread over the indicators.
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-blue-dark">
+              <span className="font-medium text-navy">How sure we are.</span> The briefing says "too
+              early to call" until indicators carrying a quarter of the model's total weight have
+              reported, and always gives the likely range (the 90% interval). The track record
+              refits the model as it stood the day before each official GDP release, using only data
+              released by then, and compares it with simply assuming growth repeats last quarter's
+              rate. Year-on-year changes are percentage-point changes for rates and growth for
+              everything else; balances that swing between surplus and deficit have none.
             </p>
           </section>
 

@@ -3,19 +3,26 @@ import { useMemo, useState } from "react";
 import { Sparkline } from "@/components/Sparkline";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Pct } from "@/components/Pct";
 import { RangeSwitch } from "@/components/RangeSwitch";
+import { SECTORS, sectorOf } from "@/lib/sectors";
 import {
-  categories,
   change,
   defaultRange,
   fmtNum,
+  fmtYearOnYear,
   getSeries,
   indicators,
   latestPair,
   sliceRange,
+  yearOnYear,
   type RangeKey,
 } from "@/lib/series";
+import { USUAL_BAND, latest } from "@/lib/signals";
+
+const GROUPS = [
+  ...SECTORS.map((s) => ({ key: s.key as string, label: s.label })),
+  { key: "other", label: "Other (GDP itself)" },
+];
 
 export const Route = createFileRoute("/indicators")({
   head: () => ({
@@ -24,7 +31,7 @@ export const Route = createFileRoute("/indicators")({
       {
         name: "description",
         content:
-          "Browse every high-frequency indicator feeding India's GDP nowcast, with sparkline trends, categories and period filters.",
+          "Browse every high-frequency indicator behind India's GDP nowcast by sector, with year-on-year change and sparkline trends.",
       },
       { property: "og:title", content: "Indicators — India GDP Nowcast" },
       {
@@ -52,19 +59,27 @@ function IndicatorsPage() {
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return categories
-      .map((cat) => {
-        const rows = indicators
-          .filter((i) => i.category === cat && i.name.toLowerCase().includes(q))
-          .map((ind) => {
-            const s = sliceRange(getSeries(ind.id), range);
-            return { ind, ch: change(s), active: s.length >= 2 };
-          });
-        const act = rows.filter((r) => r.active);
-        const avg = act.length ? act.reduce((a, r) => a + r.ch, 0) / act.length : 0;
-        return { cat, rows, avg };
-      })
-      .filter((g) => g.rows.length > 0);
+    return GROUPS.map((group) => {
+      const rows = indicators
+        .filter(
+          (i) => (sectorOf(i.id) ?? "other") === group.key && i.name.toLowerCase().includes(q),
+        )
+        .map((ind) => {
+          const window = sliceRange(getSeries(ind.id), range);
+          const trend =
+            window.length >= 2 ? window : sliceRange(getSeries(ind.id), defaultRange(ind.id));
+          return { ind, trend, yoy: yearOnYear(ind.id), reading: latest(ind.id)?.value ?? null };
+        });
+      const read = rows.filter((r) => r.reading != null);
+      return {
+        cat: group.label,
+        context: group.key === "prices",
+        rows,
+        stronger: read.filter((r) => r.reading! > USUAL_BAND).length,
+        weaker: read.filter((r) => r.reading! < -USUAL_BAND).length,
+        read: read.length,
+      };
+    }).filter((g) => g.rows.length > 0);
   }, [query, range]);
 
   const searching = query.trim().length > 0;
@@ -82,7 +97,7 @@ function IndicatorsPage() {
 
       <div className="mx-auto max-w-6xl px-5 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="eyebrow">Indicator categories · {groups.length}</h2>
+          <h2 className="eyebrow">Indicators by sector · {groups.length}</h2>
           <div className="flex flex-wrap gap-2">
             <input
               value={query}
@@ -112,10 +127,15 @@ function IndicatorsPage() {
                   <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-navy">
                     {g.cat}
                   </span>
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+                  {g.read && !g.context ? (
+                    <span className="hidden text-[11px] text-blue-dark sm:inline">
+                      <span className="text-trend-up">{g.stronger} stronger</span> ·{" "}
+                      <span className="text-trend-down">{g.weaker} weaker</span> than usual
+                    </span>
+                  ) : null}
+                  <span className="w-24 text-right font-mono text-[11px] uppercase tracking-wider text-blue-dark">
                     {g.rows.length} indicator{g.rows.length === 1 ? "" : "s"}
                   </span>
-                  <Pct v={g.avg} className="w-20 text-right text-sm" />
                 </button>
 
                 {isOpen ? (
@@ -126,13 +146,12 @@ function IndicatorsPage() {
                       <span className="w-28 text-right">Previous</span>
                       <span className="w-24 text-right">Delta</span>
                       <span className="w-[140px]">Trend · {range}</span>
-                      <span className="w-20 text-right">Change</span>
+                      <span className="w-24 text-right">vs year ago</span>
                     </div>
                     <ul className="divide-y divide-border">
-                      {g.rows.map(({ ind, ch }) => {
+                      {g.rows.map(({ ind, trend, yoy }) => {
                         const pair = latestPair(ind.id);
                         const delta = pair ? pair.current.v - pair.previous.v : 0;
-                        const trend = sliceRange(getSeries(ind.id), defaultRange(ind.id));
                         return (
                           <li key={ind.id}>
                             <Link
@@ -166,10 +185,12 @@ function IndicatorsPage() {
                                   data={trend}
                                   width={140}
                                   height={32}
-                                  positive={ch >= 0}
+                                  positive={change(trend) >= 0}
                                 />
                               </span>
-                              <Pct v={ch} className="w-20 text-right text-sm" />
+                              <span className="w-24 text-right font-mono text-sm text-navy">
+                                {yoy ? fmtYearOnYear(yoy) : "—"}
+                              </span>
                             </Link>
                           </li>
                         );

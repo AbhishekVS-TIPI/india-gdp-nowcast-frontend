@@ -46,9 +46,10 @@ CI (`.github/workflows/ci.yml`) runs lint, typecheck and build on every PR and p
 
 ```
 src/
-  routes/       file-based routes: / , /trends, /indicators, /indicator/$id, /methodology
-  components/   SiteHeader, SiteFooter, Sparkline, RangeSwitch, MoverLists, IndicatorTable
-  lib/          series.ts (data loading and series maths), nowcast.ts, error handling
+  routes/       / (the briefing), /trends (the evidence), /indicators, /indicator/$id, /methodology
+  components/   shared UI (SiteHeader, Card, charts); briefing/ and evidence/ hold each page's sections
+  lib/          series.ts (data loading, y/y, release calendar), nowcast.ts (model output types and helpers),
+                signals.ts (readings vs normal, breadth), sectors.ts (indicator -> sector map), attribution.ts
   data/         JSON exported by the pipeline repo (do not edit by hand)
   server.ts     Worker entry with an SSR error fallback
   start.ts      TanStack Start middleware (errors, CSRF)
