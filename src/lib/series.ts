@@ -44,17 +44,19 @@ const DAY = 86_400_000;
  * import list to hand-maintain.
  */
 type Row = { d: string; v: number };
-const seriesModules = import.meta.glob(
-  ["../data/series/*.json", "!../data/series/*.table.json"],
-  { eager: true },
-) as Record<string, { default: Row[] }>;
+const seriesModules = import.meta.glob(["../data/series/*.json", "!../data/series/*.table.json"], {
+  eager: true,
+}) as Record<string, { default: Row[] }>;
 
 const toPoints = (rows: Row[]): Point[] =>
   rows.map((r) => ({ t: Date.parse(`${r.d}T00:00:00Z`), v: r.v }));
 
 export const REAL: Record<string, Point[]> = Object.fromEntries(
   Object.entries(seriesModules).map(([path, mod]) => {
-    const id = path.split("/").pop()!.replace(/\.json$/, "");
+    const id = path
+      .split("/")
+      .pop()!
+      .replace(/\.json$/, "");
     return [id, toPoints(mod.default)];
   }),
 );
@@ -74,7 +76,10 @@ const tableModules = import.meta.glob("../data/series/*.table.json", {
 
 const TABLES: Record<string, IndicatorTable> = Object.fromEntries(
   Object.entries(tableModules).map(([path, mod]) => {
-    const id = path.split("/").pop()!.replace(/\.table\.json$/, "");
+    const id = path
+      .split("/")
+      .pop()!
+      .replace(/\.table\.json$/, "");
     return [id, mod.default];
   }),
 );
@@ -193,4 +198,45 @@ export function contributions(range: RangeKey): Contribution[] {
     }))
     .filter((c) => Number.isFinite(c.change) && getSeries(c.id).length > 0)
     .sort((a, b) => b.change - a.change);
+}
+
+/** Indian digit grouping (1,23,456), 0 dp for large values, 2 dp otherwise. */
+export function fmtNum(v: number, unit?: string | null): string {
+  const dp = Math.abs(v) >= 1000 ? 0 : 2;
+  const s = v.toLocaleString("en-IN", { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  return unit === "%" ? `${s}%` : s;
+}
+
+/** Latest and previous observation, for the current / previous / delta columns. */
+export function latestPair(id: string): { current: Point; previous: Point } | null {
+  const s = getSeries(id);
+  if (s.length < 2) return null;
+  return { current: s[s.length - 1]!, previous: s[s.length - 2]! };
+}
+
+export type Mover = { id: string; name: string; category: string; change: number };
+
+/**
+ * Indicators that actually have two or more observations inside the window,
+ * with their % change, sorted high to low. Stale series (nothing in the
+ * window) are left out rather than shown as a flat 0%.
+ */
+export function movers(range: RangeKey): Mover[] {
+  return indicators
+    .map((ind) => {
+      const s = sliceRange(getSeries(ind.id), range);
+      // A % change of a level is meaningless when the series crosses zero
+      // (balances, net flows), so those are left out of the movers.
+      const signed = s.some((p) => p.v <= 0) && s.some((p) => p.v > 0);
+      return {
+        id: ind.id,
+        name: ind.name,
+        category: ind.category,
+        n: signed ? 0 : s.length,
+        change: change(s),
+      };
+    })
+    .filter((m) => m.n >= 2 && Number.isFinite(m.change))
+    .sort((a, b) => b.change - a.change)
+    .map(({ n: _n, ...m }) => m);
 }

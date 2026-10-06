@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const NAV = [
   { to: "/", label: "GDP Pulse", exact: true },
+  { to: "/trends", label: "Trends", exact: false },
   { to: "/indicators", label: "Indicators", exact: false },
   { to: "/methodology", label: "Methodology", exact: false },
 ] as const;

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IndicatorsRouteImport } from './routes/indicators'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as IndicatorIdRouteImport } from './routes/indicator.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrendsRoute = TrendsRouteImport.update({
+  id: '/trends',
+  path: '/trends',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndicatorIdRoute = IndicatorIdRouteImport.update({
   id: '/indicator/$id',
   path: '/indicator/$id',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/indicators': typeof IndicatorsRoute
   '/methodology': typeof MethodologyRoute
+  '/trends': typeof TrendsRoute
   '/indicator/$id': typeof IndicatorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/indicators': typeof IndicatorsRoute
   '/methodology': typeof MethodologyRoute
+  '/trends': typeof TrendsRoute
   '/indicator/$id': typeof IndicatorIdRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/indicators': typeof IndicatorsRoute
   '/methodology': typeof MethodologyRoute
+  '/trends': typeof TrendsRoute
   '/indicator/$id': typeof IndicatorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/indicators' | '/methodology' | '/indicator/$id'
+  fullPaths: '/' | '/indicators' | '/methodology' | '/trends' | '/indicator/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/indicators' | '/methodology' | '/indicator/$id'
-  id: '__root__' | '/' | '/indicators' | '/methodology' | '/indicator/$id'
+  to: '/' | '/indicators' | '/methodology' | '/trends' | '/indicator/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/indicators'
+    | '/methodology'
+    | '/trends'
+    | '/indicator/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   IndicatorsRoute: typeof IndicatorsRoute
   MethodologyRoute: typeof MethodologyRoute
+  TrendsRoute: typeof TrendsRoute
   IndicatorIdRoute: typeof IndicatorIdRoute
 }
 
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/trends': {
+      id: '/trends'
+      path: '/trends'
+      fullPath: '/trends'
+      preLoaderRoute: typeof TrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/indicator/$id': {
       id: '/indicator/$id'
       path: '/indicator/$id'
@@ -106,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   IndicatorsRoute: IndicatorsRoute,
   MethodologyRoute: MethodologyRoute,
+  TrendsRoute: TrendsRoute,
   IndicatorIdRoute: IndicatorIdRoute,
 }
 export const routeTree = rootRouteImport

@@ -3,15 +3,15 @@ import { useMemo, useState } from "react";
 import { Sparkline } from "@/components/Sparkline";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { RangeSwitch } from "@/components/RangeSwitch";
 import {
-  RANGES,
   categories,
   change,
   defaultRange,
-  fmtDate,
+  fmtNum,
   getSeries,
-  lastUpdated,
   indicators,
+  latestPair,
   sliceRange,
   type RangeKey,
 } from "@/lib/series";
@@ -38,161 +38,163 @@ export const Route = createFileRoute("/indicators")({
   component: IndicatorsPage,
 });
 
-const RANKS = [
-  { key: "all", label: "All indicators", n: 0, dir: "top" },
-  { key: "top3", label: "Top 3 performing", n: 3, dir: "top" },
-  { key: "top5", label: "Top 5 performing", n: 5, dir: "top" },
-  { key: "top10", label: "Top 10 performing", n: 10, dir: "top" },
-  { key: "bottom3", label: "Bottom 3 performing", n: 3, dir: "bottom" },
-  { key: "bottom5", label: "Bottom 5 performing", n: 5, dir: "bottom" },
-] as const;
+function signed(v: number, unit: string | null) {
+  const s = fmtNum(Math.abs(v), unit === "%" ? null : unit);
+  const pp = unit === "%" ? "pp" : "";
+  return `${v >= 0 ? "+" : "−"}${s}${pp}`;
+}
 
-type RankKey = (typeof RANKS)[number]["key"];
+function Pct({ v, className = "" }: { v: number; className?: string }) {
+  const up = v >= 0;
+  return (
+    <span className={`font-mono ${up ? "text-trend-up" : "text-trend-down"} ${className}`}>
+      {up ? "↑ +" : "↓ −"}
+      {Math.abs(v).toFixed(1)}%
+    </span>
+  );
+}
 
 function IndicatorsPage() {
   const [range, setRange] = useState<RangeKey>("1Y");
   const [query, setQuery] = useState("");
-  const [cat, setCat] = useState("All");
-  const [rank, setRank] = useState<RankKey>("all");
+  const [open, setOpen] = useState<Set<string>>(new Set());
 
-  const list = useMemo(() => {
-    const base = indicators.filter(
-      (i) =>
-        (cat === "All" || i.category === cat) &&
-        i.name.toLowerCase().includes(query.trim().toLowerCase()),
-    );
-    if (rank === "all") return base;
+  const groups = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return categories
+      .map((cat) => {
+        const rows = indicators
+          .filter((i) => i.category === cat && i.name.toLowerCase().includes(q))
+          .map((ind) => {
+            const s = sliceRange(getSeries(ind.id), range);
+            return { ind, ch: change(s), active: s.length >= 2 };
+          });
+        const act = rows.filter((r) => r.active);
+        const avg = act.length ? act.reduce((a, r) => a + r.ch, 0) / act.length : 0;
+        return { cat, rows, avg };
+      })
+      .filter((g) => g.rows.length > 0);
+  }, [query, range]);
 
-    const scored = base
-      .map((i) => ({ i, ch: change(sliceRange(getSeries(i.id), range)) }))
-      .sort((a, b) => b.ch - a.ch);
-    const opt = RANKS.find((r) => r.key === rank)!;
-    const picked = opt.dir === "top" ? scored.slice(0, opt.n) : scored.slice(-opt.n).reverse();
-    return picked.map((s) => s.i);
-  }, [query, cat, rank, range]);
+  const searching = query.trim().length > 0;
+  const toggle = (cat: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) next.delete(cat);
+      else next.add(cat);
+      return next;
+    });
 
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader subtitle={`${indicators.length} high-frequency indicators`} />
 
       <div className="mx-auto max-w-6xl px-5 py-8">
-        <section>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground">
-              Indicator trends · {list.length}
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search indicators…"
-                className="h-9 w-56 rounded-md border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-              <select
-                value={cat}
-                onChange={(e) => setCat(e.target.value)}
-                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="All">All categories</option>
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={rank}
-                onChange={(e) => setRank(e.target.value as RankKey)}
-                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                {RANKS.map((r) => (
-                  <option key={r.key} value={r.key}>
-                    {r.label}
-                  </option>
-                ))}
-              </select>
-              <div className="flex gap-1 rounded-lg border border-border p-1">
-                {RANGES.map((r) => (
-                  <button
-                    key={r.key}
-                    onClick={() => setRange(r.key)}
-                    className={`rounded-md px-3 py-1.5 font-mono text-xs transition-colors ${
-                      range === r.key
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
-                  >
-                    {r.key}
-                  </button>
-                ))}
-              </div>
-            </div>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="eyebrow">Indicator categories · {groups.length}</h2>
+          <div className="flex flex-wrap gap-2">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search indicators…"
+              className="h-10 w-56 rounded-lg border border-border bg-card px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+            <RangeSwitch value={range} onChange={setRange} />
           </div>
+        </div>
 
-          <div className="mt-4 overflow-hidden rounded-xl border border-border bg-card">
-            <div className="hidden items-center gap-4 border-b border-border bg-muted/60 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-blue-dark sm:flex">
-              <span className="min-w-0 flex-1">Indicator name</span>
-              <span className="w-28 shrink-0">Frequency</span>
-              <span className="w-28 shrink-0">Last updated</span>
-              <span className="w-[180px] shrink-0">Trend</span>
-              <span className="w-20 shrink-0 text-right">Change</span>
-            </div>
-          <ul className="divide-y divide-border">
+        <div className="mt-5 space-y-3">
+          {groups.map((g) => {
+            const isOpen = searching || open.has(g.cat);
+            return (
+              <section
+                key={g.cat}
+                className="overflow-hidden rounded-2xl border border-border bg-card"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggle(g.cat)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-accent/40"
+                >
+                  <span className="text-[10px] text-blue-dark">{isOpen ? "▾" : "▸"}</span>
+                  <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-navy">
+                    {g.cat}
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+                    {g.rows.length} indicator{g.rows.length === 1 ? "" : "s"}
+                  </span>
+                  <Pct v={g.avg} className="w-20 text-right text-sm" />
+                </button>
 
-            {list.map((ind) => {
-              const s = sliceRange(getSeries(ind.id), range);
-              const ch = change(s);
-              const lu = lastUpdated(ind.id);
-              const up = ch >= 0;
-              // The trend line always shows this indicator's own best-available
-              // window (same logic as the detail page), independent of the
-              // shared comparison range above -- a stale-but-real indicator
-              // (e.g. one whose source went quiet years ago) would otherwise
-              // render a blank sparkline any time the shared range has nothing
-              // for it, even though real history exists further back. The %
-              // change figure still reflects the shared range as selected.
-              const trend = sliceRange(getSeries(ind.id), defaultRange(ind.id));
-              return (
-                <li key={ind.id}>
-                  <Link
-                    to="/indicator/$id"
-                    params={{ id: ind.id }}
-                    className="flex items-center gap-3 px-4 py-4 transition-colors hover:bg-accent/60 sm:gap-4"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium leading-snug text-navy">
-                        {ind.name}
-                      </p>
-                      <p className="mt-1.5 truncate font-mono text-[11px] uppercase tracking-wider text-blue-dark">
-                        {ind.category}
-                        {ind.code ? (
-                          <span className="text-muted-foreground"> · {ind.code}</span>
-                        ) : null}
-                      </p>
-                      <p className="mt-1.5 font-mono text-[11px] text-muted-foreground sm:hidden">
-                        {ind.frequency} · updated {lu ? fmtDate(lu) : "—"}
-                      </p>
+                {isOpen ? (
+                  <div className="border-t border-border">
+                    <div className="hidden items-center gap-4 bg-muted/60 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-blue-dark md:flex">
+                      <span className="min-w-0 flex-1">Indicator name</span>
+                      <span className="w-28 text-right">Current</span>
+                      <span className="w-28 text-right">Previous</span>
+                      <span className="w-24 text-right">Delta</span>
+                      <span className="w-[140px]">Trend · {range}</span>
+                      <span className="w-20 text-right">Change</span>
                     </div>
-                    <span className="hidden w-28 shrink-0 font-mono text-[11px] uppercase tracking-wider text-blue-dark sm:block">
-                      {ind.frequency}
-                    </span>
-                    <span className="hidden w-28 shrink-0 font-mono text-[11px] text-muted-foreground sm:block">
-                      {lu ? fmtDate(lu) : "—"}
-                    </span>
-                    <Sparkline data={trend} positive={up} />
-                    <span
-                      className={`w-20 shrink-0 text-right font-mono text-sm ${up ? "text-trend-up" : "text-trend-down"}`}
-                    >
-                      {up ? "↑ +" : "↓ −"}
-                      {Math.abs(ch).toFixed(1)}%
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          </div>
-        </section>
+                    <ul className="divide-y divide-border">
+                      {g.rows.map(({ ind, ch }) => {
+                        const pair = latestPair(ind.id);
+                        const delta = pair ? pair.current.v - pair.previous.v : 0;
+                        const trend = sliceRange(getSeries(ind.id), defaultRange(ind.id));
+                        return (
+                          <li key={ind.id}>
+                            <Link
+                              to="/indicator/$id"
+                              params={{ id: ind.id }}
+                              className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3.5 transition-colors hover:bg-accent/60 md:flex-nowrap"
+                            >
+                              <span className="min-w-0 flex-1 basis-full text-sm text-navy md:basis-0">
+                                {ind.name}
+                                <span className="ml-2 font-mono text-[11px] text-muted-foreground">
+                                  {ind.frequency}
+                                </span>
+                              </span>
+                              <span className="w-28 text-right font-mono text-sm text-navy">
+                                {pair ? fmtNum(pair.current.v, ind.unit) : "—"}
+                              </span>
+                              <span className="hidden w-28 text-right font-mono text-sm text-blue-dark md:block">
+                                {pair ? fmtNum(pair.previous.v, ind.unit) : "—"}
+                              </span>
+                              <span
+                                className={`hidden w-24 text-right font-mono text-xs md:block ${
+                                  delta >= 0 ? "text-trend-up" : "text-trend-down"
+                                }`}
+                              >
+                                {pair
+                                  ? `${delta >= 0 ? "↑ " : "↓ "}${signed(delta, ind.unit)}`
+                                  : "—"}
+                              </span>
+                              <span className="hidden w-[140px] md:block">
+                                <Sparkline
+                                  data={trend}
+                                  width={140}
+                                  height={32}
+                                  positive={ch >= 0}
+                                />
+                              </span>
+                              <Pct v={ch} className="w-20 text-right text-sm" />
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
+          {groups.length === 0 ? (
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              No indicators match “{query}”.
+            </p>
+          ) : null}
+        </div>
       </div>
       <SiteFooter />
     </main>
