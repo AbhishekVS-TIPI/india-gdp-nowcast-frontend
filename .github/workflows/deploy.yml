@@ -1,0 +1,63 @@
+name: Deploy
+
+# Ships every push to main to the Cloudflare Worker. Before this existed a push
+# only updated the repo and the live site stayed stale until someone ran
+# `bunx wrangler deploy` by hand. The weekly data refresh pushes into this repo
+# with a personal access token, so those pushes trigger this workflow too.
+#
+# One-time setup: add a repository secret CLOUDFLARE_API_TOKEN (Settings >
+# Secrets and variables > Actions) -- a Cloudflare API token created from the
+# "Edit Cloudflare Workers" template. If the token can see more than one
+# Cloudflare account, also add CLOUDFLARE_ACCOUNT_ID.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Deploys never overlap: a push that lands while one is running waits for it to
+# finish (and is replaced by any newer push that arrives in the meantime).
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Check the Cloudflare token is configured
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is not set. Add it under Settings > Secrets and variables > Actions, then re-run this workflow."
+            exit 1
+          fi
+
+      # Only exported when the secret exists: wrangler would see an unset
+      # secret as an empty-string account id.
+      - name: Select the Cloudflare account
+        env:
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ACCOUNT_ID" ]; then
+            echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID" >> "$GITHUB_ENV"
+          fi
+
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: bun install --frozen-lockfile
+
+      # Lint stays in ci.yml; a type error or a failed build must never ship.
+      - run: bun run typecheck
+      - run: bun run build
+
+      - name: Deploy to Cloudflare
+        run: bunx wrangler@4 deploy
