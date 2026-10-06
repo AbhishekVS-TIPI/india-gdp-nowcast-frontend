@@ -112,10 +112,10 @@ function Dashboard() {
                 <p className="text-blue-dark">
                   {headline.indicatorsReporting.length} of {headline.indicatorsTotal} model
                   indicators have reported for this quarter so far
-                  {headline.indicatorsReporting.length
+                  {headline.indicatorsReporting.length && headline.indicatorsTotal <= 8
                     ? ` (${headline.indicatorsReporting.join(", ")})`
                     : ""}
-                  , so the interval is wide and narrows as more report.
+                  ; the likely range narrows as more report.
                 </p>
               </div>
             ) : null}

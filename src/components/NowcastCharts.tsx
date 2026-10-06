@@ -219,8 +219,8 @@ export function NowcastVsActualChart() {
         </ResponsiveContainer>
       </div>
       <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
-        Solid: released GDP · Dashed: model estimate (in-sample fit and, for the last two bars,
-        out-of-sample) · Whisker: 90% interval on the current nowcast
+        Solid: released GDP · Dashed: model estimate (in-sample fit) · Dot and whisker: this
+        quarter's nowcast and its 90% interval
       </p>
     </div>
   );

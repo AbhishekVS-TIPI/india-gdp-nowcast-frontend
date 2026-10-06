@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { fmtDate, indicators, lastUpdated } from "@/lib/series";
-import { UNITS } from "@/lib/series";
+import { NOWCAST } from "@/lib/nowcast";
+import { UNITS, fmtDate, indicators, lastUpdated } from "@/lib/series";
 
 export const Route = createFileRoute("/methodology")({
   head: () => ({
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/methodology")({
 });
 
 function MethodologyPage() {
+  const model = NOWCAST?.model ?? null;
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader subtitle="Model construction and sources" />
@@ -107,29 +108,30 @@ function MethodologyPage() {
           <section>
             <p className="eyebrow">Nowcast model</p>
             <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
-              A simple bridge regression, not a black box
+              A dynamic factor model (demo)
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              The other six indicators are each converted to year-on-year growth, standardised
-              against their own history, and averaged into one equal-weighted composite reading per
-              month. That composite is aggregated to a quarter using whichever months have already
-              reported — a partially-reported quarter still gets a reading from whatever has arrived
-              so far, which is what makes it a nowcast rather than a lagging indicator. The
-              composite is regressed against GDP's own year-on-year growth with ordinary least
-              squares, and the fitted line is used to read off a point estimate, a proper prediction
-              interval, and a probability density for the current quarter.
+              Many indicators move together because they respond to the same underlying state of the
+              economy. A dynamic factor model extracts that shared movement. Each of the{" "}
+              {model?.panelSeries ?? "monthly"} monthly-or-faster indicators is transformed as the
+              pipeline's configuration declares (mostly year-on-year growth), and{" "}
+              {model?.nFactors ?? "a few"} common factor{model?.nFactors === 1 ? " is" : "s are"}{" "}
+              estimated from them with the expectation–maximisation algorithm and a Kalman filter,
+              which copes with indicators that start at different dates and with the ragged edge of
+              releases at the end of the sample. The factors are averaged to quarters, and GDP's
+              year-on-year growth is regressed on them by ordinary least squares. The current
+              quarter's factor values give the point estimate, a prediction interval and a
+              probability density.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              This is deliberately a first, simple pass: one composite factor, one straight-line
-              regression, no lag structure between an indicator moving and GDP responding, and no
-              weighting by how well each indicator actually explains GDP historically — every
-              indicator counts equally. The training sample runs back to 2005 and includes the
-              2020–2021 COVID collapse and rebound, which can pull the fit; nothing is trimmed or
-              adjusted for it. The confidence interval and the density chart both assume the model's
-              errors are normally distributed, which is a simplification, not a measured fact about
-              them. The dashboard's "model notes" panel states the training window, R², and residual
-              spread that produced whatever estimate is currently showing, and updates every time
-              the pipeline re-exports.
+              This is the standard two-step form of the approach used by the New York Fed's Staff
+              Nowcast and the ECB. It is published as a demo from the project's model lab, not yet a
+              settled production choice. The fit statistics in the model notes are in-sample, with a
+              cross-validated R² alongside. The training sample runs from{" "}
+              {model ? model.trainingStart.slice(0, 4) : "2005"} and includes the 2020–2021 COVID
+              collapse and rebound, with no adjustment. The intervals assume normally distributed
+              errors and ignore the uncertainty in estimating the factors themselves, so they are
+              somewhat too narrow.
             </p>
           </section>
 
@@ -147,9 +149,9 @@ function MethodologyPage() {
               reading close to an indicator's publication date may still be provisional. Where a
               base segment was dropped for lack of a comparable link, that indicator's chart starts
               later than its full published history. The nowcast's confidence interval can be wide,
-              especially early in a quarter when only the fastest-reporting indicators (foreign
-              exchange reserves, released weekly) have anything to say yet — that width is the model
-              being honest about how little it currently knows, not a defect.
+              especially early in a quarter when only the fastest-reporting indicators have anything
+              to say yet — that width is the model being honest about how little it currently knows,
+              not a defect.
             </p>
           </section>
         </article>

@@ -115,9 +115,12 @@ function TrendsPage() {
           {model ? (
             <details className="mt-6 rounded-lg border border-border/70 bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground">
               <summary className="cursor-pointer font-mono uppercase tracking-wider">
-                Model notes ({model.trainingQuarters} training quarters, R²{" "}
-                {model.rSquared.toFixed(2)})
+                Model notes{model.name ? ` · ${model.name}` : ""} ({model.trainingQuarters} training
+                quarters, R² {model.rSquared.toFixed(2)}
+                {model.cvRSquared != null ? `, cross-validated ${model.cvRSquared.toFixed(2)}` : ""}
+                )
               </summary>
+              <p className="mt-3 normal-case">{model.description}</p>
               <ul className="mt-3 list-disc space-y-2 pl-4">
                 {NOWCAST?.caveats.map((c) => (
                   <li key={c}>{c}</li>
@@ -143,9 +146,10 @@ function TrendsPage() {
               <p className="text-blue-dark">
                 The headline nowcast for {headline.label} is{" "}
                 {headline.pointEstimate >= 0 ? "+" : ""}
-                {headline.pointEstimate.toFixed(2)}% y/y, produced by the quarterly model from{" "}
-                {headline.indicatorsReporting.length} of {headline.indicatorsTotal} reporting
-                indicators. The movers below are descriptive and are not model weights.
+                {headline.pointEstimate.toFixed(2)}% y/y, from the{" "}
+                {(model?.name ?? "nowcast model").toLowerCase()} with{" "}
+                {headline.indicatorsReporting.length} of {headline.indicatorsTotal} indicators
+                reporting so far. The movers below are descriptive and are not model weights.
               </p>
             ) : null}
           </div>
