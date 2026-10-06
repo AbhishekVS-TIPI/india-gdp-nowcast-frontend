@@ -39,8 +39,8 @@ function MethodologyPage() {
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-blue-dark">
             India GDP Pulse tracks a panel of high-frequency indicators sourced directly from
-            government releases, and combines them into a simple, transparent nowcast of
-            quarterly GDP growth with its own uncertainty shown alongside it.
+            government releases, and combines them into a simple, transparent nowcast of quarterly
+            GDP growth with its own uncertainty shown alongside it.
           </p>
         </div>
       </div>
@@ -73,12 +73,12 @@ function MethodologyPage() {
               so a single indicator's history is stitched together from several base-year series.
               Where two base periods overlap, the overlap is used to compute a linking ratio and
               splice the segments onto the current base; where an official linking factor is
-              published instead, that factor is used. A base segment that neither overlaps the
-              next one nor has a declared linking factor is not spliced in — it is left out of the
+              published instead, that factor is used. A base segment that neither overlaps the next
+              one nor has a declared linking factor is not spliced in — it is left out of the
               indicator's chart rather than shown at a misleading, non-comparable scale. Gaps and
               known errors in a source file are tracked in a manual corrections ledger, each entry
-              recording what was changed and why; the ledger is used to fill or fix specific
-              values, never to override a source wholesale.
+              recording what was changed and why; the ledger is used to fill or fix specific values,
+              never to override a source wholesale.
             </p>
           </section>
 
@@ -87,29 +87,18 @@ function MethodologyPage() {
           <section>
             <p className="eyebrow">Interpretation</p>
             <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
-              Reading the indicator signals
+              Reading the movers and the heat map
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              On the indicators list and detail pages, each indicator is tagged by how much it
-              moved over the selected window:
+              The Trends and Indicators pages show how far each indicator's level has moved over the
+              selected window (1M to MAX), coloured green for a rise and red for a fall. Series with
+              no readings in the window, and series that cross zero (balances and net flows, where a
+              percentage change is not meaningful), are left out of the rankings.
             </p>
-            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-blue-dark">
-              <li>
-                <span className="text-signal-positive">Positive</span> — the indicator has moved up
-                more than 0.75% over the selected window.
-              </li>
-              <li>
-                <span className="text-signal-neutral">Neutral</span> — the move over the window is
-                within ±0.75%.
-              </li>
-              <li>
-                <span className="text-signal-negative">Negative</span> — the indicator has fallen
-                more than 0.75% over the selected window.
-              </li>
-            </ul>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              This tagging describes each indicator on its own; it does not combine them into a
-              single growth number today.
+              These movements describe each indicator on its own. They are not the nowcast model's
+              weights or contributions; the headline estimate comes only from the quarterly model
+              described below.
             </p>
           </section>
 
@@ -122,13 +111,13 @@ function MethodologyPage() {
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
               The other six indicators are each converted to year-on-year growth, standardised
-              against their own history, and averaged into one equal-weighted composite reading
-              per month. That composite is aggregated to a quarter using whichever months have
-              already reported — a partially-reported quarter still gets a reading from whatever
-              has arrived so far, which is what makes it a nowcast rather than a lagging
-              indicator. The composite is regressed against GDP's own year-on-year growth with
-              ordinary least squares, and the fitted line is used to read off a point estimate,
-              a proper prediction interval, and a probability density for the current quarter.
+              against their own history, and averaged into one equal-weighted composite reading per
+              month. That composite is aggregated to a quarter using whichever months have already
+              reported — a partially-reported quarter still gets a reading from whatever has arrived
+              so far, which is what makes it a nowcast rather than a lagging indicator. The
+              composite is regressed against GDP's own year-on-year growth with ordinary least
+              squares, and the fitted line is used to read off a point estimate, a proper prediction
+              interval, and a probability density for the current quarter.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
               This is deliberately a first, simple pass: one composite factor, one straight-line
@@ -136,11 +125,11 @@ function MethodologyPage() {
               weighting by how well each indicator actually explains GDP historically — every
               indicator counts equally. The training sample runs back to 2005 and includes the
               2020–2021 COVID collapse and rebound, which can pull the fit; nothing is trimmed or
-              adjusted for it. The confidence interval and the density chart both assume the
-              model's errors are normally distributed, which is a simplification, not a
-              measured fact about them. The dashboard's "model notes" panel states the training
-              window, R², and residual spread that produced whatever estimate is currently
-              showing, and updates every time the pipeline re-exports.
+              adjusted for it. The confidence interval and the density chart both assume the model's
+              errors are normally distributed, which is a simplification, not a measured fact about
+              them. The dashboard's "model notes" panel states the training window, R², and residual
+              spread that produced whatever estimate is currently showing, and updates every time
+              the pipeline re-exports.
             </p>
           </section>
 
@@ -156,11 +145,11 @@ function MethodologyPage() {
               estimate, not a forecast from a full macroeconomic model. Series with different
               release lags and revision schedules are shown as published, without adjustment; a
               reading close to an indicator's publication date may still be provisional. Where a
-              base segment was dropped for lack of a comparable link, that indicator's chart
-              starts later than its full published history. The nowcast's confidence interval can
-              be wide, especially early in a quarter when only the fastest-reporting indicators
-              (foreign exchange reserves, released weekly) have anything to say yet — that
-              width is the model being honest about how little it currently knows, not a defect.
+              base segment was dropped for lack of a comparable link, that indicator's chart starts
+              later than its full published history. The nowcast's confidence interval can be wide,
+              especially early in a quarter when only the fastest-reporting indicators (foreign
+              exchange reserves, released weekly) have anything to say yet — that width is the model
+              being honest about how little it currently knows, not a defect.
             </p>
           </section>
         </article>

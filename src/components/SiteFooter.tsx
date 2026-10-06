@@ -1,4 +1,3 @@
-
 const TIPI_URL = "https://fantastic-donut-1c4357.netlify.app/";
 
 const connect = [

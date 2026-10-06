@@ -128,16 +128,6 @@ export function getSeries(id: string): Point[] {
   return REAL[id] ?? [];
 }
 
-/**
- * Daily GDP nowcast. Not built yet -- the pipeline currently produces
- * validated indicator data only, no model output. Returns an empty series so
- * every consumer (the home page chart, TrendAnalysis) renders its "not yet
- * available" state rather than a number that doesn't exist.
- */
-export function getNowcast(): Point[] {
-  return [];
-}
-
 export function sliceRange(series: Point[], range: RangeKey): Point[] {
   const days = RANGES.find((r) => r.key === range)!.days;
   const from = TODAY - days * DAY;
@@ -184,20 +174,6 @@ export function fmtDate(t: number) {
 export function lastUpdated(id: string): number | null {
   const s = getSeries(id);
   return s.length ? s[s.length - 1]!.t : null;
-}
-
-export type Contribution = { id: string; name: string; change: number };
-
-/** Per-indicator % change over the selected range, sorted by magnitude. */
-export function contributions(range: RangeKey): Contribution[] {
-  return indicators
-    .map((ind) => ({
-      id: ind.id,
-      name: ind.name,
-      change: change(sliceRange(getSeries(ind.id), range)),
-    }))
-    .filter((c) => Number.isFinite(c.change) && getSeries(c.id).length > 0)
-    .sort((a, b) => b.change - a.change);
 }
 
 /** Indian digit grouping (1,23,456), 0 dp for large values, 2 dp otherwise. */

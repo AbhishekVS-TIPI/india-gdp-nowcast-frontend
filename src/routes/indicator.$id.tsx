@@ -191,8 +191,8 @@ function IndicatorDetail() {
             <div className="mt-5">
               {table ? (
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                  {table.baseYears.length} base years spliced -- every raw value shown alongside
-                  the continuous ("spliced") series the graph plots. Full history, {table.rows.length}{" "}
+                  {table.baseYears.length} base years spliced -- every raw value shown alongside the
+                  continuous ("spliced") series the graph plots. Full history, {table.rows.length}{" "}
                   rows.
                 </p>
               ) : (
@@ -200,7 +200,11 @@ function IndicatorDetail() {
                   Full history, {fullSeries.length} rows.
                 </p>
               )}
-              <IndicatorTable series={fullSeries} table={table} unit={UNITS[indicator.id] ?? null} />
+              <IndicatorTable
+                series={fullSeries}
+                table={table}
+                unit={UNITS[indicator.id] ?? null}
+              />
             </div>
           )}
         </div>

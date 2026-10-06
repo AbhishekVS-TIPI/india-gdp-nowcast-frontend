@@ -18,7 +18,9 @@ export function Sparkline({
   const span = max - min || 1;
   const step = width / (data.length - 1);
   const pts = data.map((d, i) => [i * step, height - ((d.v - min) / span) * (height - 4) - 2]);
-  const line = pts.map((p, i) => `${i ? "L" : "M"}${p[0]!.toFixed(1)},${p[1]!.toFixed(1)}`).join(" ");
+  const line = pts
+    .map((p, i) => `${i ? "L" : "M"}${p[0]!.toFixed(1)},${p[1]!.toFixed(1)}`)
+    .join(" ");
   const area = `${line} L${width},${height} L0,${height} Z`;
   const stroke = positive ? "var(--color-trend-up)" : "var(--color-trend-down)";
   const gid = `sg-${positive ? "p" : "n"}`;
