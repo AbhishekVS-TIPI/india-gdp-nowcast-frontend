@@ -142,9 +142,9 @@ function MethodologyPage() {
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
               This is the standard two-step form of the approach used by the New York Fed's Staff
-              Nowcast and the ECB. It is published as a demo from the project's model lab, not yet a
-              settled production choice. The fit statistics in the model notes are in-sample, with a
-              cross-validated R² alongside. The training sample runs from{" "}
+              Nowcast and the ECB. It is published as a demo from the project's model workbench, not
+              yet a settled production choice. The fit statistics in the model notes are in-sample,
+              with a cross-validated R² alongside. The training sample runs from{" "}
               {model ? model.trainingStart.slice(0, 4) : "2005"} and includes the 2020–2021 COVID
               collapse and rebound, with no adjustment. The intervals assume normally distributed
               errors and ignore the uncertainty in estimating the factors themselves, so they are
