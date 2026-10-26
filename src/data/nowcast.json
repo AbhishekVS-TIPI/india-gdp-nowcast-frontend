@@ -11479,7 +11479,7 @@
   }
  ],
  "caveats": [
-  "Demo model from the nowcast lab; not yet a settled production choice.",
+  "Demo model from the nowcast workbench; not yet a settled production choice.",
   "Fit statistics are in-sample (cross-validated R\u00b2 shown alongside); the track record is pseudo-real-time, using only data released before each GDP figure but today's revised values.",
   "Indicator contributions use a static projection of the factors; the model's month-to-month dynamics are shown as a separate remainder.",
   "Training sample includes the 2020-2021 COVID collapse and rebound, with no adjustment.",

@@ -2,8 +2,8 @@
  * The GDP nowcast, exported by the india-gdp-nowcast pipeline
  * (`india-gdp-nowcast export-frontend`) as src/data/nowcast.json.
  *
- * The weekly refresh currently publishes the nowcast lab's standard dynamic
- * factor model as a demo (`python -m nowcast_lab.export_dfm`); the pipeline's
+ * The weekly refresh currently publishes the nowcast workbench's standard dynamic
+ * factor model as a demo (`python -m nowcast_workbench.export_dfm`); the pipeline's
  * original bridge regression writes the same shape. `model.description` and
  * `caveats` say exactly what the current model does and does not account for.
  */
