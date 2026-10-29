@@ -190,6 +190,8 @@ export type LiveRecordRow = {
   basis: "live" | string;
   /** "headline", "member" (the ARX, the DFM) or "benchmark" (AR(1), the four-quarter mean). */
   role?: "headline" | "member" | "benchmark" | string;
+  /** The run's own name: the model's, or for a benchmark its key in `headline.benchmarks`. */
+  name?: string | null;
 };
 
 /** The Phase 0 headline's own description of itself. */
@@ -317,8 +319,9 @@ export function ciFor(level: number): ConfidenceInterval | null {
 }
 
 /**
- * The 90% range with COVID-size misses allowed for, when the export carries it. It widens the
- * ordinary range, so with no ordinary range (`rangeAvailable: false`) it is not shown on its own.
+ * The 90% range with COVID-size misses allowed for, when the export carries it. The export
+ * writes it only when there is an ordinary range for it to widen; if one ever arrives without,
+ * it is still not shown on its own.
  */
 export function stressRange(): StressInterval | null {
   const n = NOWCAST?.nowcast;

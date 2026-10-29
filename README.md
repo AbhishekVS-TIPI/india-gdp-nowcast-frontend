@@ -25,7 +25,7 @@ nowcast model works.
 `nowcast.json` follows the contract in the pipeline repo (`docs/frontend_contract.md`): every
 field the site needs is always there, and the Phase 0 fields (stress range, headline, members,
 evaluation, coverage, live record) are optional, so the site works with an older export too.
-Open questions for the pipeline side are in `docs/pipeline-questions.md`.
+Questions raised for the pipeline side, and how they were answered, are in `docs/pipeline-questions.md`.
 
 ## Development
 

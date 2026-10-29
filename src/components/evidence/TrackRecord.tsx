@@ -11,6 +11,7 @@ import {
 import {
   NOWCAST,
   NOWCAST_ROWS,
+  benchmarkLabel,
   benchmarks,
   trackSummary,
   type LiveRecordRow,
@@ -271,11 +272,13 @@ export function EvaluationTable() {
 const ROLE_ORDER: Record<string, number> = { headline: 0, member: 1, benchmark: 2 };
 
 /**
- * Who a live run is. The headline and the members come from the model list. A benchmark row
- * carries only an id, so it is matched to the headline's named benchmarks by its value (the
- * same run exports both); an id that matches nothing is shown as it is.
+ * Who a live run is: the export's own `name` (a benchmark's is its key in `headline.benchmarks`,
+ * shown as the stat card shows it). An older export carries only an id, so then the headline and
+ * the members come from the model list and a benchmark is matched to the headline's named
+ * benchmarks by its value (the same run exports both); an id that matches nothing is shown as it is.
  */
 function liveName(r: LiveRecordRow): string {
+  if (r.name) return r.role === "benchmark" ? benchmarkLabel(r.name) : r.name;
   if (r.role === "headline" || r.modelId === NOWCAST?.headline?.id) return "Headline (average)";
   const member = NOWCAST?.model.members?.find((m) => m.id === r.modelId);
   if (member) return member.name;
