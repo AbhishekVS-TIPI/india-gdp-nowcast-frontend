@@ -1,7 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { NOWCAST } from "@/lib/nowcast";
+import { CoverageMap, GapsList } from "@/components/model/Coverage";
+import { MemberCards } from "@/components/model/Members";
+import { COVERAGE_SECTIONS, UNREAD_SECTIONS, directionNote } from "@/lib/coverage";
+import { benchmarkName, whenBefore } from "@/lib/evaluation";
+import {
+  DRIVERS,
+  MODEL_DRIVERS,
+  NOWCAST,
+  TOO_EARLY_SIGNAL_SHARE,
+  isHeadlineExport,
+} from "@/lib/nowcast";
 import { UNITS, fmtDate, indicators, lastUpdated } from "@/lib/series";
 
 export const Route = createFileRoute("/methodology")({
@@ -26,8 +36,23 @@ export const Route = createFileRoute("/methodology")({
   component: MethodologyPage,
 });
 
+const list = (xs: string[]) =>
+  xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
+
 function MethodologyPage() {
   const model = NOWCAST?.model ?? null;
+  const phase0 = isHeadlineExport();
+  const monitoredOnly = DRIVERS.length > MODEL_DRIVERS.length;
+  const direction = directionNote();
+  const bench = benchmarkName(NOWCAST?.evaluation);
+  const horizons = Object.keys(NOWCAST?.evaluation?.horizons ?? {})
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => b - a);
+  const trackDays = NOWCAST?.trackRecord?.at(-1)?.daysBeforeRelease ?? null;
+  const covered = COVERAGE_SECTIONS.filter((s) => s.indicators.some((i) => i.role === "core")).map(
+    (s) => s.section,
+  );
   return (
     <main className="min-h-screen bg-background">
       <SiteHeader subtitle="Model construction and sources" />
@@ -96,61 +121,128 @@ function MethodologyPage() {
               scale the model uses. A reading counts as pointing to stronger growth when the model
               links a rise in that indicator to faster GDP growth, so a rise in unemployment or
               market volatility counts as weaker. Prices are shown as background and never counted
-              either way. Sector tiles use the median of their indicators' latest readings; breadth
-              is the share of growth indicators above normal in a month.
+              either way. {direction ? `${direction} ` : ""}
+              Sector tiles use the median of their indicators' latest readings, including series the
+              headline only monitors; breadth is the share of growth indicators above normal in a
+              month.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
               <span className="font-medium text-navy">What moves the estimate.</span> Each indicator
-              has a weight in the model: how many percentage points of GDP growth a
-              one-standard-deviation move in it is worth, read off the factor loadings and the GDP
-              regression. Its contribution this quarter is that weight times its reading, recomputed
-              for whichever indicators have reported. Starting from the long-run average, the
-              contributions add up to the estimate, apart from one remainder: the model's own
-              carry-forward from earlier months for data not yet in. That remainder is shown, not
-              spread over the indicators.
+              the model weights has a weight: how many percentage points of GDP growth a
+              one-standard-deviation move in it is worth
+              {phase0
+                ? ", half from the regression and half from the factor model, since each counts for half of the headline"
+                : ", read off the factor loadings and the GDP regression"}
+              . Its contribution this quarter is that weight times its reading, recomputed for
+              whichever indicators have reported.
+              {monitoredOnly
+                ? " An indicator the headline only monitors has weight 0 and no contribution."
+                : ""}{" "}
+              Starting from the long-run average, the contributions add up to the estimate, apart
+              from one remainder: the model's own carry-forward from earlier months for data not yet
+              in
+              {phase0 ? " (GDP's own persistence and the factors' dynamics)" : ""}. That remainder
+              is shown, not spread over the indicators.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              <span className="font-medium text-navy">How sure we are.</span> The briefing says "too
-              early to call" until indicators carrying a quarter of the model's total weight have
-              reported, and always gives the likely range (the 90% interval). The track record
-              refits the model as it stood the day before each official GDP release, using only data
-              released by then, and compares it with simply assuming growth repeats last quarter's
-              rate. Year-on-year changes are percentage-point changes for rates and growth for
-              everything else; balances that swing between surplus and deficit have none.
+              <span className="font-medium text-navy">How sure we are.</span>{" "}
+              {phase0 ? (
+                <>
+                  The briefing says "too early to call" while less than{" "}
+                  {Math.round(TOO_EARLY_SIGNAL_SHARE * 100)}% of the quarter's own information is
+                  in, and while no likely range has been measured, which is until the release is
+                  near (the export then says why). The range is where the headline's earlier
+                  estimates, made{" "}
+                  {horizons.length ? `${list(horizons.map(String))} days` : "close to a release"}{" "}
+                  before each first print, fell around it in ordinary conditions, with the COVID
+                  quarters left out; the tail-risk range leaves them in, so a miss as large as
+                  2020's is allowed for. The track record is a backtest: each estimate is refitted
+                  using only data released before the quarter's first print and made{" "}
+                  {whenBefore(trackDays)} it, but on today's revised values, then scored against
+                  that first print and against the {bench} benchmark. A result counts as better only
+                  if the whole interval around its error ratio is below 1. A first print from before
+                  the February 2026 rebasing of GDP is on the older price base, so it can differ
+                  from the quarter's latest figure by the rebasing as well as by revision; the track
+                  record marks those quarters. Runs recorded at the time are listed separately as
+                  the live record and scored when the first print is out.
+                </>
+              ) : (
+                <>
+                  The briefing says "too early to call" until indicators carrying a quarter of the
+                  model's total weight have reported, and always gives the likely range (the 90%
+                  interval). The track record refits the model as it stood the day before each
+                  official GDP release, using only data released by then, and compares it with
+                  simply assuming growth repeats last quarter's rate.
+                </>
+              )}{" "}
+              Year-on-year changes are percentage-point changes for rates and growth for everything
+              else; balances that swing between surplus and deficit have none.
             </p>
           </section>
 
           <div className="hairline" />
 
-          <section>
-            <p className="eyebrow">Nowcast model</p>
-            <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
-              A dynamic factor model (demo)
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              Many indicators move together because they respond to the same underlying state of the
-              economy. A dynamic factor model extracts that shared movement. Each of the{" "}
-              {model?.panelSeries ?? "monthly"} monthly-or-faster indicators is transformed as the
-              pipeline's configuration declares (mostly year-on-year growth), and{" "}
-              {model?.nFactors ?? "a few"} common factor{model?.nFactors === 1 ? " is" : "s are"}{" "}
-              estimated from them with the expectation–maximisation algorithm and a Kalman filter,
-              which copes with indicators that start at different dates and with the ragged edge of
-              releases at the end of the sample. The factors are averaged to quarters, and GDP's
-              year-on-year growth is regressed on them by ordinary least squares. The current
-              quarter's factor values give the point estimate, a prediction interval and a
-              probability density.
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-blue-dark">
-              This is the standard two-step form of the approach used by the New York Fed's Staff
-              Nowcast and the ECB. It is published as a demo from the project's model workbench, not
-              yet a settled production choice. The fit statistics in the model notes are in-sample,
-              with a cross-validated R² alongside. The training sample runs from{" "}
-              {model ? model.trainingStart.slice(0, 4) : "2005"} and includes the 2020–2021 COVID
-              collapse and rebound, with no adjustment. The intervals assume normally distributed
-              errors and ignore the uncertainty in estimating the factors themselves, so they are
-              somewhat too narrow.
-            </p>
-          </section>
+          {phase0 ? (
+            <section id="data-and-model" className="scroll-mt-20">
+              <p className="eyebrow">Data and model</p>
+              <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
+                {model?.name ?? "The headline model"}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-blue-dark">{model?.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-blue-dark">
+                The fit statistics in the model notes are in-sample, with a cross-validated R² for
+                each member. The training sample runs from{" "}
+                {model ? model.trainingStart.slice(0, 4) : "2005"} and includes the 2020–2021 COVID
+                collapse and rebound, with no adjustment.
+                {NOWCAST?.method
+                  ? ` The full method is ${NOWCAST.method.document} in the pipeline repository (method version ${NOWCAST.method.version}).`
+                  : ""}
+              </p>
+              <div className="mt-5">
+                <MemberCards />
+              </div>
+              <h3 className="mt-8 text-sm font-semibold text-navy">
+                What is read, and what is not
+              </h3>
+              <div className="mt-3">
+                <CoverageMap />
+              </div>
+              <h3 className="mt-8 text-sm font-semibold text-navy">What is missing</h3>
+              <div className="mt-3">
+                <GapsList />
+              </div>
+            </section>
+          ) : (
+            <section>
+              <p className="eyebrow">Nowcast model</p>
+              <h2 className="mt-2 text-lg font-semibold tracking-tight text-navy">
+                A dynamic factor model (demo)
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-blue-dark">
+                Many indicators move together because they respond to the same underlying state of
+                the economy. A dynamic factor model extracts that shared movement. Each of the{" "}
+                {model?.panelSeries ?? "monthly"} monthly-or-faster indicators is transformed as the
+                pipeline's configuration declares (mostly year-on-year growth), and{" "}
+                {model?.nFactors ?? "a few"} common factor{model?.nFactors === 1 ? " is" : "s are"}{" "}
+                estimated from them with the expectation–maximisation algorithm and a Kalman filter,
+                which copes with indicators that start at different dates and with the ragged edge
+                of releases at the end of the sample. The factors are averaged to quarters, and
+                GDP's year-on-year growth is regressed on them by ordinary least squares. The
+                current quarter's factor values give the point estimate, a prediction interval and a
+                probability density.
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-blue-dark">
+                This is the standard two-step form of the approach used by the New York Fed's Staff
+                Nowcast and the ECB. It is published as a demo from the project's model workbench,
+                not yet a settled production choice. The fit statistics in the model notes are
+                in-sample, with a cross-validated R² alongside. The training sample runs from{" "}
+                {model ? model.trainingStart.slice(0, 4) : "2005"} and includes the 2020–2021 COVID
+                collapse and rebound, with no adjustment. The intervals assume normally distributed
+                errors and ignore the uncertainty in estimating the factors themselves, so they are
+                somewhat too narrow.
+              </p>
+            </section>
+          )}
 
           <div className="hairline" />
 
@@ -165,10 +257,10 @@ function MethodologyPage() {
               release lags and revision schedules are shown as published, without adjustment; a
               reading close to an indicator's publication date may still be provisional. Where a
               base segment was dropped for lack of a comparable link, that indicator's chart starts
-              later than its full published history. The nowcast's confidence interval can be wide,
-              especially early in a quarter when only the fastest-reporting indicators have anything
-              to say yet — that width is the model being honest about how little it currently knows,
-              not a defect.
+              later than its full published history.{" "}
+              {phase0
+                ? `The headline reads only part of the economy. Its indicators sit in these sections of the data: ${covered.join("; ")}.${UNREAD_SECTIONS.length ? ` It reads nothing in ${UNREAD_SECTIONS.length > 1 ? `${UNREAD_SECTIONS.slice(0, -1).join("; ")}; or ${UNREAD_SECTIONS[UNREAD_SECTIONS.length - 1]}` : UNREAD_SECTIONS[0]}.` : ""} The likely range is empirical and slightly asymmetric, and none is shown until the release is near, because it is measured only from earlier estimates made close to a release.`
+                : "The nowcast's confidence interval can be wide, especially early in a quarter when only the fastest-reporting indicators have anything to say yet — that width is the model being honest about how little it currently knows, not a defect."}
             </p>
           </section>
         </article>

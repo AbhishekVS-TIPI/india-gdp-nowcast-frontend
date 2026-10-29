@@ -14,7 +14,7 @@ import {
   YAxis,
 } from "recharts";
 import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
-import { NOWCAST, NOWCAST_ROWS, ciFor } from "@/lib/nowcast";
+import { NOWCAST, NOWCAST_ROWS, ciFor, stressRange } from "@/lib/nowcast";
 
 const pctTick = (v: number) => `${v.toFixed(0)}%`;
 
@@ -110,29 +110,35 @@ export function NowcastVsActualChart() {
         </ResponsiveContainer>
       </div>
       <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
-        Solid: released GDP · Dashed: model estimate (in-sample fit) · Dot and whisker: this
-        quarter's nowcast and its 90% interval
+        Solid: released GDP · Dashed: model estimate (in-sample fit) ·{" "}
+        {ci90
+          ? "Dot and whisker: this quarter's nowcast and its 90% range"
+          : "Dot: this quarter's nowcast (no likely range yet)"}
       </p>
     </div>
   );
 }
 
-/** Predictive distribution for the current quarter, with the 90% band shaded. */
+/**
+ * Predictive distribution for the current quarter, with the 90% band shaded and, when the
+ * export has one, the wider tail-risk range lighter underneath. Draws nothing without a density.
+ */
 export function DensityChart() {
   const headline = NOWCAST?.nowcast ?? null;
   const ci90 = ciFor(0.9);
+  const stress = stressRange();
+  const pdf = headline?.pdf;
   const domain = useMemo<[number, number]>(() => {
-    if (!headline) return [0, 0];
-    const xs = headline.pdf.map((p) => p.x);
-    return [Math.min(...xs), Math.max(...xs)];
-  }, [headline]);
+    const xs = [...(pdf ?? []).map((p) => p.x), ...(stress ? [stress.lower, stress.upper] : [])];
+    return xs.length ? [Math.min(...xs), Math.max(...xs)] : [0, 0];
+  }, [pdf, stress]);
 
-  if (!headline) return null;
+  if (!headline || !pdf || pdf.length < 2) return null;
 
   return (
     <div className="h-[240px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={headline.pdf} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
+        <AreaChart data={pdf} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
           <defs>
             <linearGradient id="pdfFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--color-blue-lighter)" stopOpacity="0.9" />
@@ -149,6 +155,14 @@ export function DensityChart() {
             tickLine={false}
           />
           <YAxis hide />
+          {stress ? (
+            <ReferenceArea
+              x1={stress.lower}
+              x2={stress.upper}
+              fill="var(--color-chart-1)"
+              fillOpacity={0.05}
+            />
+          ) : null}
           {ci90 ? (
             <ReferenceArea
               x1={ci90.lower}

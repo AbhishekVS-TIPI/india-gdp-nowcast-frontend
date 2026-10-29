@@ -1,4 +1,4 @@
-import { DRIVERS } from "@/lib/nowcast";
+import { MODEL_DRIVERS } from "@/lib/nowcast";
 import { SECTORS, sectorOf, type SectorKey } from "@/lib/sectors";
 
 export type SectorContribution = {
@@ -7,12 +7,14 @@ export type SectorContribution = {
   /** pp from this sector's reported indicators. */
   total: number;
   reported: number;
+  /** Indicators in this sector that carry weight in the headline. */
   members: number;
 };
 
 /** This quarter's reported contributions summed by sector, largest effect first. */
 export const SECTOR_CONTRIBUTIONS: SectorContribution[] = SECTORS.map((s) => {
-  const members = DRIVERS.filter((d) => sectorOf(d.id) === s.key);
+  // Only series with a weight can move the headline; the ones it merely monitors are not members.
+  const members = MODEL_DRIVERS.filter((d) => sectorOf(d.id) === s.key);
   const reported = members.filter((d) => d.contribution != null);
   return {
     key: s.key,

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { SECTOR_CONTRIBUTIONS } from "@/lib/attribution";
-import { DRIVERS, NOWCAST } from "@/lib/nowcast";
+import { DRIVERS, MODEL_DRIVERS, NOWCAST } from "@/lib/nowcast";
 import { INDICATOR_BY_ID } from "@/lib/series";
 
 type Step = {
@@ -113,6 +113,9 @@ export function Waterfall() {
       <p className="mt-2 text-[10px] text-muted-foreground">
         Axis runs from {lo}% to {hi}%. Contributions are each reported indicator's reading this
         quarter times its weight in the model.
+        {DRIVERS.length > MODEL_DRIVERS.length
+          ? " Indicators the headline only monitors have no weight and do not appear here."
+          : ""}
       </p>
 
       {ups.length || downs.length ? (

@@ -82,6 +82,7 @@ const MEMBERS: Record<SectorKey, string[]> = {
     "crude_oil_imports_value",
     "current_account_balance_net_usd_mn",
     "forex_total_reserves",
+    "major_port_cargo_traffic",
     "merchandise_export_import_ratio",
     "neer_40currency",
     "net_foreign_exchange_assets_bankingsector",
@@ -135,6 +136,29 @@ const MEMBERS: Record<SectorKey, string[]> = {
 const SECTOR_OF: Record<string, SectorKey> = Object.fromEntries(
   Object.entries(MEMBERS).flatMap(([key, ids]) => ids.map((id) => [id, key as SectorKey])),
 );
+
+/**
+ * The model's ten sections (nowcast.json `coverage.sections`) against the eight
+ * sectors above, by the section's stable `key` (never its display name). `null`
+ * means no counterpart: Services and Agriculture have no indicator the headline
+ * reads, so the sector tiles say so instead of leaving them out. A section whose
+ * key is missing from this map is treated the same way (see UNMAPPED_SECTIONS), so
+ * a new or renamed section shows up rather than vanishing. This only says what the
+ * model covers and misses; the series-level sector map below stays the presentation
+ * (section 5.4 of docs/frontend_contract.md in the pipeline repo).
+ */
+export const SECTION_SECTOR: Record<string, SectorKey[] | null> = {
+  industry: ["industry"],
+  "construction-investment": ["industry"],
+  "household-consumption": ["households"],
+  labour: ["households"],
+  "money-credit-markets": ["credit", "financial"],
+  external: ["trade", "global"],
+  government: ["government"],
+  prices: ["prices"],
+  services: null,
+  "agriculture-rural": null,
+};
 
 export function sectorOf(id: string): SectorKey | null {
   return SECTOR_OF[id] ?? null;

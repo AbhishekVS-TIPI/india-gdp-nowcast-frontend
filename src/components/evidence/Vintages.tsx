@@ -11,7 +11,8 @@ import {
 import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
 import { NOWCAST } from "@/lib/nowcast";
 import { SECTORS, sectorOf } from "@/lib/sectors";
-import { INDICATOR_BY_ID, fmtDate } from "@/lib/series";
+import { indicatorName } from "@/lib/coverage";
+import { fmtDate } from "@/lib/series";
 
 const day = (iso: string) => fmtDate(Date.parse(`${iso}T00:00:00Z`));
 const pp = (v: number) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(2)} pp`;
@@ -27,6 +28,16 @@ export function Vintages() {
     estimate: v.estimate,
     band: v.lower90 != null && v.upper90 != null ? [v.lower90, v.upper90] : null,
   }));
+  // An empty band would otherwise pull the axis down to 0 and flatten the line.
+  const levels = data.flatMap((d) => [d.estimate!, ...(d.band ?? [])]);
+  const yDomain: [number, number] = [
+    Math.floor(Math.min(...levels) - 0.5),
+    Math.ceil(Math.max(...levels) + 0.5),
+  ];
+  // Early weeks have no range: it is measured only from earlier estimates made close to a release.
+  const firstRanged = data.findIndex((d) => d.band != null);
+  const unranged = firstRanged < 0 ? data.length : firstRanged;
+  const gapsInside = data.slice(Math.max(firstRanged, 0)).some((d) => d.band == null);
 
   const steps = vintages.slice(1).map((v, i) => {
     const prev = vintages[i]!;
@@ -58,6 +69,7 @@ export function Vintages() {
             <CartesianGrid stroke="var(--color-border)" vertical={false} />
             <XAxis dataKey="label" tick={axisTick(10)} axisLine={false} tickLine={false} />
             <YAxis
+              domain={yDomain}
               width={44}
               tickFormatter={(v: number) => `${v}%`}
               tick={axisTick()}
@@ -67,8 +79,10 @@ export function Vintages() {
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               formatter={(v, name) =>
-                name === "band" && Array.isArray(v)
-                  ? [`${Number(v[0]).toFixed(1)}% to ${Number(v[1]).toFixed(1)}%`, "Likely range"]
+                name === "band"
+                  ? Array.isArray(v)
+                    ? [`${Number(v[0]).toFixed(1)}% to ${Number(v[1]).toFixed(1)}%`, "Likely range"]
+                    : ["not measured yet", "Likely range"]
                   : [`${Number(v).toFixed(2)}%`, "Estimate"]
               }
             />
@@ -89,6 +103,13 @@ export function Vintages() {
           </ComposedChart>
         </ResponsiveContainer>
       </div>
+      {unranged > 0 || gapsInside ? (
+        <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+          {unranged === data.length
+            ? "No likely range is drawn: it is measured from how far earlier estimates made close to a release were from the first print, and the release is not yet near."
+            : `The shaded range starts in the week to ${data[firstRanged]!.label}. Before that none is drawn: it is measured from how far earlier estimates made close to a release were from the first print.`}
+        </p>
+      ) : null}
       <ul className="mt-4 divide-y divide-border">
         {steps.map((s) => (
           <li key={s.asOf} className="py-2.5 text-xs leading-relaxed">
@@ -104,11 +125,7 @@ export function Vintages() {
             </p>
             {s.released.length ? (
               <p className="mt-0.5 text-muted-foreground">
-                New figures:{" "}
-                {s.released
-                  .slice(0, 4)
-                  .map((id) => INDICATOR_BY_ID[id]?.name ?? id)
-                  .join(", ")}
+                New figures: {s.released.slice(0, 4).map(indicatorName).join(", ")}
                 {s.released.length > 4 ? ` and ${s.released.length - 4} more` : ""}
               </p>
             ) : null}

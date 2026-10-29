@@ -1,12 +1,19 @@
 /**
- * The GDP nowcast, exported by the india-gdp-nowcast pipeline
- * (`india-gdp-nowcast export-frontend`) as src/data/nowcast.json.
+ * The GDP nowcast, exported by the india-gdp-nowcast pipeline as
+ * src/data/nowcast.json.
  *
- * The weekly refresh currently publishes the nowcast workbench's standard dynamic
- * factor model as a demo (`python -m nowcast_workbench.export_dfm`); the pipeline's
- * original bridge regression writes the same shape. `model.description` and
- * `caveats` say exactly what the current model does and does not account for.
+ * Two exporters write this shape. `nowcast_workbench.export_headline` writes the
+ * Phase 0 headline (the equal-weight average of an ARX and a two-factor dynamic
+ * factor model); its agreement with this site is docs/frontend_contract.md in the
+ * pipeline repo. `nowcast_workbench.export_dfm` wrote the demo dynamic factor
+ * model before it, and the original bridge regression writes the same base
+ * shape. Every field this site needs is in all of them; the Phase 0 fields
+ * (stress range, headline, members, evaluation, coverage, live record, method)
+ * are optional, so the site works with either. `model.description` and `caveats`
+ * say exactly what the current model does and does not account for.
  */
+
+import { massAbove, normalCdf } from "@/lib/density";
 
 export type NowcastHistoryPoint = {
   quarterStart: string;
@@ -21,19 +28,57 @@ export type NowcastHistoryPoint = {
 
 export type ConfidenceInterval = { level: number; lower: number; upper: number };
 
+/** The 90% range with the COVID quarters left in the error history: allows for a miss like 2020's. */
+export type StressInterval = { lower: number; upper: number };
+
 export type NowcastHeadline = {
   quarterStart: string;
   label: string;
   pointEstimate: number;
-  standardError: number;
+  /**
+   * Phase 0 headline: half the width of the 68% range, not a model standard error.
+   * Null when no range was evaluated at this horizon.
+   */
+  standardError: number | null;
+  /** Empty (with `rangeAvailable: false`) from about 45 days before the release. */
   confidenceIntervals: ConfidenceInterval[];
+  /**
+   * Density of the headline's earlier errors around the point (area 1), carried through a
+   * map that fixes its percentiles at the ends of the ranges, so it agrees with them.
+   * Empty when there is no range.
+   */
   pdf: { x: number; y: number }[];
   indicatorsReporting: string[];
   indicatorsTotal: number;
-  /** Share of the model's total indicator weight already reporting (DFM only). */
+  /**
+   * Share of the open quarter's own information that is in. For the Phase 0 headline it
+   * rises from about a third at 85 days before the release to near 1 at the print.
+   */
   signalShare?: number;
   /** Expected date of the official GDP release for this quarter. */
   nextOfficialRelease?: string | null;
+  /** Phase 0 headline only. */
+  stressInterval90?: StressInterval | null;
+  /** False when no range was evaluated at this horizon; `rangeNote` then says why. */
+  rangeAvailable?: boolean;
+  rangeNote?: string | null;
+};
+
+/** One of the models averaged into the Phase 0 headline. */
+export type ModelMember = {
+  id: string;
+  name: string;
+  /** "bridge" (ARX) or "dfm". */
+  family: string;
+  weight: number;
+  nowcast: number | null;
+  description: string;
+  /** Names of the indicators this member reads. */
+  indicators: string[];
+  trainingQuarters?: number;
+  rSquared?: number | null;
+  cvRSquared?: number | null;
+  nFactors?: number;
 };
 
 export type NowcastModel = {
@@ -55,6 +100,10 @@ export type NowcastModel = {
   /** Bridge-regression fields (bridge model only). */
   intercept?: number;
   slope?: number;
+  /** Phase 0 headline: the models averaged, each with its own nowcast and fit. */
+  members?: ModelMember[];
+  /** "equal" for the Phase 0 headline. */
+  weights?: string | Record<string, number>;
 };
 
 /** nowcast = baseline (long-run average) + reported contributions + carriedForward. */
@@ -71,6 +120,16 @@ export type Driver = {
   weight: number;
   /** pp contributed to this quarter's nowcast, or null if it hasn't reported. */
   contribution: number | null;
+  /** Phase 0 headline: which way a rise reads for growth, +1 or -1, for every series. */
+  sign?: number;
+  /**
+   * Where the sign comes from: "weight" (the sign of its weight in the headline), "economic"
+   * (a prior: the VIX, USD/INR, Brent and the Indian crude basket) or "correlation" (the sign
+   * of its correlation with GDP growth through Oct 2019).
+   */
+  signSource?: "weight" | "economic" | "correlation" | string;
+  /** That correlation: a description of co-movement, not a causal claim. */
+  correlation?: number | null;
 };
 
 /** The standardised panel the model sees: standard deviations from each series' own normal. */
@@ -82,12 +141,15 @@ export type Signals = {
 export type Vintage = {
   asOf: string;
   estimate: number | null;
+  /** Null in the weeks (60 or 85 days out) where no range was evaluated. */
   lower90: number | null;
   upper90: number | null;
   signalShare: number;
   contributions: Record<string, number>;
   /** Indicators that published new figures since the previous vintage. */
   released: string[];
+  /** Days between this run and the release it nowcasts. */
+  horizonDays?: number | null;
 };
 
 export type TrackRecordRow = {
@@ -95,9 +157,124 @@ export type TrackRecordRow = {
   label: string;
   asOf: string;
   estimate: number | null;
+  /** The benchmark's estimate: AR(1) for the Phase 0 headline. */
   naive: number | null;
+  /** Names the benchmark in `naive`, e.g. "AR(1)". */
+  naiveModel?: string | null;
+  /** The first print of the quarter's GDP for the Phase 0 headline; absent basis = the latest figure. */
   official: number | null;
+  /** Today's figure for the quarter (the bar chart's). */
+  latest?: number | null;
+  /** `latest` minus `official`. */
+  revision?: number | null;
+  /**
+   * Whether `official` and `latest` are on the same price base. Before 2025-26 Q3 they are
+   * not: the February 2026 rebasing moved growth by up to a point.
+   */
+  sameBase?: boolean | null;
+  /** "backtest": refitted on data released before the print, but today's revised values. */
+  basis?: "backtest" | "live" | string;
+  daysBeforeRelease?: number | null;
 };
+
+/** A run the archive recorded at the time, scored once the first print is out. */
+export type LiveRecordRow = {
+  runId?: string;
+  modelId: string;
+  asOf: string;
+  quarterStart: string;
+  label: string;
+  estimate: number | null;
+  /** Null until the first print. */
+  official: number | null;
+  basis: "live" | string;
+  /** "headline", "member" (the ARX, the DFM) or "benchmark" (AR(1), the four-quarter mean). */
+  role?: "headline" | "member" | "benchmark" | string;
+};
+
+/** The Phase 0 headline's own description of itself. */
+export type HeadlineInfo = {
+  id: string;
+  /** Each member's nowcast, keyed by member id. */
+  members: Record<string, number | null>;
+  weights?: string | Record<string, number>;
+  horizonDays?: number | null;
+  daysToRelease?: number | null;
+  runKind?: "live" | "frozen" | string;
+  /** Labelled as the export writes them, e.g. "Baseline: AR(1)". */
+  benchmarks?: Record<string, number | null>;
+  note?: string | null;
+};
+
+/** Root-mean-square error of the headline against the AR(1) benchmark, over one sample. */
+export type EvaluationCell = {
+  n: number;
+  rmse: number;
+  ar1Rmse: number;
+  /** Below 1 means closer than AR(1). */
+  ratioToAr1: number;
+  ratioLow: number;
+  ratioHigh: number;
+};
+
+/** What a sample is: its definition and the quarters it covers. */
+export type EvaluationSample = {
+  definition: string;
+  firstQuarter: string;
+  lastQuarter: string;
+  quarters: number;
+};
+
+export type Evaluation = {
+  basis?: string;
+  /** The benchmark the ratios are against, e.g. "AR(1)". */
+  naiveModel?: string | null;
+  samples?: Record<string, EvaluationSample>;
+  /** Keyed by days before the release ("30", "7"), then by sample. */
+  horizons: Record<string, Record<string, EvaluationCell | null | undefined>>;
+};
+
+export type CoverageIndicator = {
+  id: string;
+  name: string;
+  /** "core": the headline reads it. "monitor": tracked, weight 0. */
+  role: "core" | "monitor";
+  frequency: string;
+  lagDays: number | null;
+  historyFrom: string | null;
+  basis: string;
+  inArx: boolean;
+  inDfm: boolean;
+  note: string;
+};
+
+export type CoverageSection = {
+  /** A stable slug ("industry", "services", ...). Match on this, never on the display name. */
+  key?: string;
+  section: string;
+  indicators: CoverageIndicator[];
+};
+
+export type CoverageGap = {
+  section: string;
+  missing: string;
+  why: string;
+  candidateSource: string;
+  /** 1 is most urgent. */
+  priority: number;
+  /** The section's `key`, or "business-conditions" for a gap with no section yet. */
+  sectionKey?: string;
+};
+
+export type Coverage = {
+  sections: CoverageSection[];
+  gaps: CoverageGap[];
+  /** Monthly-or-finer series in the database that are not on the shortlist. */
+  notShortlisted?: { id: string; name: string }[];
+  note?: string;
+};
+
+export type MethodInfo = { version: string | number; document: string };
 
 export type NowcastData = {
   generatedAt: string;
@@ -115,6 +292,12 @@ export type NowcastData = {
   vintages?: Vintage[];
   trackRecord?: TrackRecordRow[];
   caveats: string[];
+  /** Phase 0 headline fields; absent in older exports. */
+  headline?: HeadlineInfo | null;
+  evaluation?: Evaluation | null;
+  coverage?: Coverage | null;
+  liveRecord?: LiveRecordRow[];
+  method?: MethodInfo | null;
 };
 
 // Loaded the same optional-file-safe way as the per-indicator series: if
@@ -129,8 +312,19 @@ export const NOWCAST: NowcastData | null = Object.values(nowcastModules)[0]?.def
 
 export function ciFor(level: number): ConfidenceInterval | null {
   const intervals = NOWCAST?.nowcast?.confidenceIntervals;
-  if (!intervals) return null;
+  if (!intervals?.length) return null;
   return intervals.find((c) => Math.abs(c.level - level) < 1e-6) ?? null;
+}
+
+/**
+ * The 90% range with COVID-size misses allowed for, when the export carries it. It widens the
+ * ordinary range, so with no ordinary range (`rangeAvailable: false`) it is not shown on its own.
+ */
+export function stressRange(): StressInterval | null {
+  const n = NOWCAST?.nowcast;
+  const s = n?.stressInterval90;
+  if (n?.rangeAvailable === false) return null;
+  return s && Number.isFinite(s.lower) && Number.isFinite(s.upper) ? s : null;
 }
 
 export type NowcastRow = {
@@ -165,12 +359,46 @@ export function lastReleasedGdp(): NowcastRow | null {
   return [...NOWCAST_ROWS].reverse().find((r) => r.actual != null) ?? null;
 }
 
-/** Below this share of the model's signal, the headline says "too early to call". */
+/** Below this share of the quarter's own information, the headline says "too early to call". */
 export const TOO_EARLY_SIGNAL_SHARE = 0.25;
 
+/** Why the headline holds back: little of the signal is in, or no likely range has been measured yet. */
+export type EarlyReason = "signal" | "range";
+
+/**
+ * Whether the headline should say "too early to call", and why.
+ *
+ * `signalShare` is the share of the open quarter's own information that is in: about a
+ * third at 85 days before the release, about 0.7 at 30 and near 1 at the print. That
+ * would catch only the first weeks, and on a live headline it is already above 0.25 by
+ * the time the page has a number it can stand behind, so the "signal" test below does
+ * not fire in practice. What marks the early weeks is the missing range: it is measured
+ * only from earlier estimates made 30 and 7 days before a release, so from about 45 days
+ * out the export has none (`rangeAvailable: false`) and nothing says how far to trust the
+ * number. The page promises that range everywhere else, so no range means "too early".
+ */
+export function earlyReason(): EarlyReason | null {
+  const n = NOWCAST?.nowcast;
+  if (!n) return null;
+  if (n.signalShare != null && n.signalShare < TOO_EARLY_SIGNAL_SHARE) return "signal";
+  if (rangeMissing()) return "range";
+  return null;
+}
+
+/** True when this quarter's estimate has no ordinary 90% range to go with it. */
+export function rangeMissing(): boolean {
+  const n = NOWCAST?.nowcast;
+  return !!n && (n.rangeAvailable === false || !ciFor(0.9));
+}
+
+/** The export's own sentence for why there is no range, when it says there is none. */
+export function rangeNote(): string | null {
+  const n = NOWCAST?.nowcast;
+  return n?.rangeAvailable === false ? (n.rangeNote ?? null) : null;
+}
+
 export function isTooEarly(): boolean {
-  const share = NOWCAST?.nowcast?.signalShare;
-  return share != null && share < TOO_EARLY_SIGNAL_SHARE;
+  return earlyReason() != null;
 }
 
 export const DRIVERS: Driver[] = NOWCAST?.drivers ?? [];
@@ -178,24 +406,84 @@ export const WEIGHT: Record<string, number> = Object.fromEntries(
   DRIVERS.map((d) => [d.id, d.weight]),
 );
 
-/** Standard normal CDF (Abramowitz & Stegun 7.1.26, |error| < 1.5e-7). */
-function normalCdf(z: number): number {
-  const t = 1 / (1 + (0.3275911 * Math.abs(z)) / Math.SQRT2);
-  const poly =
-    t *
-    (0.254829592 + t * (-0.284496736 + t * (1.421413741 + t * (-1.453152027 + t * 1.061405429))));
-  const erf = 1 - poly * Math.exp(-(z * z) / 2);
-  return z >= 0 ? 0.5 * (1 + erf) : 0.5 * (1 - erf);
+/**
+ * Which way a rise in each series reads for growth, +1 or -1. The Phase 0 export gives
+ * every series one, including the ones it only monitors (which have weight 0 and so no
+ * sign of their own). Absent in older exports, where every series has a weight.
+ */
+export const SIGN: Record<string, number> = Object.fromEntries(
+  DRIVERS.flatMap((d) => (d.sign === 1 || d.sign === -1 ? [[d.id, d.sign] as const] : [])),
+);
+
+/** How many series take their direction from each source: its weight, an economic prior, or its correlation with GDP. */
+export const SIGN_SOURCES: Record<string, number> = DRIVERS.reduce<Record<string, number>>(
+  (acc, d) => (d.signSource ? { ...acc, [d.signSource]: (acc[d.signSource] ?? 0) + 1 } : acc),
+  {},
+);
+
+/**
+ * Only series with a non-zero weight can move the headline. The Phase 0 export
+ * lists every monitored series too, with weight 0 and no contribution, so "has a
+ * driver row" no longer means "is in the model". Largest effect first.
+ */
+export const MODEL_DRIVERS: Driver[] = DRIVERS.filter((d) => d.weight !== 0).sort(
+  (a, b) => Math.abs(b.weight) - Math.abs(a.weight),
+);
+
+export function hasWeight(id: string): boolean {
+  return (WEIGHT[id] ?? 0) !== 0;
 }
 
-/** Probability that this quarter's growth comes in above `threshold`, under the model's normal error. */
+/**
+ * Probability that this quarter's growth comes in above `threshold`. It integrates
+ * the exported density (`nowcast.pdf`), the same one the likely ranges are cut
+ * from, so these odds agree with the range drawn beside them. Only if the export
+ * has no usable density does it fall back to a normal tail from `standardError`.
+ */
 export function probabilityAbove(threshold: number): number | null {
   const n = NOWCAST?.nowcast;
-  if (!n || !n.standardError) return null;
+  if (!n || n.rangeAvailable === false) return null;
+  const fromDensity = massAbove(n.pdf ?? [], threshold);
+  if (fromDensity != null) return fromDensity;
+  if (!n.standardError) return null;
   return 1 - normalCdf((threshold - n.pointEstimate) / n.standardError);
 }
 
-export type TrackSummary = { quarters: number; modelMiss: number; naiveMiss: number };
+/** Whether `probabilityAbove` is read off the exported density, rather than a normal approximation. */
+export function oddsFromDensity(): boolean {
+  return massAbove(NOWCAST?.nowcast?.pdf ?? [], 0) != null;
+}
+
+/** True for an export of the Phase 0 headline (two members, empirical ranges), as opposed to the demo factor model. */
+export function isHeadlineExport(): boolean {
+  return NOWCAST?.headline != null || (NOWCAST?.model.members?.length ?? 0) > 0;
+}
+
+/** "Baseline: AR(1)" -> "AR(1) benchmark"; "Benchmark: mean of the last four quarters" -> "Mean of the last four quarters". */
+export function benchmarkLabel(key: string): string {
+  const text = key.includes(": ") ? key.slice(key.indexOf(": ") + 2) : key;
+  const cap = text.charAt(0).toUpperCase() + text.slice(1);
+  return /^AR\(1\)$/i.test(text.trim()) ? `${cap} benchmark` : cap;
+}
+
+/** What the headline is compared with, as the export gives it. */
+export function benchmarks(): { label: string; value: number }[] {
+  return Object.entries(NOWCAST?.headline?.benchmarks ?? {}).flatMap(([key, value]) =>
+    value != null && Number.isFinite(value) ? [{ label: benchmarkLabel(key), value }] : [],
+  );
+}
+
+export type TrackSummary = {
+  quarters: number;
+  modelMiss: number;
+  naiveMiss: number;
+  /** Days before the release the estimates were made, when the export says. */
+  daysBefore: number | null;
+  /** True for a backtest scored against the first print (Phase 0 headline). */
+  backtest: boolean;
+  /** The benchmark the second figure is for, when the export names it. */
+  naiveModel: string | null;
+};
 
 /** Average absolute miss over the last `n` quarters where both estimates exist. */
 export function trackSummary(n = 8): TrackSummary | null {
@@ -208,5 +496,8 @@ export function trackSummary(n = 8): TrackSummary | null {
     quarters: rows.length,
     modelMiss: mean(rows.map((r) => Math.abs(r.estimate! - r.official!))),
     naiveMiss: mean(rows.map((r) => Math.abs(r.naive! - r.official!))),
+    daysBefore: rows[rows.length - 1]!.daysBeforeRelease ?? null,
+    backtest: rows.some((r) => r.basis === "backtest"),
+    naiveModel: rows[rows.length - 1]!.naiveModel ?? null,
   };
 }

@@ -1,3 +1,4 @@
+import { COVERAGE, UNMAPPED_SECTIONS } from "@/lib/coverage";
 import { SECTORS } from "@/lib/sectors";
 import { yearOnYear, fmtYearOnYear } from "@/lib/series";
 import { SECTOR_STATUS, USUAL_BAND, describe, latest, fmtMonth } from "@/lib/signals";
@@ -61,9 +62,41 @@ export function SectorTiles() {
             <p className="mt-1 text-[11px] text-muted-foreground">
               {status.current} of {status.total} indicators current
             </p>
+            {COVERAGE ? (
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                {status.read === 0
+                  ? "Monitored only: not in the headline"
+                  : `Headline reads ${status.read} of ${status.total}`}
+              </p>
+            ) : null}
           </div>
         );
       })}
+      {UNMAPPED_SECTIONS.map((u) => (
+        <div key={u.section} className="rounded-xl border border-dashed border-border p-4">
+          <p className="text-sm font-semibold text-navy">{u.section}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            {u.read === 0 ? "Not covered yet" : "Not shown as a sector"}
+          </p>
+          <p
+            className={`mt-3 text-sm font-medium ${u.read === 0 ? "text-trend-down" : "text-blue-dark"}`}
+          >
+            {u.read === 0
+              ? "No indicator in the headline"
+              : `${u.read} ${u.read === 1 ? "indicator" : "indicators"} in the headline`}
+          </p>
+          {u.monitored.length ? (
+            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+              Monitored only: {u.monitored.map((m) => m.name).join(", ")}
+            </p>
+          ) : null}
+          {u.gaps[0] ? (
+            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+              Missing: {u.gaps[0].missing}
+            </p>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 }

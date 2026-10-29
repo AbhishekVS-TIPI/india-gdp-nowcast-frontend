@@ -4,12 +4,15 @@
  * indicator's growth sits from its own long-run average.
  *
  * "Signed" readings point the same way for every indicator: positive means "this
- * points to stronger GDP growth", using the sign of the indicator's weight in the
- * model (so a rise in unemployment or market volatility counts as weaker).
+ * points to stronger GDP growth", using the direction the export gives each series
+ * (`drivers[].sign`: the sign of its weight in the headline, an economic prior for
+ * the VIX, USD/INR and the oil prices, or the sign of its correlation with GDP growth),
+ * so a rise in unemployment or market volatility counts as weaker.
  * Prices are context, not growth signals, so they are left unsigned and out of
  * the breadth and sector counts.
  */
-import { NOWCAST, WEIGHT } from "@/lib/nowcast";
+import { isRead } from "@/lib/coverage";
+import { NOWCAST, SIGN, WEIGHT } from "@/lib/nowcast";
 import { SECTORS, isContext, sectorOf, type SectorKey } from "@/lib/sectors";
 
 export const SIGNAL_MONTHS: string[] = NOWCAST?.signals?.months ?? [];
@@ -23,7 +26,11 @@ const STALE_AFTER_MONTHS = 4;
 /** |signed reading| below this is "about usual". */
 export const USUAL_BAND = 0.3;
 
-const sign = (id: string) => (isContext(id) ? 1 : Math.sign(WEIGHT[id] ?? 1) || 1);
+/** Which way a rise reads for growth: the export's direction, else the sign of the weight (older exports). */
+const sign = (id: string) => {
+  if (isContext(id)) return 1;
+  return Math.sign(SIGN[id] ?? WEIGHT[id] ?? 0) || 1;
+};
 
 /** Signed readings for one indicator, aligned to SIGNAL_MONTHS. */
 export function signed(id: string): (number | null)[] {
@@ -75,6 +82,8 @@ export type SectorStatus = {
   previous: number | null;
   current: number;
   total: number;
+  /** How many of the sector's series the headline reads (all of them where the export has no coverage). */
+  read: number;
 };
 
 export function sectorStatus(key: SectorKey): SectorStatus {
@@ -87,6 +96,7 @@ export function sectorStatus(key: SectorKey): SectorStatus {
     previous: before.length ? median(before) : null,
     current: now.length,
     total: ids.length,
+    read: ids.filter(isRead).length,
   };
 }
 

@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { DRIVERS } from "@/lib/nowcast";
+import { MODEL_DRIVERS, SIGN_SOURCES } from "@/lib/nowcast";
 import { SECTORS, sectorOf } from "@/lib/sectors";
+import { indicatorName } from "@/lib/coverage";
 import { INDICATOR_BY_ID } from "@/lib/series";
 import { SIGNAL_IDS, SIGNAL_MONTHS, fmtMonth, signed } from "@/lib/signals";
 
@@ -30,8 +31,9 @@ export function Heatmap() {
   const [topOnly, setTopOnly] = useState(false);
   const months = SIGNAL_MONTHS.slice(-MONTHS);
   const offset = SIGNAL_MONTHS.length - months.length;
-  const rank = useMemo(() => new Map(DRIVERS.map((d, i) => [d.id, i])), []);
-  const influential = useMemo(() => new Set(DRIVERS.slice(0, TOP).map((d) => d.id)), []);
+  // Series the headline gives no weight are ranked after the ones it does.
+  const rank = useMemo(() => new Map(MODEL_DRIVERS.map((d, i) => [d.id, i])), []);
+  const influential = useMemo(() => new Set(MODEL_DRIVERS.slice(0, TOP).map((d) => d.id)), []);
 
   const groups = SECTORS.map((s) => ({
     sector: s,
@@ -58,7 +60,9 @@ export function Heatmap() {
         </div>
         <label className="flex cursor-pointer items-center gap-2 text-xs text-navy">
           <input type="checkbox" checked={topOnly} onChange={(e) => setTopOnly(e.target.checked)} />
-          Only the {TOP} most influential indicators
+          {influential.size < TOP
+            ? `Only the ${influential.size} indicators the headline weights`
+            : `Only the ${TOP} most influential indicators`}
         </label>
       </div>
       <div className="overflow-x-auto">
@@ -81,16 +85,22 @@ export function Heatmap() {
               </p>
               {g.ids.map((id) => {
                 const z = signed(id);
-                const name = INDICATOR_BY_ID[id]?.name ?? id;
+                const name = indicatorName(id);
                 return (
                   <div key={id} className="grid gap-px" style={{ gridTemplateColumns: cols }}>
-                    <Link
-                      to="/indicator/$id"
-                      params={{ id }}
-                      className="truncate pr-2 text-[11px] leading-5 text-blue-dark hover:underline"
-                    >
-                      {name}
-                    </Link>
+                    {INDICATOR_BY_ID[id] ? (
+                      <Link
+                        to="/indicator/$id"
+                        params={{ id }}
+                        className="truncate pr-2 text-[11px] leading-5 text-blue-dark hover:underline"
+                      >
+                        {name}
+                      </Link>
+                    ) : (
+                      <span className="truncate pr-2 text-[11px] leading-5 text-blue-dark">
+                        {name}
+                      </span>
+                    )}
                     {months.map((m, i) => {
                       const v = z[offset + i] ?? null;
                       return (
@@ -115,9 +125,13 @@ export function Heatmap() {
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         Each cell is that month's growth reading against the indicator's own long-run average, in
-        standard deviations (the scale the model uses). Readings are flipped where the model links a
-        rise to slower GDP growth, so green always means stronger. Prices are shown in blue (above
-        usual) and grey (below) as background. Blank cells have no reading yet.
+        standard deviations (the scale the model uses). Readings are flipped where a rise goes with
+        slower GDP growth{" "}
+        {Object.keys(SIGN_SOURCES).length
+          ? "(the methodology says where each series' direction comes from)"
+          : "(as the model links it)"}
+        , so green always means stronger. Prices are shown in blue (above usual) and grey (below) as
+        background. Blank cells have no reading yet.
       </p>
     </div>
   );

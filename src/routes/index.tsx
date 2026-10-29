@@ -2,13 +2,26 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card } from "@/components/Card";
 import { ComingUp } from "@/components/briefing/ComingUp";
 import { GdpBarsChart } from "@/components/briefing/GdpBarsChart";
+import { HowItsMade } from "@/components/briefing/HowItsMade";
 import { SectorTiles } from "@/components/briefing/SectorTiles";
 import { Waterfall } from "@/components/briefing/Waterfall";
 import { FrozenNote } from "@/components/FrozenNote";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SECTOR_CONTRIBUTIONS } from "@/lib/attribution";
-import { NOWCAST, ciFor, isTooEarly, lastReleasedGdp, trackSummary } from "@/lib/nowcast";
+import { evaluationBrief, trackLine } from "@/lib/evaluation";
+import {
+  NOWCAST,
+  SIGN_SOURCES,
+  benchmarks,
+  ciFor,
+  earlyReason,
+  isHeadlineExport,
+  lastReleasedGdp,
+  rangeNote,
+  stressRange,
+  trackSummary,
+} from "@/lib/nowcast";
 import { TODAY, fmtDate, indicators } from "@/lib/series";
 import { BREADTH, fmtMonth } from "@/lib/signals";
 
@@ -83,7 +96,7 @@ function threeThings(): { title: string; text: string }[] {
     const sentences: string[] = [];
     if (Math.abs(d.carriedForward) > Math.abs(d.reported)) {
       sentences.push(
-        isTooEarly()
+        earlyReason() === "signal"
           ? `Most of the estimate still rests on momentum from earlier months (${signedPp(d.carriedForward)}), because little of this quarter's data is in.`
           : `Momentum carried from earlier months (${signedPp(d.carriedForward)}) outweighs what this quarter's reported data adds (${signedPp(d.reported)}).`,
       );
@@ -104,9 +117,34 @@ function threeThings(): { title: string; text: string }[] {
   return out;
 }
 
+function RangeCell({
+  label,
+  note,
+  lower,
+  upper,
+}: {
+  label: string;
+  note: string;
+  lower: number;
+  upper: number;
+}) {
+  return (
+    <div>
+      <dt className="text-[11px] font-medium text-navy">{label}</dt>
+      <dd className="mt-0.5 font-mono text-sm text-navy">
+        {pct1(lower)} to {pct1(upper)}
+      </dd>
+      <dd className="text-[11px] leading-snug text-muted-foreground">{note}</dd>
+    </div>
+  );
+}
+
 function Headline() {
   const n = NOWCAST?.nowcast;
+  const ci68 = ciFor(0.68);
   const ci90 = ciFor(0.9);
+  const stress = stressRange();
+  const compare = benchmarks();
   const last = lastReleasedGdp();
   if (!n) {
     return (
@@ -115,28 +153,79 @@ function Headline() {
       </p>
     );
   }
-  const tooEarly = isTooEarly();
+  const early = earlyReason();
+  const tooEarly = early != null;
   const range = ci90 ? `likely between ${pct1(ci90.lower)} and ${pct1(ci90.upper)}` : null;
   const share = n.signalShare;
+  const ordinary = isHeadlineExport() ? "ordinary conditions" : "the model's usual error";
   return (
     <div>
       <p className="eyebrow">GDP growth · {n.label}</p>
-      <p className="mt-2 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
-        {tooEarly ? "Too early to call" : `About ${pct1(n.pointEstimate)}`}
-      </p>
-      {range ? <p className="mt-1 font-mono text-base text-blue-dark">{range}</p> : null}
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+        <div>
+          <p className="text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
+            {tooEarly ? "Too early to call" : `About ${pct1(n.pointEstimate)}`}
+          </p>
+          {range ? <p className="mt-1 font-mono text-base text-blue-dark">{range}</p> : null}
+        </div>
+        {compare.length ? (
+          <dl className="text-xs sm:text-right">
+            <dt className="eyebrow">For comparison</dt>
+            {compare.map((c) => (
+              <dd key={c.label} className="mt-1 text-navy">
+                <span className="font-mono text-sm">{pct1(c.value)}</span>{" "}
+                <span className="text-[11px] text-muted-foreground">{c.label}</span>
+              </dd>
+            ))}
+          </dl>
+        ) : null}
+      </div>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-navy">
-        {tooEarly
+        {early === "signal"
           ? `With little of this quarter's data in, growth in ${n.label} is ${range ?? "uncertain"}; the central estimate is about ${pct1(n.pointEstimate)}.`
-          : `Growth in ${n.label} is provisionally estimated at about ${pct1(n.pointEstimate)}${range ? `, ${range}` : ""}.`}
+          : early === "range"
+            ? `The central estimate for ${n.label} is about ${pct1(n.pointEstimate)}. ${rangeNote() ?? "No likely range is shown yet: it is measured from how far earlier estimates made close to an official release were from the first print."} A likely range appears once the release is near.`
+            : `Growth in ${n.label} is provisionally estimated at about ${pct1(n.pointEstimate)}${range ? `, ${range}` : ""}.`}
         {last?.actual != null ? ` Official growth for ${last.label} was ${pct1(last.actual)}.` : ""}
       </p>
+
+      {ci68 || ci90 || stress ? (
+        <dl className="mt-4 grid gap-3 rounded-xl bg-muted/30 p-3 sm:grid-cols-3">
+          {ci68 ? (
+            <RangeCell
+              label="68% range"
+              note={`about two times in three, ${ordinary}`}
+              lower={ci68.lower}
+              upper={ci68.upper}
+            />
+          ) : null}
+          {ci90 ? (
+            <RangeCell
+              label="90% range"
+              note={`about nine times in ten, ${ordinary}`}
+              lower={ci90.lower}
+              upper={ci90.upper}
+            />
+          ) : null}
+          {stress ? (
+            <RangeCell
+              label="Tail risk"
+              note="90% range if a miss like 2020's recurred"
+              lower={stress.lower}
+              upper={stress.upper}
+            />
+          ) : null}
+        </dl>
+      ) : null}
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <div>
           <p className="text-[11px] text-muted-foreground">
-            Data in: {n.indicatorsReporting.length} of {n.indicatorsTotal} indicators
-            {share != null ? `, about ${Math.round(share * 100)}% of the model's signal` : ""}
+            Data in: {n.indicatorsReporting.length} of {n.indicatorsTotal} indicators the model
+            reads
+            {share != null
+              ? `, about ${Math.round(share * 100)}% of ${isHeadlineExport() ? "this quarter's information" : "its signal"}`
+              : ""}
           </p>
           {share != null ? (
             <div
@@ -223,12 +312,23 @@ function Briefing() {
           </Card>
         </div>
 
+        {NOWCAST?.model.members?.length ? (
+          <Card title="How this number is made">
+            <HowItsMade />
+          </Card>
+        ) : null}
+
         <Card title="The economy by sector">
           <SectorTiles />
           <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
             Each sector is judged on its latest readings against their own long-run normal. A
             reading counts as pointing to stronger growth when the model links it to faster GDP
-            growth, so a rise in unemployment or market volatility counts as weaker.
+            growth, so a rise in unemployment or market volatility counts as weaker. A tile judges
+            everything we track in that sector, including series the headline only monitors
+            {SIGN_SOURCES["correlation"]
+              ? ", whose direction comes from how they have moved with GDP growth"
+              : ""}
+            .
           </p>
         </Card>
 
@@ -237,7 +337,7 @@ function Briefing() {
             Experimental estimate, not official statistics.
           </span>{" "}
           {track
-            ? `Over the last ${track.quarters} quarters, our estimate made the day before each official release missed by ${track.modelMiss.toFixed(1)} pp on average; simply assuming growth stays at last quarter's rate missed by ${track.naiveMiss.toFixed(1)} pp.`
+            ? `${trackLine(track)} ${evaluationBrief(NOWCAST?.evaluation, NOWCAST?.headline?.horizonDays) ?? ""}`
             : ""}{" "}
           <Link to="/methodology" className="underline underline-offset-2">
             How this works
