@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { NOWCAST, WEIGHT } from "@/lib/nowcast";
+import { isRead } from "@/lib/coverage";
+import { NOWCAST } from "@/lib/nowcast";
 import { sectorLabel, sectorOf } from "@/lib/sectors";
 import { fmtDate, indicators, lastUpdated, nextRelease } from "@/lib/series";
 
@@ -58,7 +59,7 @@ export function Freshness() {
                     </Link>
                     <span className="block text-[10px] text-muted-foreground">
                       {sector ? sectorLabel(sector) : ind.category} · {ind.frequency}
-                      {ind.id in WEIGHT ? " · in the model" : ""}
+                      {isRead(ind.id) ? " · in the headline" : ""}
                     </span>
                   </td>
                   <td className="px-3 py-2 font-mono text-xs text-navy">

@@ -135,7 +135,10 @@ export function GdpBarsChart() {
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         Light bars: official GDP growth (year on year). Dark bar: our estimate for the current
-        quarter, with the line showing where growth is likely to fall.
+        quarter
+        {ci90
+          ? ", with the line showing where growth is likely to fall."
+          : ", with no line yet: the likely range is not measured until the release is near."}
       </p>
     </div>
   );

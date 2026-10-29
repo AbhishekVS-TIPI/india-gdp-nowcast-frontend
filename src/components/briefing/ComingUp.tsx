@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { DRIVERS, NOWCAST } from "@/lib/nowcast";
+import { MODEL_DRIVERS, NOWCAST } from "@/lib/nowcast";
 import { INDICATOR_BY_ID, fmtDate, nextRelease } from "@/lib/series";
 
 const DAY_MS = 86_400_000;
@@ -11,14 +11,15 @@ const month = (t: number) =>
   new Date(t).toLocaleDateString("en-IN", { month: "long", year: "numeric", timeZone: "UTC" });
 
 /**
- * The official GDP date, then the next figures due from the model's most
- * influential indicators. Figures already due but missing from our data are
+ * The official GDP date, then the next figures due from the headline's most
+ * influential indicators (only series with a weight can move it). Figures already due but missing from our data are
  * counted rather than listed, with a pointer to the freshness table.
  */
 export function ComingUp({ limit = 5 }: { limit?: number }) {
   const asOf = Date.parse(`${NOWCAST?.dataAsOf ?? NOWCAST?.generatedAt.slice(0, 10)}T00:00:00Z`);
   const gdp = NOWCAST?.nowcast?.nextOfficialRelease;
-  const releases = DRIVERS.slice(0, INFLUENTIAL)
+  const watched = MODEL_DRIVERS.slice(0, INFLUENTIAL);
+  const releases = watched
     .map((d) => ({ id: d.id, next: nextRelease(d.id) }))
     .filter(
       (x): x is { id: string; next: { period: number; due: number } } =>
@@ -56,8 +57,9 @@ export function ComingUp({ limit = 5 }: { limit?: number }) {
       </ul>
       {overdue ? (
         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-          {overdue} of the {INFLUENTIAL} most influential indicators have a newer figure that should
-          already be out but is not yet in our data.{" "}
+          {overdue} of the {watched.length}{" "}
+          {MODEL_DRIVERS.length > INFLUENTIAL ? "most influential" : "weighted"} indicators have a
+          newer figure that should already be out but is not yet in our data.{" "}
           <Link to="/trends" hash="freshness" className="underline underline-offset-2">
             See data freshness
           </Link>

@@ -22,6 +22,11 @@ This is the frontend half of a two-repo system:
 See `src/routes/methodology.tsx` for the full writeup of sourcing, splicing, and how the
 nowcast model works.
 
+`nowcast.json` follows the contract in the pipeline repo (`docs/frontend_contract.md`): every
+field the site needs is always there, and the Phase 0 fields (stress range, headline, members,
+evaluation, coverage, live record) are optional, so the site works with an older export too.
+Questions raised for the pipeline side, and how they were answered, are in `docs/pipeline-questions.md`.
+
 ## Development
 
 Requires Node.js ≥20.19 (see `.nvmrc`) and [Bun](https://bun.sh).
@@ -49,7 +54,9 @@ src/
   routes/       / (the briefing), /trends (the evidence), /indicators, /indicator/$id, /methodology
   components/   shared UI (SiteHeader, Card, charts); briefing/ and evidence/ hold each page's sections
   lib/          series.ts (data loading, y/y, release calendar), nowcast.ts (model output types and helpers),
-                signals.ts (readings vs normal, breadth), sectors.ts (indicator -> sector map), attribution.ts
+                density.ts (odds from the exported density), evaluation.ts (the backtest against AR(1)),
+                coverage.ts (what the headline reads), signals.ts (readings vs normal, breadth),
+                sectors.ts (indicator -> sector map, model section crosswalk), attribution.ts
   data/         JSON exported by the pipeline repo (do not edit by hand)
   server.ts     Worker entry with an SSR error fallback
   start.ts      TanStack Start middleware (errors, CSRF)
