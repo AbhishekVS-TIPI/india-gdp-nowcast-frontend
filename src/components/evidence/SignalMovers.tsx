@@ -17,7 +17,9 @@ function Column({ title, items }: { title: string; items: SignalMover[] }) {
           const body = (
             <>
               <div className="flex items-baseline justify-between gap-3">
-                <span className="min-w-0 truncate text-sm text-navy">{indicatorName(m.id)}</span>
+                <span className="min-w-0 text-sm leading-snug text-navy">
+                  {indicatorName(m.id)}
+                </span>
                 <span className="shrink-0 font-mono text-xs text-navy">
                   {yoy ? `${fmtYearOnYear(yoy)} y/y` : "—"}
                 </span>
@@ -60,9 +62,10 @@ export function SignalMovers() {
         <Column title="Slowing down" items={down} />
       </div>
       <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
-        Ranked by how much each reading moved against its own normal over the last three months.
-        Figures on the right are the change from a year earlier: growth for levels, percentage
-        points for rates. Balances that swing between surplus and deficit show "—".
+        Ranked by how far each reading has moved against its own normal over the last three months.
+        The figure on the right is the change from a year earlier: growth for levels, percentage
+        points for rates. A dash means the change cannot be worked out, as with balances that swing
+        between surplus and deficit.
       </p>
     </div>
   );

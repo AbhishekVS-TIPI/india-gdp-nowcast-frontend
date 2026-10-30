@@ -28,7 +28,9 @@ export function Probabilities() {
     );
   }
   const last = lastReleasedGdp();
-  const thresholds = [6, 7, 8];
+  // Whole-number levels either side of the estimate, so the rows stay relevant as it moves.
+  const mid = Math.round(n.pointEstimate);
+  const thresholds = [mid - 1, mid, mid + 1];
   const rows = [
     ...thresholds.map((t) => ({ label: `Growth above ${t}%`, p: probabilityAbove(t) })),
     ...(last?.actual != null
@@ -45,9 +47,9 @@ export function Probabilities() {
   const hasDensity = oddsFromDensity();
   const centre = `${n.pointEstimate.toFixed(1)}%`;
   const note = !hasDensity
-    ? `The export has no error distribution, so these chances assume normally distributed errors${n.standardError != null ? ` with a spread of ${n.standardError.toFixed(1)} pp` : ""} around the central estimate of ${centre}.`
+    ? `These chances assume normally distributed errors${n.standardError != null ? ` with a spread of ${n.standardError.toFixed(1)} pp` : ""} around the central estimate of ${centre}.`
     : isHeadlineExport()
-      ? `Chances are read off the distribution of the headline's earlier errors around its central estimate of ${centre}${ciFor(0.9) ? ", the same distribution the likely ranges come from" : ""}. The COVID quarters are left out, so these describe ordinary conditions${stress ? "; the tail-risk range allows for a larger miss" : ""}.`
+      ? `The chances come from how far the headline's earlier estimates were from the first print, applied to today's estimate of ${centre}${ciFor(0.9) ? ". The likely ranges come from the same errors" : ""}. The COVID quarters are left out, so this is for ordinary conditions${stress ? ". The tail-risk range allows for a bigger miss" : ""}.`
       : `Chances come from the model's error spread around its central estimate of ${centre}. They ignore uncertainty in the factors themselves, so treat them as somewhat overconfident.`;
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-center">
@@ -68,7 +70,7 @@ export function Probabilities() {
       {n.pdf.length > 1 ? (
         <div>
           <p className="text-center text-[11px] uppercase tracking-wider text-muted-foreground">
-            Full distribution — {n.label}
+            Full distribution · {n.label}
           </p>
           <div className="mt-2">
             <DensityChart />

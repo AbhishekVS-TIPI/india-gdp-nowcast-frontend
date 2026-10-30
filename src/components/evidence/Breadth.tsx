@@ -52,7 +52,7 @@ export function Breadth() {
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         Above the dashed 50% line, more indicators are running stronger than usual than weaker.
-        Prices are excluded, and months where under half the indicators have reported are left out.
+        Prices are left out, and so are months where fewer than half the indicators have reported.
       </p>
     </div>
   );

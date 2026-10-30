@@ -27,17 +27,16 @@ const GROUPS = [
 export const Route = createFileRoute("/indicators")({
   head: () => ({
     meta: [
-      { title: "Indicators — India GDP Nowcast" },
+      { title: "Indicators | India GDP Pulse" },
       {
         name: "description",
         content:
-          "Browse every high-frequency indicator behind India's GDP nowcast by sector, with year-on-year change and sparkline trends.",
+          "Every high-frequency indicator behind India's GDP estimate, by sector, with its year-on-year change and recent trend.",
       },
-      { property: "og:title", content: "Indicators — India GDP Nowcast" },
+      { property: "og:title", content: "Indicators | India GDP Pulse" },
       {
         property: "og:description",
-        content:
-          "Sparkline trends and category filters for the high-frequency indicators behind India's GDP nowcast.",
+        content: "The high-frequency indicators behind India's GDP estimate, by sector.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -93,7 +92,7 @@ function IndicatorsPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <SiteHeader subtitle={`${indicators.length} high-frequency indicators`} />
+      <SiteHeader />
 
       <div className="mx-auto max-w-6xl px-5 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">

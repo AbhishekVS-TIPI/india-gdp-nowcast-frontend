@@ -17,6 +17,7 @@ import {
   type LiveRecordRow,
   type TrackRecordRow,
 } from "@/lib/nowcast";
+import { Link } from "@tanstack/react-router";
 import { fmtDate } from "@/lib/series";
 
 const fmt = (v: number | null | undefined) => (v == null ? "—" : `${v.toFixed(1)}%`);
@@ -76,7 +77,7 @@ export function TrackRecordTable() {
             </span>
             {trackLine(summary)}
             {NOWCAST?.evaluation
-              ? " Whether that difference is more than luck is tested against the benchmark further down."
+              ? " The tests below check whether that gap is more than luck."
               : ""}
           </p>
         ) : (
@@ -145,28 +146,27 @@ export function TrackRecordTable() {
       {backtest ? (
         <div className="mt-3 space-y-2 text-[11px] leading-relaxed text-muted-foreground">
           <p>
-            This is a backtest, not a record of what was published at the time. Each estimate is
-            refitted using only data released before the quarter's first print and made {when} it,
-            but on today's revised values, not the figures as first published. Miss is estimate
-            minus first print. "—" means the model had no estimate for that quarter at the time.
+            This is a backtest, not what we published at the time. Each estimate was made {when} the
+            first print, using only data released before it, but with today's revised values for the
+            indicators. Miss is our estimate minus the first print. A dash means the model had no
+            estimate for that quarter.
           </p>
           {showLatest ? (
             <p>
               The latest figure is the one the bar chart above shows.
               {rebased.length && rebasedRev.length
-                ? ` † For ${rebased.length} of these quarters the first print and the latest figure are on different price bases: GDP was rebased in February 2026. The gap between those two columns, up to ${Math.max(...rebasedRev).toFixed(1)} pp, is the rebasing (with some ordinary revision), not a miss by the model.`
+                ? ` † For ${rebased.length} of these quarters the first print and the latest figure use different price bases, because GDP was rebased in February 2026. The gap between the two columns, up to ${Math.max(...rebasedRev).toFixed(1)} pp, comes from the rebasing and some revision. It is not a model miss.`
                 : ""}
               {sameBase.length && sameRev.length
-                ? ` For the ${sameBase.length} most recent quarters the two are on the same base and differ by ${range(sameRev)}, which is revision alone.`
+                ? ` The ${sameBase.length} most recent quarters are on the same base and differ by ${range(sameRev)}. That is revision alone.`
                 : ""}
             </p>
           ) : null}
         </div>
       ) : (
         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-          Each estimate is refitted using only data released before that quarter's official figure
-          (pseudo-real-time: today's revised data, not the figures as first published). "—" means
-          the model had no estimate for that quarter at the time.
+          Each estimate uses only data released before that quarter's official figure, but with
+          today's revised values. A dash means the model had no estimate for that quarter.
         </p>
       )}
     </div>
@@ -178,7 +178,6 @@ export function EvaluationTable() {
   const ev = NOWCAST?.evaluation;
   const rows = evaluationRows(ev);
   if (!rows.length) return null;
-  const method = NOWCAST?.method;
   const bench = benchmarkName(ev);
   const days = NOWCAST?.headline?.horizonDays ?? NOWCAST?.trackRecord?.at(-1)?.daysBeforeRelease;
   const sentences = [...evaluationSentences(ev, days), ...otherHorizonSentences(ev, days)];
@@ -189,8 +188,8 @@ export function EvaluationTable() {
       <div className="mt-2 space-y-2 text-sm leading-relaxed text-navy">
         {NOWCAST?.headline?.horizonDays != null ? (
           <p>
-            The current estimate is made {NOWCAST.headline.horizonDays} days before the release, so
-            that distance comes first.
+            The current estimate is {NOWCAST.headline.horizonDays} days from the release, so that
+            horizon comes first.
           </p>
         ) : null}
         {sentences.map((t) => (
@@ -239,12 +238,12 @@ export function EvaluationTable() {
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         Error is the root-mean-square miss against the first print. A ratio below 1 means closer
-        than the {bench} benchmark, but a result counts as better only when the whole interval is
-        below 1; an interval that includes 1 shows no difference.
-        {ev?.basis ? ` Basis: ${ev.basis}.` : ""}
-        {method
-          ? ` The method is ${method.document} in the pipeline repository (method version ${method.version}).`
-          : ""}
+        than the {bench} benchmark, but we call it better only when the whole range is below 1. If
+        the range includes 1, there is no clear difference. The{" "}
+        <Link to="/methodology" className="underline underline-offset-2">
+          methodology
+        </Link>{" "}
+        explains how this is calculated.
       </p>
       {samples.length ? (
         <details className="mt-2 text-xs text-blue-dark">
@@ -311,8 +310,8 @@ export function LiveRecordTable() {
       <p className="eyebrow">Live record</p>
       <p className="mt-2 text-sm leading-relaxed text-navy">
         {scored === 0
-          ? `Runs recorded at the time, each scored against the first print once it is out${compared ? ", the headline together with its members and the benchmarks" : ""}. No quarter has been scored yet${open ? `: the first is ${open.label}${release ? `, expected around ${day(release)}` : ""}` : ""}. Until then the backtest above is the only evidence of accuracy, and it is not a live result.`
-          : `Runs recorded at the time, each scored against the first print. ${scored} of ${rows.length} have been scored.`}
+          ? `Every run is saved when it is made${compared ? ", for the headline, its two models and the benchmarks" : ""}, then scored against the first print once that is out. Nothing has been scored yet${open ? `: the first is ${open.label}${release ? `, due around ${day(release)}` : ""}` : ""}. Until then the backtest above is the only evidence of accuracy.`
+          : `Every run is saved when it is made, then scored against the first print once that is out. ${scored} of ${rows.length} have been scored.`}
       </p>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[520px] border-collapse text-sm">

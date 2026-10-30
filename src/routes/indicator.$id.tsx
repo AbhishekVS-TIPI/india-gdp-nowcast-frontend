@@ -37,12 +37,12 @@ export const Route = createFileRoute("/indicator/$id")({
   },
   head: ({ loaderData }) => {
     const name = loaderData?.indicator.name ?? "Indicator";
-    const desc = `${name} — trend, frequency, source and release notes from the India GDP nowcast indicator set.`;
+    const desc = `${name}: recent trend, frequency, source and release timing.`;
     return {
       meta: [
-        { title: `${name} — India GDP Nowcast` },
+        { title: `${name} | India GDP Pulse` },
         { name: "description", content: desc },
-        { property: "og:title", content: `${name} — India GDP Nowcast` },
+        { property: "og:title", content: `${name} | India GDP Pulse` },
         { property: "og:description", content: desc },
       ],
     };
@@ -169,13 +169,13 @@ function IndicatorDetail() {
             <div className="mt-5">
               {table ? (
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                  {table.baseYears.length} base years spliced -- every raw value shown alongside the
-                  continuous ("spliced") series the graph plots. Full history, {table.rows.length}{" "}
-                  rows.
+                  The agency has re-based this series {table.baseYears.length - 1}{" "}
+                  {table.baseYears.length - 1 === 1 ? "time" : "times"}. Each base year's own values
+                  are shown beside the joined series the graph plots. {table.rows.length} rows.
                 </p>
               ) : (
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                  Full history, {fullSeries.length} rows.
+                  {fullSeries.length} rows.
                 </p>
               )}
               <IndicatorTable
@@ -192,8 +192,10 @@ function IndicatorDetail() {
           <Row label="Category">{indicator.category}</Row>
           <Row label="Frequency">{indicator.frequency}</Row>
           {indicator.baseYear ? <Row label="Base year">{indicator.baseYear}</Row> : null}
-          <Row label="Data available from">{indicator.availableFrom ?? "Not recorded"}</Row>
-          <Row label="Source path">{indicator.sourceName ?? "Not recorded"}</Row>
+          {indicator.availableFrom ? (
+            <Row label="Data available from">{indicator.availableFrom}</Row>
+          ) : null}
+          <Row label="Source">{indicator.sourceName ?? "Not recorded"}</Row>
           <Row label="Source link">
             {indicator.source ? (
               <a
@@ -208,10 +210,9 @@ function IndicatorDetail() {
               "Not recorded"
             )}
           </Row>
-          <Row label="Release day">{indicator.releaseDay ?? "Not recorded"}</Row>
-          <Row label="Typical release lag">{indicator.releaseLag ?? "Not recorded"}</Row>
-          <Row label="Remarks">{indicator.remarks ?? "—"}</Row>
-          <Row label="Notes">{indicator.notes ?? "—"}</Row>
+          {indicator.releaseLag ? (
+            <Row label="Usually published">{indicator.releaseLag}</Row>
+          ) : null}
         </dl>
       </div>
       <SiteFooter />

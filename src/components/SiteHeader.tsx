@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { SITE_SUBTITLE } from "@/lib/site";
 
 const NAV = [
   { to: "/", label: "GDP Pulse", exact: true },
@@ -8,7 +9,7 @@ const NAV = [
   { to: "/methodology", label: "Methodology", exact: false },
 ] as const;
 
-export function SiteHeader({ subtitle }: { subtitle?: string }) {
+export function SiteHeader({ subtitle = SITE_SUBTITLE }: { subtitle?: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 

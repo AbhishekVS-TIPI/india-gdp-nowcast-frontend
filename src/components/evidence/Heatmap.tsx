@@ -124,14 +124,14 @@ export function Heatmap() {
         </div>
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-        Each cell is that month's growth reading against the indicator's own long-run average, in
-        standard deviations (the scale the model uses). Readings are flipped where a rise goes with
-        slower GDP growth{" "}
+        Each cell shows how far that month's reading is from the indicator's own long-run average,
+        in standard deviations. Where a rise goes with slower GDP growth the reading is flipped, so
+        green always means stronger growth.{" "}
         {Object.keys(SIGN_SOURCES).length
-          ? "(the methodology says where each series' direction comes from)"
-          : "(as the model links it)"}
-        , so green always means stronger. Prices are shown in blue (above usual) and grey (below) as
-        background. Blank cells have no reading yet.
+          ? "The methodology explains how each direction is set. "
+          : ""}
+        Prices are shown in blue (above usual) and grey (below) as background. Blank cells have no
+        reading yet.
       </p>
     </div>
   );

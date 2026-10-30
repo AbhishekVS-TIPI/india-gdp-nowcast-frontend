@@ -596,3 +596,6 @@ details.more.slim > .more-body { padding: 0 16px 16px; }
   .nav a { padding: 10px 0; font-size: 14px; }
   .nav a.on::after { display: none; }
 }
+
+.evidence-link { margin: 16px 0 0; font-size: 0.9375rem; color: var(--fg-2); }
+.evidence-link a { color: var(--accent); }

@@ -22,7 +22,7 @@ import {
   stressRange,
   trackSummary,
 } from "@/lib/nowcast";
-import { TODAY, fmtDate, indicators } from "@/lib/series";
+import { fmtDate } from "@/lib/series";
 import { BREADTH, fmtMonth } from "@/lib/signals";
 
 export const Route = createFileRoute("/")({
@@ -260,13 +260,7 @@ function Briefing() {
 
   return (
     <main className="min-h-screen bg-background">
-      <SiteHeader
-        subtitle={
-          NOWCAST?.frozenAsOf
-            ? `${indicators.length} high-frequency indicators · estimate as of ${isoDate(NOWCAST.frozenAsOf)}`
-            : `${indicators.length} high-frequency indicators · data to ${fmtDate(TODAY)}`
-        }
-      />
+      <SiteHeader />
 
       <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
         <FrozenNote />

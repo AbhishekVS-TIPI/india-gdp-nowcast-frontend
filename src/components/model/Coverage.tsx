@@ -73,7 +73,7 @@ export function CoverageMap() {
       <p className="text-sm leading-relaxed text-navy">
         The headline reads <span className="font-mono">{READ_COUNT}</span> of the{" "}
         <span className="font-mono">{TRACKED_COUNT}</span> indicators grouped here. The others are
-        monitored: they are shown on the site and checked, but do not move the estimate.
+        monitored: they appear on the site, but they do not move the estimate.
         {UNACCOUNTED_COUNT > 0
           ? ` A further ${UNACCOUNTED_COUNT} monitored series are not assigned to any section.`
           : ""}

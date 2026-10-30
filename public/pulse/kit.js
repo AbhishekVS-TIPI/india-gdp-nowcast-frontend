@@ -1149,7 +1149,7 @@ function chrome() {
     hd.append(h("div", { class: "wrap" },
       h("a", { class: "brand", href: "/" },
         h("img", { src: "/tipi-logo.svg", alt: "The India Prosperity Initiative logo", width: "88", height: "36" }),
-        h("span", null, h("b", { text: "India GDP Pulse" }), h("small", { text: `${D.indicatorCount} high-frequency indicators · estimate as of ${day(D.asOf)}` }))),
+        h("span", null, h("b", { text: "India GDP Pulse" }), h("small", { text: `${D.indicatorCount} high-frequency indicators · updated ${day(D.asOf)}` }))),
       nav, menu));
     const onScroll = () => hd.classList.toggle("scrolled", scrollY > 12);
     addEventListener("scroll", onScroll, { passive: true });

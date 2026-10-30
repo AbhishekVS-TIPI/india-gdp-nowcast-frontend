@@ -110,10 +110,10 @@ export function NowcastVsActualChart() {
         </ResponsiveContainer>
       </div>
       <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
-        Solid: released GDP · Dashed: model estimate (in-sample fit) ·{" "}
+        Solid: official GDP growth · Dashed: the model's fit to past quarters ·{" "}
         {ci90
-          ? "Dot and whisker: this quarter's nowcast and its 90% range"
-          : "Dot: this quarter's nowcast (no likely range yet)"}
+          ? "Dot and whisker: this quarter's estimate and its 90% range"
+          : "Dot: this quarter's estimate (no likely range yet)"}
       </p>
     </div>
   );

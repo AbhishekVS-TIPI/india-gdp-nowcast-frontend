@@ -288,9 +288,9 @@ const verdict = evalCell
       : "not clearly different"
   : null;
 const disclaimer =
-  `Over the last ${trackStats.n} quarters of the backtest, our estimate made a week before each official release missed the first print by ${trackStats.mae.toFixed(1)} pp on average; the AR(1) benchmark missed by ${trackStats.naiveMae.toFixed(1)} pp.` +
+  `Backtest: over the last ${trackStats.n} quarters, our estimate made a week before each release was ${trackStats.mae.toFixed(1)} pp from the first print on average. A simple benchmark (AR(1)), which predicts each quarter from the one before, was ${trackStats.naiveMae.toFixed(1)} pp away.` +
   (evalCell
-    ? ` Across the whole backtest (ordinary quarters), estimates made 30 days before a release had errors ${evalCell.ratioToAr1.toFixed(2)} times the benchmark's (interval ${evalCell.ratioLow.toFixed(2)} to ${evalCell.ratioHigh.toFixed(2)}): ${verdict}.`
+    ? ` Across the whole backtest, estimates made 30 days before a release had errors ${evalCell.ratioToAr1.toFixed(2)} times the benchmark's (range ${evalCell.ratioLow.toFixed(2)} to ${evalCell.ratioHigh.toFixed(2)}), which is ${verdict}.`
     : "");
 
 /* ---------- the release calendar: what the headline reads, by the date its next figure is due ---------- */
@@ -397,7 +397,7 @@ const DATA = {
   cal,
   sg,
   breadth,
-  indicatorCount: INDICATORS.length,
+  indicatorCount: INDICATORS.filter((i) => i.frequency !== "Quarterly").length,
   freq: drivers.map((d) => BY_ID[d.id]?.frequency ?? "Monthly"),
   trackDates: track.map((r) => r.asOf),
   contrib,

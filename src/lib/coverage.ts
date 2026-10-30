@@ -111,18 +111,20 @@ export function directionNote(): string | null {
   const n = SIGN_SOURCES;
   const parts: string[] = [];
   if (n["weight"])
-    parts.push(`for the ${n["weight"]} series the headline weights, the sign of that weight`);
+    parts.push(
+      `For the ${n["weight"]} series the headline weights, it is the sign of that weight.`,
+    );
   if (n["economic"]) {
     const names = DRIVERS.filter((d) => d.signSource === "economic").map((d) =>
       indicatorName(d.id),
     );
-    parts.push(`for ${n["economic"]} (${join(names)}), an economic prior`);
+    parts.push(`For ${n["economic"]} (${join(names)}), it is an economic judgement.`);
   }
   if (n["correlation"])
     parts.push(
-      `for the other ${n["correlation"]}, the sign of the series' correlation with GDP growth before COVID, which describes co-movement and is not a causal claim`,
+      `For the other ${n["correlation"]}, it is the sign of the series' correlation with GDP growth before COVID. That shows how they moved together, not what causes what.`,
     );
   return parts.length
-    ? `Each series has a direction, the way a rise in it reads for growth: ${parts.join("; ")}.`
+    ? `Each series has a direction: whether a rise in it points to faster or slower growth. ${parts.join(" ")}`
     : null;
 }

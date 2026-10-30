@@ -79,7 +79,7 @@ R.three = () => {
   const record = TS.below >= 3
     ? ["Our estimates have been running low.", `The official figure has come in above our estimate ${count(TS.below)} quarters running. If that pattern holds, the official number${STATE === "release-week" ? ` on ${day(D.release, false)}` : ""} could be higher than ${pct(N.point)}.`]
     : TS.naiveMae < TS.mae
-      ? ["A simple rule has beaten us lately.", `Assuming growth stays at last quarter's rate missed by ${TS.naiveMae.toFixed(2)} pp on average, against ${TS.mae.toFixed(2)} pp for our model.`]
+      ? ["A simple rule has beaten us lately.", `A simple benchmark (AR(1)) missed by ${TS.naiveMae.toFixed(2)} pp on average, against ${TS.mae.toFixed(2)} pp for our model.`]
       : ["Our record is holding up.", `Over the last ${TS.n} quarters we missed by ${TS.mae.toFixed(2)} pp on average, better than a simple rule of thumb.`];
   return [[pace, run], [`The data in so far is ${tone}.`, evidence], record];
 };
@@ -105,22 +105,11 @@ R.take = {
     return `${reportedLine} ${parts.join(" ")}`;
   },
   breadth: () => shareNow == null ? "" : `${shareNow}% of growth indicators are above normal${sharePrev == null ? "." : `, ${shareNow === sharePrev ? "the same as" : shareNow > sharePrev ? `up from ${sharePrev}%` : `down from ${sharePrev}%`} three months earlier.`} ${breadthWord(BREADTH[BREADTH.length - 1].share)}`,
-  ch3: () => {
-    const n = EST.length;
-    if (n < 3) return `Only ${count(n)} weekly run${n === 1 ? "" : "s"} so far, so it is too early to say whether the estimate has settled.`;
-    if (SETTLED_FROM == null) {
-      const win = EST.slice(-5);
-      return `Still moving: the estimate has shifted ${fix(span(win), 1)} pp over the past ${count(win.length - 1)} weeks, so expect more change before the official release.`;
-    }
-    const plateau = EST.slice(SETTLED_FROM), weeks = plateau.length - 1, before = EST.slice(0, SETTLED_FROM);
-    const held = `The estimate has held between ${pct(Math.min(...plateau))} and ${pct(Math.max(...plateau))} ${SETTLED_FROM === 0 ? "since the first run of the quarter" : `for ${count(weeks)} weeks`}.`;
-    return before.length && span(before) > MOVE ? `Early swings between ${pct(Math.min(...before))} and ${pct(Math.max(...before))} have settled. ${held}` : held;
-  },
   ch4: () => (RANGE ? `Plan around the range, ${pct(N.lo90)} to ${pct(N.hi90)}, not the point.` : "There is no likely range yet, so treat the estimate as a first look, not a forecast to plan around.") +
     (TS.below >= 3 ? ` Our last ${count(TS.below)} misses were all on the low side, so an upside surprise would fit the pattern.` : TS.above >= 3 ? ` Our last ${count(TS.above)} misses were all on the high side, so a downside surprise would fit the pattern.` : ""),
   method: () => {
     const heavy = D.sec.slice().sort((a, b) => b.w - a.w)[0], total = D.sec.reduce((a, x) => a + x.w, 0);
-    return `The headline reads ${D.model.read} of the ${D.dots.length} indicators we track, two models that look at them in different ways. ${heavy.label} carries ${Math.round((heavy.w / total) * 100)}% of the weight, so its data moves the estimate most; this quarter about ${Math.round(N.share * 100)}% of the signal is in.`;
+    return `The headline reads ${D.model.read} of the ${D.dots.length} indicators we track, through two models. ${heavy.label} carries ${Math.round((heavy.w / total) * 100)}% of the weight, so its data moves the estimate most. About ${Math.round(N.share * 100)}% of this quarter's signal is in.`;
   },
 };
 
@@ -147,7 +136,7 @@ S.buildup = () => {
   });
   const G2 = G.GROUPS.length;
   const noMomentum = Math.abs(DEC.carriedForward) < 0.005;
-  steps.push({ at: G2 + 1, k: "Momentum from earlier months", h: noMomentum ? "No effect" : pp(DEC.carriedForward, 2), p: noMomentum ? `The model's carry-forward for figures not yet in adds nothing this quarter, so the estimate is ${pct(N.point)}.` : `The model's carry-forward for figures not yet in, about ${100 - Math.round(N.share * 100)}% of the quarter's signal. It brings the estimate to ${pct(N.point)}.` });
+  steps.push({ at: G2 + 1, k: "Momentum from earlier months", h: noMomentum ? "No effect" : pp(DEC.carriedForward, 2), p: noMomentum ? `Nothing is carried forward for the figures not yet in, so the estimate is ${pct(N.point)}.` : `What the model carries forward from earlier months for the figures not yet in. It brings the estimate to ${pct(N.point)}.` });
   steps.push({ at: G2 + 2, k: "This quarter's estimate", h: `About ${pct(N.point)}`, p: `Long-run average ${pct(DEC.baseline)}, this quarter's data ${pp(DEC.reported)}${Math.abs(DEC.carriedForward) < 0.05 ? "" : `, momentum ${pp(DEC.carriedForward)}`}.` });
   return steps;
 };
@@ -170,28 +159,6 @@ S.breadth = () => BREADTH.map((b, i) => {
       : `${share === prev ? "Level with" : share > prev ? `Up from ${prev}% in` : `Down from ${prev}% in`} ${monthOnly(BREADTH[i - 1].month)}.`;
   return { at: i, k: `${monthOnly(b.month)} ${b.month.slice(0, 4)}`, h: `${share}% of growth indicators above normal`, p };
 });
-S.timelapse = () => {
-  const n = V.length;
-  /* A biggest rise or fall is only a stop if it was a real move, and the low point only if it is not part of the settled stretch. */
-  let rise = null, fall = null;
-  for (let i = 1; i < n; i++) { if (weekly[i] >= MOVE - 1e-9 && (rise == null || weekly[i] > weekly[rise])) rise = i; if (weekly[i] <= -MOVE + 1e-9 && (fall == null || weekly[i] < weekly[fall])) fall = i; }
-  const lowAt = EST.indexOf(Math.min(...EST));
-  const low = SETTLED_FROM != null && lowAt > SETTLED_FROM ? null : lowAt;
-  const settled = SETTLED_FROM != null && SETTLED_FROM > 0 ? SETTLED_FROM : null;
-  const stops = [...new Set([0, rise, fall, low, settled, n - 1].filter((x) => x != null))].sort((a, b) => a - b);
-  const steady = (i) => i === SETTLED_FROM && i < n - 1;
-  return stops.map((i) => {
-    const d = day(V[i][0], false), e = pct(V[i][1]), names = notable(i);
-    const during = names.length ? ` in the week ${list(names.map(lc))} came in` : "";
-    const since = steady(i) ? ", and steady since" : "", barely = steady(i) ? " It has barely moved since." : "";
-    if (i === 0) return { at: i, k: d, h: `First look: ${e}`, p: `Our first weekly estimate for ${D.quarterLong}.` };
-    if (i === n - 1) return { at: i, k: d, h: `${e}, ${Math.abs(weekly[i]) < 0.05 ? "unchanged this week" : `${pp(weekly[i])} this week`}`, p: STATE === "release-week" ? `The official figure is expected around ${day(D.release, false)}.` : "The latest weekly run." };
-    if (i === rise) return { at: i, k: d, h: `Up to ${e}${since}`, p: `The estimate ${weekly[i] >= 0.5 ? "jumps" : "rises"} ${fix(weekly[i], 1)} pp${during}.${barely}` };
-    if (i === fall) return { at: i, k: d, h: `Down to ${e}${since}`, p: `A fall of ${fix(weekly[i], 1)} pp${during}.${i <= (n - 1) / 2 ? " Early in a quarter, single releases can swing the estimate a long way." : ""}${barely}` };
-    if (i === low) return { at: i, k: d, h: `${e}, the low point${since}`, p: `The lowest weekly estimate this quarter${during ? "," + during : ""}.${barely}` };
-    return { at: i, k: d, h: `${e}, and steady since`, p: `${Math.abs(weekly[i]) < 0.05 ? "No change that week" : `It moved ${pp(weekly[i])}${during}`}, and has barely moved since.` };
-  });
-};
 S.noise = () => {
   const est = V.map((v) => v[1]), inside = est.every((e) => e >= N.lo90 && e <= N.hi90);
   return [
@@ -207,7 +174,7 @@ S.record = () => {
   return [
     { at: 0, k: `The last ${count(T.length)} quarters`, h: "The official figures", p: "Each dark dot is the official growth figure for one quarter." },
     { at: 1, k: "Our estimates", h: below === T.length ? `All ${count(T.length)} of our estimates came in below` : `${sentenceCase(count(below))} of ${count(T.length)} came in below`, p: `We made each one a week before the release, using only the data published by then. On average we missed by ${TS.mae.toFixed(2)} pp.` },
-    { at: 1, k: "A simple benchmark", h: `Assuming growth stays at last quarter's rate missed by ${TS.naiveMae.toFixed(2)} pp`, p: TS.naiveMae < TS.mae ? "It has done better than our model over this period." : "Our model has done better than this rule of thumb." },
+    { at: 1, k: "A simple benchmark", h: `Predicting each quarter from the one before missed by ${TS.naiveMae.toFixed(2)} pp`, p: TS.naiveMae < TS.mae ? "That benchmark (AR(1)) has done better than our model over this period." : "Our model has done better than that benchmark (AR(1)) over this period." },
   ];
 };
 /* The note reconciled against the latest run: what moved since, and whether what it flagged has arrived. */
@@ -265,7 +232,7 @@ R.watch = () => {
   const isGdp = (e) => /^Official GDP/.test(e[1][0][0]);
   const gdpEv = D.cal.find(isGdp);
   const items = [{ date: D.release, title: `Official GDP, ${D.quarterLong}`, why: toRelease >= 0
-    ? `Scores this estimate: our ${pct(N.point)} against ${pct(D.prev.v)} if growth held at last quarter's rate.${STATE === "release-week" ? " After the release, the estimate moves on to the next quarter." : ""}`
+    ? `Scores our ${pct(N.point)} estimate.${STATE === "release-week" ? " After the release, the estimate moves on to the next quarter." : ""}`
     : `Due on ${day(D.release, false)} and not yet in our data. We will score our final estimate of ${pct(N.point)} against it.` }];
   D.cal.filter((e) => !isGdp(e) && e[0] >= D.asOf).slice(0, 5).forEach(([date, evs]) => {
     const names = evs.map((x) => x[0]);

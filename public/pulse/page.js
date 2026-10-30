@@ -14,8 +14,7 @@ if (!hasNote) {
 }
 ST.renderStatCard($("stat-card"));
 if (hasNote) ST.renderNotes($("notes"));
-const scenes = [["sc-history", ST.S.history], ["sc-buildup", ST.S.buildup], ["sc-timelapse", ST.S.timelapse],
-  ["sc-record", ST.S.record], ["sc-morph", ST.S.morph]];
+const scenes = [["sc-history", ST.S.history], ["sc-buildup", ST.S.buildup], ["sc-record", ST.S.record], ["sc-morph", ST.S.morph]];
 scenes.forEach(([id, f]) => {
   const steps = f();
   if (steps.length) ST.fillSteps($(id), steps);

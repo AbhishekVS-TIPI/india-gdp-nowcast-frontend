@@ -13,7 +13,7 @@ const month = (t: number) =>
 /**
  * The official GDP date, then the next figures due from the headline's most
  * influential indicators (only series with a weight can move it). Figures already due but missing from our data are
- * counted rather than listed, with a pointer to the freshness table.
+ * counted rather than listed.
  */
 export function ComingUp({ limit = 5 }: { limit?: number }) {
   const asOf = Date.parse(`${NOWCAST?.dataAsOf ?? NOWCAST?.generatedAt.slice(0, 10)}T00:00:00Z`);
@@ -58,11 +58,9 @@ export function ComingUp({ limit = 5 }: { limit?: number }) {
       {overdue ? (
         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
           {overdue} of the {watched.length}{" "}
-          {MODEL_DRIVERS.length > INFLUENTIAL ? "most influential" : "weighted"} indicators have a
-          newer figure that should already be out but is not yet in our data.{" "}
-          <Link to="/trends" hash="freshness" className="underline underline-offset-2">
-            See data freshness
-          </Link>
+          {MODEL_DRIVERS.length > INFLUENTIAL ? "most influential" : "weighted"}{" "}
+          {overdue === 1 ? "indicator has" : "indicators have"} a newer figure that should be out
+          but is not in our data yet.
         </p>
       ) : null}
     </div>

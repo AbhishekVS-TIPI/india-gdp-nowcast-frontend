@@ -129,26 +129,26 @@ export function evaluationSentences(
   if (ordinary) {
     const c = ordinary.cell;
     out.push(
-      `In ordinary quarters of the backtest, estimates made ${when} the release were off by ${fix(c.rmse)} pp on average, against ${fix(c.ar1Rmse)} pp for the ${bench} benchmark: a ratio of ${fix(c.ratioToAr1)} (interval ${fix(c.ratioLow)} to ${fix(c.ratioHigh)}), so ${claim(ordinary.verdict)}.`,
+      `In ordinary quarters, estimates made ${when} the release were off by ${fix(c.rmse)} pp on average. The ${bench} benchmark was off by ${fix(c.ar1Rmse)} pp. That is a ratio of ${fix(c.ratioToAr1)} (range ${fix(c.ratioLow)} to ${fix(c.ratioHigh)}): ${claim(ordinary.verdict)}.`,
     );
   }
   const confirmation = at("confirmation");
   if (confirmation) {
     const c = confirmation.cell;
     out.push(
-      `On the ${c.n} confirmation quarters the ratio was ${fix(c.ratioToAr1)} (${fix(c.ratioLow)} to ${fix(c.ratioHigh)}), ${
+      `On the ${c.n} confirmation quarters the ratio was ${fix(c.ratioToAr1)} (${fix(c.ratioLow)} to ${fix(c.ratioHigh)}). ${
         confirmation.verdict === "better"
-          ? "which holds up: the whole interval is below 1."
+          ? "The whole range is below 1, so it holds up."
           : confirmation.verdict === "worse"
-            ? "which is worse than the benchmark: the whole interval is above 1."
-            : "so it is not yet shown to be better: the interval includes 1."
+            ? "The whole range is above 1, so it is worse than the benchmark."
+            : "The range includes 1, so we cannot say it is better."
       }`,
     );
   }
   if (!out.length) {
     const first = rows.find((r) => r.horizon === horizon) ?? rows[0]!;
     out.push(
-      `${first.label}: estimates made ${whenBefore(first.horizon)} the release had an error ${fix(first.cell.ratioToAr1)} times the ${bench} benchmark's (${fix(first.cell.ratioLow)} to ${fix(first.cell.ratioHigh)}), so ${claim(first.verdict)}.`,
+      `${first.label}: estimates made ${whenBefore(first.horizon)} the release had errors ${fix(first.cell.ratioToAr1)} times the ${bench} benchmark's (range ${fix(first.cell.ratioLow)} to ${fix(first.cell.ratioHigh)}): ${claim(first.verdict)}.`,
     );
   }
   return out;
@@ -168,7 +168,7 @@ export function otherHorizonSentences(
     .filter((r) => r.sample === "ordinary" && r.horizon !== primary)
     .map(
       (r) =>
-        `${cap(whenBefore(r.horizon))} the release, the ordinary-quarter ratio is ${fix(r.cell.ratioToAr1)} (${fix(r.cell.ratioLow)} to ${fix(r.cell.ratioHigh)}): ${claim(r.verdict)}.`,
+        `${cap(whenBefore(r.horizon))} the release, the ordinary-quarter ratio is ${fix(r.cell.ratioToAr1)} (range ${fix(r.cell.ratioLow)} to ${fix(r.cell.ratioHigh)}): ${claim(r.verdict)}.`,
     );
 }
 
@@ -184,8 +184,8 @@ export function trackLine(t: {
   const model = fix(t.modelMiss, 1);
   const naive = fix(t.naiveMiss, 1);
   return t.backtest
-    ? `Over the last ${t.quarters} quarters of the backtest, our estimate made ${whenBefore(t.daysBefore)} each official release missed the first print by ${model} pp on average; the ${t.naiveModel ?? "AR(1)"} benchmark missed by ${naive} pp.`
-    : `Over the last ${t.quarters} quarters, our estimate made ${whenBefore(t.daysBefore)} each official release missed by ${model} pp on average; simply assuming growth stays at last quarter's rate missed by ${naive} pp.`;
+    ? `Over the last ${t.quarters} quarters of the backtest, our estimate made ${whenBefore(t.daysBefore)} each release missed the first print by ${model} pp on average. The ${t.naiveModel ?? "AR(1)"} benchmark missed by ${naive} pp.`
+    : `Over the last ${t.quarters} quarters, our estimate made ${whenBefore(t.daysBefore)} each release missed the official figure by ${model} pp on average. The ${t.naiveModel ?? "AR(1)"} benchmark missed by ${naive} pp.`;
 }
 
 const short = (v: Verdict) =>
@@ -200,7 +200,7 @@ export function evaluationBrief(
   if (!rows.length) return null;
   const row = (days != null && rows.find((r) => r.horizon === days)) || rows[0]!;
   const c = row.cell;
-  return `Across the whole backtest (ordinary quarters), estimates made ${row.horizon} days before a release had errors ${fix(c.ratioToAr1)} times the ${benchmarkName(ev)} benchmark's (interval ${fix(c.ratioLow)} to ${fix(c.ratioHigh)}): ${short(row.verdict)}.`;
+  return `Across the whole backtest, estimates made ${row.horizon} days before a release had errors ${fix(c.ratioToAr1)} times the ${benchmarkName(ev)} benchmark's (range ${fix(c.ratioLow)} to ${fix(c.ratioHigh)}): ${short(row.verdict)}.`;
 }
 
 const QUARTERS = ["Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec"];
