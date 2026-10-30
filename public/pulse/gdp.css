@@ -438,9 +438,10 @@ body.has-rail { --rail-h: 46px; }
 
 /* ---------- Recommended page: the dark stat card ---------- */
 /* ---------- The first card: a full-width opener, the GDP record drawn as terrain behind it ---------- */
-.hero { position: relative; isolation: isolate; background: var(--night); color: var(--night-fg); }
-.hero .terrain { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -1; }
-.hero-in { display: grid; gap: 26px; padding-block: 36px 40px; }
+.hero { position: relative; isolation: isolate; display: grid; align-items: center; min-height: clamp(560px, calc(100svh - var(--head-h) - var(--rail-h)), 860px); background: var(--night); color: var(--night-fg); }
+.terrain-clip { position: absolute; inset: 0; overflow: hidden; z-index: -1; }
+.hero .terrain { position: absolute; inset: 0; width: 100%; height: 100%; display: block; will-change: transform; }
+.hero-in { display: grid; gap: 26px; padding-block: 40px 48px; will-change: transform, opacity; }
 .hero .prov { width: fit-content; background: oklch(1 0 0 / 0.06); border-color: var(--night-line); color: var(--night-accent); }
 .hero-num { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 32px; }
 .ci-lines { position: relative; display: flex; align-items: flex-end; gap: 10px; padding-bottom: 0.7rem; }

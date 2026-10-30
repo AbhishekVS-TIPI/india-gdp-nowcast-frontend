@@ -340,7 +340,7 @@ function renderStatCard(host) {
       : h("div", { class: "ci-rows" }, h("p", null, h("span", { text: "Confidence intervals" }), h("b", { text: "not yet available" }))),
     ...ciInfo());
   const hero = h("section", { class: "hero", "aria-labelledby": "hero-quarter" },
-    el("svg", { class: "terrain", "aria-hidden": "true" }, null),
+    h("div", { class: "terrain-clip" }, el("svg", { class: "terrain", "aria-hidden": "true" }, null)),
     h("div", { class: "wrap hero-in" },
       prov("auto"),
       h("div", { class: "sc-main" },

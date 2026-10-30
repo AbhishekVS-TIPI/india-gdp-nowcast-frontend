@@ -904,6 +904,7 @@ function opener(root) {
   TRACKS.push({
     root, stick: { offsetHeight: 0 },
     render: () => {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const y = clamp(-root.getBoundingClientRect().top, 0, root.offsetHeight);
       svg.style.transform = `translateY(${(y * 0.45).toFixed(1)}px)`;
       inner.style.transform = `translateY(${(y * 0.25).toFixed(1)}px)`;
@@ -911,13 +912,8 @@ function opener(root) {
     },
   });
 }
-/* The first card's backdrop: the same terrain, still, so the numbers over it never move or fade. */
-function terrain(root) {
-  const svg = root.querySelector(".terrain");
-  drawTerrain(root, svg);
-  let w = root.offsetWidth;
-  addEventListener("resize", () => { if (root.offsetWidth !== w) { w = root.offsetWidth; drawTerrain(root, svg); } });
-}
+/* The first card is the field-note opener: terrain from the GDP record, with the demo's scroll effect. */
+function terrain(root) { opener(root); }
 
 /* ---------- Content blocks: cards like the live site's, the topic as an eyebrow and the takeaway as the heading ---------- */
 function head(eyebrow, title, sub) {
