@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>India GDP Pulse — Where Is Growth Right Now?</title>
+    <meta
+      name="description"
+      content="A two-minute briefing on India's GDP growth this quarter: an early estimate from high-frequency data, how sure we are, what is driving it and what to watch next."
+    />
+    <meta property="og:title" content="India GDP Pulse — Where Is Growth Right Now?" />
+    <meta
+      property="og:description"
+      content="A two-minute briefing on India's GDP growth this quarter: an early estimate from high-frequency data, how sure we are, what is driving it and what to watch next."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/pulse/gdp.css" />
+  </head>
+  <!--
+  The recommended layout of the Landing Demos moodboard, built from the live export (scripts/build-pulse-data.mjs).
+  Recommended layout: a policy briefing in chapters, built for a model that reruns every week.
+  The story is a learning arc: the number, then context, what is behind it (the sectors are folded in), how the estimate
+  got here, how the model makes it, whether to rely on it, the experts' view, and what to watch next. A recap closes it.
+  Optional depth (one sector's indicators, the likely range in detail) stays closed until someone opens it.
+  Three layers, each with its own clock:
+  - Updates weekly: every number and every sentence with a number is written by rule in shared/story.js from the latest run.
+  - Stat team: notes keep their own date; the page checks each against what happened next and flags the latest when it has aged.
+  - Explainer: chapter questions and how-to-read text in this file. They carry no live numbers, so they never go stale.
+  Chapter numbers, the chapter rail, the recap and the sector picker are built from the page and the data,
+  so a chapter that is hidden (Your call, outside release week) or a sector that is added or dropped never leaves a gap.
+-->
+  <body data-demo="r" class="has-rail">
+    <header data-chrome="head"></header>
+    <nav class="rail" aria-label="Chapters">
+      <div class="wrap" id="rail-links"></div>
+      <span class="bar" aria-hidden="true"></span>
+    </nav>
+    <main>
+      <!-- The answer -->
+      <section class="chapter" id="answer" style="padding-block: 18px 8px">
+        <div id="stat-card"></div>
+      </section>
+
+      <!-- Where growth stands: context first -->
+      <section
+        class="chapter"
+        id="where"
+        data-chapter
+        data-short="Growth trend"
+        data-title="Growth trend"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Growth trend</h2>
+          <p>
+            Start with the long view: quarterly growth since 2005, each quarter against the same
+            quarter a year earlier.
+          </p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap scrolly" data-scene="history" data-quiet id="sc-history">
+          <div class="graphic">
+            <div>
+              <div class="fig"></div>
+              <p class="gcap">
+                Quarterly GDP growth on a year earlier. Source: MoSPI; the last point is our early
+                estimate.
+              </p>
+            </div>
+          </div>
+          <div class="steps"></div>
+        </div>
+      </section>
+      <div class="wrap">
+        <div class="takeaway">
+          <p class="eyebrow">Takeaway</p>
+          <b data-take="ch1"></b>
+        </div>
+      </div>
+
+      <!-- Growth drivers: the build-up by part of the economy, how widespread it is, and one sector up close on request -->
+      <section
+        class="chapter"
+        id="drivers"
+        data-chapter
+        data-short="Growth drivers"
+        data-title="Growth drivers"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Growth drivers</h2>
+          <p>
+            Look under the headline to see what is holding growth up and what is pulling it down. We
+            build the estimate from long-run average growth, one part of the economy at a time.
+          </p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap scrolly" data-scene="buildup" id="sc-buildup">
+          <div class="graphic">
+            <div>
+              <div class="fig"></div>
+              <p class="gcap">
+                From long-run average growth to this quarter's estimate, in percentage points (pp).
+              </p>
+            </div>
+          </div>
+          <div class="steps"></div>
+        </div>
+      </section>
+      <section class="sec" id="breadth-card-sec">
+        <div class="wrap">
+          <div class="panel breadth-card">
+            <div class="sec-head">
+              <p class="eyebrow">Indicators</p>
+              <h2 class="take">Breadth of growth</h2>
+              <p>
+                A strong headline can rest on a few series. Each square is one growth indicator:
+                green when it is above its normal level, red when below. Hover or tap a square to
+                see which indicator it is.
+              </p>
+            </div>
+            <div class="bc-grid">
+              <div class="fig" id="breadth-fig"></div>
+              <p class="breadth-line" data-take="breadth"></p>
+            </div>
+            <details class="more slim" id="breadth-note">
+              <summary>
+                <span
+                  >Growth indicator criteria<small>Includes what "above normal" means</small></span
+                >
+              </summary>
+              <div class="more-body"><ul class="crit" id="breadth-crit"></ul></div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <details class="more" id="sector-more">
+            <summary>
+              <span
+                >Sector detail<small
+                  >Pick a part of the economy to see its indicators month by month</small
+                ></span
+              >
+            </summary>
+            <div class="more-body">
+              <p id="sectors-intro" style="margin: 0">Pick a part of the economy to compare.</p>
+              <div
+                class="picker"
+                id="picker"
+                role="group"
+                aria-label="Choose a part of the economy"
+              ></div>
+              <div class="grid-2">
+                <div id="sector-sum"></div>
+                <div>
+                  <p class="eyebrow" style="margin-bottom: 8px">
+                    Its main indicators, month by month
+                  </p>
+                  <div class="fig" id="heat"></div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+      <div class="wrap">
+        <div class="takeaway">
+          <p class="eyebrow">Takeaway</p>
+          <b data-take="drivers"></b>
+        </div>
+      </div>
+
+      <!-- How the estimate got here: stops chosen by rule -->
+      <section
+        class="chapter"
+        id="replay"
+        data-chapter
+        data-short="Estimate history"
+        data-title="Estimate history"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Estimate history</h2>
+          <p>
+            The estimate is rebuilt every week as new figures arrive. Replay this quarter, week by
+            week, to see whether it has settled or is still moving. Squares light up as indicators
+            are published.
+          </p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap scrolly" data-scene="timelapse" id="sc-timelapse">
+          <div class="graphic">
+            <div>
+              <div class="fig"></div>
+              <p class="gcap">
+                Each square is one indicator in the model; hover or tap one to see which. Line: our
+                weekly estimate, with the range it is likely to fall in.
+              </p>
+            </div>
+          </div>
+          <div class="steps"></div>
+        </div>
+      </section>
+      <div class="wrap">
+        <div class="takeaway">
+          <p class="eyebrow">Takeaway</p>
+          <b data-take="ch3"></b>
+        </div>
+      </div>
+
+      <!-- Where the number comes from: the model behind each weekly run -->
+      <section
+        class="chapter"
+        id="method"
+        data-chapter
+        data-short="Data and model"
+        data-title="Data and model"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="ever"></span>
+          <p class="num"></p>
+          <h2>Data and model</h2>
+          <p>
+            Behind each weekly run are two models that read the indicators in different ways. Hover
+            over a dot to see which indicator it is and what it did this quarter.
+          </p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap scrolly" data-scene="morph" id="sc-morph">
+          <div class="graphic">
+            <div>
+              <div class="fig"></div>
+              <p class="gcap">
+                Each dot is one indicator; dark dots are industry. Hover over a dot for its name.
+              </p>
+            </div>
+          </div>
+          <div class="steps"></div>
+        </div>
+      </section>
+      <section class="sec" data-block="how" data-eyebrow="The model"></section>
+      <div class="wrap">
+        <div class="takeaway">
+          <p class="eyebrow">Takeaway</p>
+          <b data-take="method"></b>
+        </div>
+      </div>
+
+      <!-- Track record: our record against the official figures; the likely range in detail only on request -->
+      <section
+        class="chapter"
+        id="sure"
+        data-chapter
+        data-short="Track record"
+        data-title="Track record"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Track record</h2>
+          <p>
+            Now that you know how it is made, here is how much weight a decision can put on it: how
+            our past estimates have done against the official figures.
+          </p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap scrolly" data-scene="track" id="sc-record">
+          <div class="graphic">
+            <div>
+              <div class="fig"></div>
+              <p class="gcap">
+                Official growth for each quarter (the first print), and our estimate made a week
+                before its release, using only the data published by then.
+              </p>
+            </div>
+          </div>
+          <div class="steps"></div>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <details class="more" id="range-more">
+            <summary>
+              <span
+                >Likely range in detail<small
+                  >For analysts: the range around this quarter's estimate</small
+                ></span
+              >
+            </summary>
+            <div class="more-body">
+              <section id="sc-noise" class="noise-detail">
+                <div class="fig tall" id="noise-fig"></div>
+                <div class="steps"></div>
+              </section>
+            </div>
+          </details>
+        </div>
+      </section>
+      <div class="wrap">
+        <div class="takeaway">
+          <p class="eyebrow">Takeaway</p>
+          <b data-take="ch4"></b>
+        </div>
+      </div>
+
+      <!-- Your call: shown on its own in the week before an official release -->
+      <section
+        class="chapter"
+        id="call"
+        data-chapter
+        data-release-week
+        data-short="Your call"
+        data-title="Your call"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Your call</h2>
+          <p>
+            The official figure is due this week. Will it come in higher or lower than our estimate?
+            You have seen the estimate, what is behind it and how reliable it is, so now make your
+            own call. This chapter appears in the week before each official release.
+          </p>
+        </div>
+      </section>
+      <section class="sec" data-block="guess" data-title="" data-sub="" data-release-week></section>
+
+      <!-- The experts' view: the latest note, checked against the latest run, then the archive -->
+      <section
+        class="chapter"
+        id="experts"
+        data-needs-note
+        data-chapter
+        data-short="Experts' view"
+        data-title="The experts' view"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="human"></span>
+          <p class="num"></p>
+          <h2>The experts' view</h2>
+          <p id="experts-intro">
+            The numbers say what is happening; the Stat team says why. They write when there is
+            something to say, not every week.
+          </p>
+        </div>
+      </section>
+      <section class="sec recap-cards" id="sc-since" data-needs-note>
+        <div class="wrap">
+          <div class="steps"></div>
+        </div>
+      </section>
+      <section class="sec" id="notes" data-needs-note></section>
+
+      <!-- What to watch: the close looks ahead -->
+      <section
+        class="chapter"
+        id="watch-ch"
+        data-chapter
+        data-short="Upcoming releases"
+        data-title="Upcoming releases"
+      >
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num"></p>
+          <h2>Upcoming releases</h2>
+          <p>Finally, the releases that could change the picture, and why each one matters.</p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <div class="panel">
+            <div>
+              <ul class="watch" id="watch"></ul>
+              <p class="caption">
+                Dates are expected, from our release calendar. Each reason is written once; the note
+                on this quarter updates with every run.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recap: what the reader now knows, from this week's run -->
+      <section class="chapter" id="recap">
+        <div class="wrap chapter-head">
+          <span data-prov="auto"></span>
+          <p class="num">All chapters</p>
+          <h2>Summary</h2>
+          <p>The page in a few lines, from the latest run. Each links back to its chapter.</p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <div class="panel"><ol class="recap" id="recap-list"></ol></div>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <div class="panel">
+            <div class="sec-head"><p class="eyebrow">Keeping this page current</p></div>
+            <ul class="layers">
+              <li>
+                <span data-prov="auto"></span
+                ><span
+                  >Numbers, charts and every sentence that quotes them are rewritten by rule each
+                  time the model runs, so none of them goes stale.</span
+                >
+              </li>
+              <li>
+                <span data-prov="human"></span
+                ><span
+                  >The Stat team's notes are written by people on their own schedule. Each keeps its
+                  date, and the page shows how far the estimate has moved since.</span
+                >
+              </li>
+              <li>
+                <span data-prov="ever"></span
+                ><span
+                  >Chapter headings and how-to-read text are written once. They never quote a live
+                  number.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer data-chrome="foot"></footer>
+    <noscript
+      ><div class="wrap">
+        <p>
+          India GDP Pulse needs JavaScript for its charts. The same figures are on the
+          <a href="/trends">Evidence</a> page.
+        </p>
+      </div></noscript
+    >
+    <script src="/pulse/data.js"></script>
+    <script src="/pulse/kit.js"></script>
+    <script src="/pulse/story.js"></script>
+    <script src="/pulse/page.js"></script>
+  </body>
+</html>

@@ -8,3 +8,4 @@ bun.lock
 routeTree.gen.ts
 src/data/
 wrangler.jsonc
+public/pulse/

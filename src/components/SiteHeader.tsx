@@ -35,7 +35,7 @@ export function SiteHeader({ subtitle }: { subtitle?: string }) {
           scrolled ? "py-2.5" : "py-4"
         }`}
       >
-        <Link to="/" className="flex min-w-0 items-center gap-3">
+        <Link to="/" reloadDocument className="flex min-w-0 items-center gap-3">
           <img
             src="/tipi-logo.svg"
             alt="The India Prosperity Initiative logo"
@@ -56,6 +56,7 @@ export function SiteHeader({ subtitle }: { subtitle?: string }) {
             <Link
               key={n.to}
               to={n.to}
+              reloadDocument={n.to === "/"}
               activeOptions={{ exact: n.exact }}
               className={base}
               activeProps={{ className: active }}
@@ -84,6 +85,7 @@ export function SiteHeader({ subtitle }: { subtitle?: string }) {
             <Link
               key={n.to}
               to={n.to}
+              reloadDocument={n.to === "/"}
               activeOptions={{ exact: n.exact }}
               onClick={() => setOpen(false)}
               className="block py-2 text-sm text-blue-dark"
