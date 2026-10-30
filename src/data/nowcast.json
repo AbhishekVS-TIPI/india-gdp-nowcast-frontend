@@ -1,24 +1,24 @@
 {
- "generatedAt": "2026-10-29T18:28:14+00:00",
- "dataAsOf": "2026-10-29",
+ "generatedAt": "2026-10-30T09:48:30+00:00",
+ "dataAsOf": "2026-10-30",
  "frozenAsOf": null,
  "unit": "% y/y",
  "model": {
-  "name": "Equal-weight combination (ARX + Tier 1 DFM)",
-  "description": "The average of two models that read different panels: a regression on GDP's own last value and a few activity indicators, and a dynamic factor model on the wider Tier 1 panel. Equal weights hedge the choice between them; the live record decides any change.",
+  "name": "Headline (average of the two)",
+  "description": "The average of two models that read different indicators: a regression on GDP's last value and a few activity indicators, and a factor model on a wider set. The weights are equal because we cannot yet say which model is better.",
   "trainingQuarters": 84,
   "trainingStart": "2005-07-01",
   "trainingEnd": "2026-04-01",
-  "rSquared": 0.901,
-  "residualStdDev": 1.44,
+  "rSquared": 0.91,
+  "residualStdDev": 1.37,
   "members": [
    {
     "id": "arx_phase0_v2",
-    "name": "ARX on the activity pool",
+    "name": "Regression on activity indicators",
     "family": "bridge",
     "weight": 0.5,
     "nowcast": 8.45,
-    "description": "GDP growth regressed on its own last value and the quarterly growth of Index of Industrial Production - General Index, Index of Core Industries (ICI), Foreign Exchange Reserves - Total, with an overfit guard that leaves out a near-copy of a better indicator.",
+    "description": "GDP growth regressed on its own last value and the quarterly growth of Index of Industrial Production - General Index, Index of Core Industries (ICI) and Foreign Exchange Reserves - Total. A guard drops any indicator that nearly duplicates a better one.",
     "indicators": [
      "Index of Industrial Production - General Index",
      "Index of Core Industries (ICI)",
@@ -30,11 +30,11 @@
    },
    {
     "id": "dfm_lag_tier1_k2",
-    "name": "Dynamic factor model with GDP lag, Tier 1 panel",
+    "name": "Factor model",
     "family": "dfm",
     "weight": 0.5,
-    "nowcast": 7.51,
-    "description": "2 common factors extracted by EM from the 17 Tier 1 monthly indicators, averaged to quarters; GDP growth regressed on them and on its own last value.",
+    "nowcast": 7.08,
+    "description": "2 common trends found in 17 monthly indicators by principal components, averaged to quarters. GDP growth is regressed on them and on its own last value.",
     "indicators": [
      "Index of Industrial Production - General Index",
      "CPI (Industrial Workers)",
@@ -55,8 +55,8 @@
      "Petroleum Product Consumption"
     ],
     "trainingQuarters": 84,
-    "rSquared": 0.882,
-    "cvRSquared": 0.819,
+    "rSquared": 0.904,
+    "cvRSquared": 0.86,
     "nFactors": 2
    }
   ],
@@ -78,532 +78,532 @@
    "quarterStart": "2005-07-01",
    "label": "Jul-Sep 2005",
    "actual": 8.44,
-   "fitted": 6.31,
+   "fitted": 6.67,
    "projected": null
   },
   {
    "quarterStart": "2005-10-01",
    "label": "Oct-Dec 2005",
    "actual": 8.97,
-   "fitted": 6.5,
+   "fitted": 6.89,
    "projected": null
   },
   {
    "quarterStart": "2006-01-01",
    "label": "Jan-Mar 2006",
    "actual": 10.36,
-   "fitted": 8.83,
+   "fitted": 8.84,
    "projected": null
   },
   {
    "quarterStart": "2006-04-01",
    "label": "Apr-Jun 2006",
    "actual": 7.41,
-   "fitted": 9.84,
+   "fitted": 9.88,
    "projected": null
   },
   {
    "quarterStart": "2006-07-01",
    "label": "Jul-Sep 2006",
    "actual": 10.24,
-   "fitted": 10.11,
+   "fitted": 9.85,
    "projected": null
   },
   {
    "quarterStart": "2006-10-01",
    "label": "Oct-Dec 2006",
    "actual": 9.48,
-   "fitted": 11.4,
+   "fitted": 11.0,
    "projected": null
   },
   {
    "quarterStart": "2007-01-01",
    "label": "Jan-Mar 2007",
    "actual": 9.8,
-   "fitted": 10.75,
+   "fitted": 10.25,
    "projected": null
   },
   {
    "quarterStart": "2007-04-01",
    "label": "Apr-Jun 2007",
    "actual": 10.81,
-   "fitted": 13.11,
+   "fitted": 12.46,
    "projected": null
   },
   {
    "quarterStart": "2007-07-01",
    "label": "Jul-Sep 2007",
    "actual": 9.14,
-   "fitted": 11.8,
+   "fitted": 11.21,
    "projected": null
   },
   {
    "quarterStart": "2007-10-01",
    "label": "Oct-Dec 2007",
    "actual": 10.55,
-   "fitted": 10.41,
+   "fitted": 9.82,
    "projected": null
   },
   {
    "quarterStart": "2008-01-01",
    "label": "Jan-Mar 2008",
    "actual": 8.83,
-   "fitted": 10.46,
+   "fitted": 9.9,
    "projected": null
   },
   {
    "quarterStart": "2008-04-01",
    "label": "Apr-Jun 2008",
    "actual": 8.08,
-   "fitted": 7.93,
+   "fitted": 7.59,
    "projected": null
   },
   {
    "quarterStart": "2008-07-01",
    "label": "Jul-Sep 2008",
    "actual": 6.74,
-   "fitted": 7.2,
+   "fitted": 6.92,
    "projected": null
   },
   {
    "quarterStart": "2008-10-01",
    "label": "Oct-Dec 2008",
    "actual": 1.53,
-   "fitted": 5.31,
+   "fitted": 5.23,
    "projected": null
   },
   {
    "quarterStart": "2009-01-01",
    "label": "Jan-Mar 2009",
    "actual": 0.24,
-   "fitted": 1.28,
+   "fitted": 1.72,
    "projected": null
   },
   {
    "quarterStart": "2009-04-01",
    "label": "Apr-Jun 2009",
    "actual": 4.99,
-   "fitted": 3.93,
+   "fitted": 4.31,
    "projected": null
   },
   {
    "quarterStart": "2009-07-01",
    "label": "Jul-Sep 2009",
    "actual": 6.96,
-   "fitted": 6.47,
+   "fitted": 6.67,
    "projected": null
   },
   {
    "quarterStart": "2009-10-01",
    "label": "Oct-Dec 2009",
    "actual": 8.21,
-   "fitted": 7.45,
+   "fitted": 7.42,
    "projected": null
   },
   {
    "quarterStart": "2010-01-01",
    "label": "Jan-Mar 2010",
    "actual": 13.26,
-   "fitted": 11.21,
+   "fitted": 10.74,
    "projected": null
   },
   {
    "quarterStart": "2010-04-01",
    "label": "Apr-Jun 2010",
    "actual": 10.29,
-   "fitted": 10.14,
+   "fitted": 9.91,
    "projected": null
   },
   {
    "quarterStart": "2010-07-01",
    "label": "Jul-Sep 2010",
    "actual": 9.68,
-   "fitted": 8.34,
+   "fitted": 8.12,
    "projected": null
   },
   {
    "quarterStart": "2010-10-01",
    "label": "Oct-Dec 2010",
    "actual": 10.69,
-   "fitted": 9.06,
+   "fitted": 8.84,
    "projected": null
   },
   {
    "quarterStart": "2011-01-01",
    "label": "Jan-Mar 2011",
    "actual": 10.33,
-   "fitted": 8.86,
+   "fitted": 8.77,
    "projected": null
   },
   {
    "quarterStart": "2011-04-01",
    "label": "Apr-Jun 2011",
    "actual": 8.32,
-   "fitted": 7.79,
+   "fitted": 7.55,
    "projected": null
   },
   {
    "quarterStart": "2011-07-01",
    "label": "Jul-Sep 2011",
    "actual": 6.68,
-   "fitted": 6.15,
+   "fitted": 6.29,
    "projected": null
   },
   {
    "quarterStart": "2011-10-01",
    "label": "Oct-Dec 2011",
    "actual": 6.18,
-   "fitted": 4.96,
+   "fitted": 5.27,
    "projected": null
   },
   {
    "quarterStart": "2012-01-01",
    "label": "Jan-Mar 2012",
    "actual": 5.63,
-   "fitted": 4.95,
+   "fitted": 5.18,
    "projected": null
   },
   {
    "quarterStart": "2012-04-01",
    "label": "Apr-Jun 2012",
    "actual": 4.87,
-   "fitted": 4.54,
+   "fitted": 4.89,
    "projected": null
   },
   {
    "quarterStart": "2012-07-01",
    "label": "Jul-Sep 2012",
    "actual": 7.49,
-   "fitted": 4.58,
+   "fitted": 4.7,
    "projected": null
   },
   {
    "quarterStart": "2012-10-01",
    "label": "Oct-Dec 2012",
    "actual": 5.38,
-   "fitted": 5.53,
+   "fitted": 5.56,
    "projected": null
   },
   {
    "quarterStart": "2013-01-01",
    "label": "Jan-Mar 2013",
    "actual": 4.3,
-   "fitted": 5.53,
+   "fitted": 5.56,
    "projected": null
   },
   {
    "quarterStart": "2013-04-01",
    "label": "Apr-Jun 2013",
    "actual": 6.45,
-   "fitted": 4.57,
+   "fitted": 4.59,
    "projected": null
   },
   {
    "quarterStart": "2013-07-01",
    "label": "Jul-Sep 2013",
    "actual": 7.34,
-   "fitted": 7.26,
+   "fitted": 7.23,
    "projected": null
   },
   {
    "quarterStart": "2013-10-01",
    "label": "Oct-Dec 2013",
    "actual": 6.53,
-   "fitted": 6.4,
+   "fitted": 6.3,
    "projected": null
   },
   {
    "quarterStart": "2014-01-01",
    "label": "Jan-Mar 2014",
    "actual": 5.34,
-   "fitted": 6.62,
+   "fitted": 6.63,
    "projected": null
   },
   {
    "quarterStart": "2014-04-01",
    "label": "Apr-Jun 2014",
    "actual": 8.02,
-   "fitted": 6.92,
+   "fitted": 7.03,
    "projected": null
   },
   {
    "quarterStart": "2014-07-01",
    "label": "Jul-Sep 2014",
    "actual": 8.7,
-   "fitted": 6.45,
+   "fitted": 6.67,
    "projected": null
   },
   {
    "quarterStart": "2014-10-01",
    "label": "Oct-Dec 2014",
    "actual": 5.92,
-   "fitted": 6.61,
+   "fitted": 6.86,
    "projected": null
   },
   {
    "quarterStart": "2015-01-01",
    "label": "Jan-Mar 2015",
    "actual": 7.11,
-   "fitted": 5.56,
+   "fitted": 5.54,
    "projected": null
   },
   {
    "quarterStart": "2015-04-01",
    "label": "Apr-Jun 2015",
    "actual": 7.59,
-   "fitted": 5.18,
+   "fitted": 5.16,
    "projected": null
   },
   {
    "quarterStart": "2015-07-01",
    "label": "Jul-Sep 2015",
    "actual": 8.03,
-   "fitted": 5.95,
+   "fitted": 6.0,
    "projected": null
   },
   {
    "quarterStart": "2015-10-01",
    "label": "Oct-Dec 2015",
    "actual": 7.2,
-   "fitted": 6.87,
+   "fitted": 6.78,
    "projected": null
   },
   {
    "quarterStart": "2016-01-01",
    "label": "Jan-Mar 2016",
    "actual": 9.09,
-   "fitted": 7.26,
+   "fitted": 7.47,
    "projected": null
   },
   {
    "quarterStart": "2016-04-01",
    "label": "Apr-Jun 2016",
    "actual": 8.68,
-   "fitted": 8.29,
+   "fitted": 8.38,
    "projected": null
   },
   {
    "quarterStart": "2016-07-01",
    "label": "Jul-Sep 2016",
    "actual": 9.67,
-   "fitted": 7.04,
+   "fitted": 7.25,
    "projected": null
   },
   {
    "quarterStart": "2016-10-01",
    "label": "Oct-Dec 2016",
    "actual": 8.58,
-   "fitted": 6.62,
+   "fitted": 6.78,
    "projected": null
   },
   {
    "quarterStart": "2017-01-01",
    "label": "Jan-Mar 2017",
    "actual": 6.29,
-   "fitted": 5.95,
+   "fitted": 5.8,
    "projected": null
   },
   {
    "quarterStart": "2017-04-01",
    "label": "Apr-Jun 2017",
    "actual": 6.11,
-   "fitted": 5.35,
+   "fitted": 5.49,
    "projected": null
   },
   {
    "quarterStart": "2017-07-01",
    "label": "Jul-Sep 2017",
    "actual": 5.32,
-   "fitted": 5.92,
+   "fitted": 5.91,
    "projected": null
   },
   {
    "quarterStart": "2017-10-01",
    "label": "Oct-Dec 2017",
    "actual": 6.67,
-   "fitted": 7.23,
+   "fitted": 7.27,
    "projected": null
   },
   {
    "quarterStart": "2018-01-01",
    "label": "Jan-Mar 2018",
    "actual": 8.93,
-   "fitted": 7.62,
+   "fitted": 7.7,
    "projected": null
   },
   {
    "quarterStart": "2018-04-01",
    "label": "Apr-Jun 2018",
    "actual": 7.5,
-   "fitted": 7.03,
+   "fitted": 7.07,
    "projected": null
   },
   {
    "quarterStart": "2018-07-01",
    "label": "Jul-Sep 2018",
    "actual": 6.46,
-   "fitted": 7.23,
+   "fitted": 7.27,
    "projected": null
   },
   {
    "quarterStart": "2018-10-01",
    "label": "Oct-Dec 2018",
    "actual": 6.23,
-   "fitted": 6.42,
+   "fitted": 6.58,
    "projected": null
   },
   {
    "quarterStart": "2019-01-01",
    "label": "Jan-Mar 2019",
    "actual": 5.72,
-   "fitted": 5.42,
+   "fitted": 5.68,
    "projected": null
   },
   {
    "quarterStart": "2019-04-01",
    "label": "Apr-Jun 2019",
-   "actual": 4.93,
-   "fitted": 6.03,
+   "actual": 5.1,
+   "fitted": 6.16,
    "projected": null
   },
   {
    "quarterStart": "2019-07-01",
    "label": "Jul-Sep 2019",
-   "actual": 4.19,
-   "fitted": 4.24,
+   "actual": 4.3,
+   "fitted": 4.43,
    "projected": null
   },
   {
    "quarterStart": "2019-10-01",
    "label": "Oct-Dec 2019",
-   "actual": 3.15,
-   "fitted": 3.41,
+   "actual": 3.26,
+   "fitted": 3.48,
    "projected": null
   },
   {
    "quarterStart": "2020-01-01",
    "label": "Jan-Mar 2020",
-   "actual": 2.79,
-   "fitted": 1.42,
+   "actual": 2.94,
+   "fitted": 1.24,
    "projected": null
   },
   {
    "quarterStart": "2020-04-01",
    "label": "Apr-Jun 2020",
-   "actual": -23.82,
-   "fitted": -20.06,
+   "actual": -23.13,
+   "fitted": -20.77,
    "projected": null
   },
   {
    "quarterStart": "2020-07-01",
    "label": "Jul-Sep 2020",
-   "actual": -6.64,
-   "fitted": -5.23,
+   "actual": -5.84,
+   "fitted": -5.64,
    "projected": null
   },
   {
    "quarterStart": "2020-10-01",
    "label": "Oct-Dec 2020",
-   "actual": 0.74,
-   "fitted": 2.06,
+   "actual": 1.78,
+   "fitted": 1.81,
    "projected": null
   },
   {
    "quarterStart": "2021-01-01",
    "label": "Jan-Mar 2021",
-   "actual": 2.53,
-   "fitted": 5.72,
+   "actual": 3.29,
+   "fitted": 5.79,
    "projected": null
   },
   {
    "quarterStart": "2021-04-01",
    "label": "Apr-Jun 2021",
-   "actual": 20.08,
-   "fitted": 23.15,
+   "actual": 22.63,
+   "fitted": 23.75,
    "projected": null
   },
   {
    "quarterStart": "2021-07-01",
    "label": "Jul-Sep 2021",
-   "actual": 8.4,
-   "fitted": 11.61,
+   "actual": 9.87,
+   "fitted": 11.63,
    "projected": null
   },
   {
    "quarterStart": "2021-10-01",
    "label": "Oct-Dec 2021",
-   "actual": 5.4,
-   "fitted": 5.45,
+   "actual": 5.53,
+   "fitted": 5.34,
    "projected": null
   },
   {
    "quarterStart": "2022-01-01",
    "label": "Jan-Mar 2022",
-   "actual": 4.09,
-   "fitted": 4.61,
+   "actual": 4.45,
+   "fitted": 4.55,
    "projected": null
   },
   {
    "quarterStart": "2022-04-01",
    "label": "Apr-Jun 2022",
-   "actual": 13.51,
-   "fitted": 9.56,
+   "actual": 13.49,
+   "fitted": 9.36,
    "projected": null
   },
   {
    "quarterStart": "2022-07-01",
    "label": "Jul-Sep 2022",
-   "actual": null,
-   "fitted": 6.77,
+   "actual": 5.96,
+   "fitted": 7.05,
    "projected": null
   },
   {
    "quarterStart": "2022-10-01",
    "label": "Oct-Dec 2022",
-   "actual": null,
-   "fitted": 6.1,
+   "actual": 4.84,
+   "fitted": 6.37,
    "projected": null
   },
   {
    "quarterStart": "2023-01-01",
    "label": "Jan-Mar 2023",
-   "actual": null,
-   "fitted": 6.65,
+   "actual": 6.9,
+   "fitted": 6.81,
    "projected": null
   },
   {
    "quarterStart": "2023-04-01",
    "label": "Apr-Jun 2023",
    "actual": 6.58,
-   "fitted": 7.17,
+   "fitted": 7.55,
    "projected": null
   },
   {
    "quarterStart": "2023-07-01",
    "label": "Jul-Sep 2023",
    "actual": 7.64,
-   "fitted": 8.26,
+   "fitted": 8.39,
    "projected": null
   },
   {
    "quarterStart": "2023-10-01",
    "label": "Oct-Dec 2023",
    "actual": 7.09,
-   "fitted": 7.58,
+   "fitted": 7.69,
    "projected": null
   },
   {
    "quarterStart": "2024-01-01",
    "label": "Jan-Mar 2024",
    "actual": 7.51,
-   "fitted": 6.97,
+   "fitted": 7.12,
    "projected": null
   },
   {
    "quarterStart": "2024-04-01",
    "label": "Apr-Jun 2024",
    "actual": 7.57,
-   "fitted": 8.01,
+   "fitted": 7.94,
    "projected": null
   },
   {
@@ -617,49 +617,49 @@
    "quarterStart": "2024-10-01",
    "label": "Oct-Dec 2024",
    "actual": 7.36,
-   "fitted": 7.18,
+   "fitted": 7.16,
    "projected": null
   },
   {
    "quarterStart": "2025-01-01",
    "label": "Jan-Mar 2025",
    "actual": 6.98,
-   "fitted": 7.24,
+   "fitted": 7.39,
    "projected": null
   },
   {
    "quarterStart": "2025-04-01",
    "label": "Apr-Jun 2025",
    "actual": 6.86,
-   "fitted": 6.4,
+   "fitted": 6.54,
    "projected": null
   },
   {
    "quarterStart": "2025-07-01",
    "label": "Jul-Sep 2025",
    "actual": 8.35,
-   "fitted": 7.42,
+   "fitted": 7.52,
    "projected": null
   },
   {
    "quarterStart": "2025-10-01",
    "label": "Oct-Dec 2025",
    "actual": 7.96,
-   "fitted": 7.21,
+   "fitted": 7.43,
    "projected": null
   },
   {
    "quarterStart": "2026-01-01",
    "label": "Jan-Mar 2026",
    "actual": 7.83,
-   "fitted": 6.6,
+   "fitted": 6.68,
    "projected": null
   },
   {
    "quarterStart": "2026-04-01",
    "label": "Apr-Jun 2026",
    "actual": 7.82,
-   "fitted": 7.69,
+   "fitted": 7.5,
    "projected": null
   },
   {
@@ -667,13 +667,13 @@
    "label": "Jul-Sep 2026",
    "actual": null,
    "fitted": null,
-   "projected": 7.98
+   "projected": 7.76
   }
  ],
  "nowcast": {
   "quarterStart": "2026-07-01",
   "label": "Jul-Sep 2026",
-  "pointEstimate": 7.98,
+  "pointEstimate": 7.76,
   "indicatorsReporting": [
    "Bank Credit (Non-Food Credit)",
    "Broad Money Supply (M3)",
@@ -695,692 +695,692 @@
    "Wholesale Price Index (WPI) - All Commodities"
   ],
   "indicatorsTotal": 19,
-  "signalShare": 0.959,
+  "signalShare": 0.994,
   "nextOfficialRelease": "2026-11-29",
   "rangeAvailable": true,
-  "standardError": 0.93,
+  "standardError": 0.94,
   "confidenceIntervals": [
    {
     "level": 0.68,
-    "lower": 6.9,
-    "upper": 8.77
+    "lower": 6.44,
+    "upper": 8.32
    },
    {
     "level": 0.9,
-    "lower": 6.67,
-    "upper": 9.16
+    "lower": 6.2,
+    "upper": 8.88
    }
   ],
   "pdf": [
    {
-    "x": 4.414,
+    "x": 3.78,
     "y": 0.0
    },
    {
-    "x": 4.459,
+    "x": 3.829,
     "y": 0.0
    },
    {
-    "x": 4.504,
+    "x": 3.879,
     "y": 0.0
    },
    {
-    "x": 4.548,
+    "x": 3.929,
     "y": 0.0
    },
    {
-    "x": 4.593,
+    "x": 3.979,
     "y": 0.0
    },
    {
-    "x": 4.637,
+    "x": 4.028,
     "y": 0.0
    },
    {
-    "x": 4.682,
+    "x": 4.078,
     "y": 0.0
    },
    {
-    "x": 4.726,
+    "x": 4.128,
     "y": 0.0
    },
    {
-    "x": 4.771,
+    "x": 4.178,
     "y": 0.0
    },
    {
-    "x": 4.816,
+    "x": 4.227,
     "y": 0.0
    },
    {
-    "x": 4.86,
+    "x": 4.277,
     "y": 0.0
    },
    {
-    "x": 4.905,
+    "x": 4.327,
     "y": 0.0
    },
    {
-    "x": 4.949,
+    "x": 4.377,
     "y": 0.0
    },
    {
-    "x": 4.994,
+    "x": 4.426,
     "y": 0.0
    },
    {
-    "x": 5.038,
+    "x": 4.476,
     "y": 0.0
    },
    {
-    "x": 5.083,
+    "x": 4.526,
     "y": 0.0
    },
    {
-    "x": 5.128,
+    "x": 4.576,
     "y": 0.0
    },
    {
-    "x": 5.172,
+    "x": 4.625,
     "y": 0.0
    },
    {
-    "x": 5.217,
+    "x": 4.675,
     "y": 0.0
    },
    {
-    "x": 5.261,
+    "x": 4.725,
     "y": 0.0
    },
    {
-    "x": 5.306,
+    "x": 4.775,
     "y": 0.0
    },
    {
-    "x": 5.35,
+    "x": 4.824,
     "y": 0.0
    },
    {
-    "x": 5.395,
+    "x": 4.874,
     "y": 0.0
    },
    {
-    "x": 5.439,
+    "x": 4.924,
     "y": 0.0
    },
    {
-    "x": 5.484,
+    "x": 4.974,
     "y": 0.0
    },
    {
-    "x": 5.529,
+    "x": 5.023,
     "y": 0.0
    },
    {
-    "x": 5.573,
+    "x": 5.073,
     "y": 0.0
    },
    {
-    "x": 5.618,
+    "x": 5.123,
     "y": 0.0
    },
    {
-    "x": 5.662,
+    "x": 5.173,
     "y": 0.0
    },
    {
-    "x": 5.707,
+    "x": 5.222,
+    "y": 0.0
+   },
+   {
+    "x": 5.272,
     "y": 1e-06
    },
    {
-    "x": 5.751,
-    "y": 2e-06
-   },
-   {
-    "x": 5.796,
-    "y": 5e-06
-   },
-   {
-    "x": 5.841,
-    "y": 1.2e-05
-   },
-   {
-    "x": 5.885,
-    "y": 3.1e-05
-   },
-   {
-    "x": 5.93,
-    "y": 7.7e-05
-   },
-   {
-    "x": 5.974,
-    "y": 0.000179
-   },
-   {
-    "x": 6.019,
-    "y": 0.000398
-   },
-   {
-    "x": 6.063,
-    "y": 0.000841
-   },
-   {
-    "x": 6.108,
-    "y": 0.001694
-   },
-   {
-    "x": 6.153,
-    "y": 0.003258
-   },
-   {
-    "x": 6.197,
-    "y": 0.005983
-   },
-   {
-    "x": 6.242,
-    "y": 0.010509
-   },
-   {
-    "x": 6.286,
-    "y": 0.017672
-   },
-   {
-    "x": 6.331,
-    "y": 0.02849
-   },
-   {
-    "x": 6.375,
-    "y": 0.044103
-   },
-   {
-    "x": 6.42,
-    "y": 0.065663
-   },
-   {
-    "x": 6.465,
-    "y": 0.094187
-   },
-   {
-    "x": 6.509,
-    "y": 0.130373
-   },
-   {
-    "x": 6.554,
-    "y": 0.174428
-   },
-   {
-    "x": 6.598,
-    "y": 0.225901
-   },
-   {
-    "x": 6.643,
-    "y": 0.283599
-   },
-   {
-    "x": 6.687,
-    "y": 0.34559
-   },
-   {
-    "x": 6.732,
-    "y": 0.409364
-   },
-   {
-    "x": 6.777,
-    "y": 0.472139
-   },
-   {
-    "x": 6.821,
-    "y": 0.531303
-   },
-   {
-    "x": 6.866,
-    "y": 0.584893
-   },
-   {
-    "x": 6.91,
-    "y": 0.295314
-   },
-   {
-    "x": 6.955,
-    "y": 0.30488
-   },
-   {
-    "x": 6.999,
-    "y": 0.313809
-   },
-   {
-    "x": 7.044,
-    "y": 0.322164
-   },
-   {
-    "x": 7.089,
-    "y": 0.33002
-   },
-   {
-    "x": 7.133,
-    "y": 0.337462
-   },
-   {
-    "x": 7.178,
-    "y": 0.344573
-   },
-   {
-    "x": 7.222,
-    "y": 0.35143
-   },
-   {
-    "x": 7.267,
-    "y": 0.358099
-   },
-   {
-    "x": 7.311,
-    "y": 0.364626
-   },
-   {
-    "x": 7.356,
-    "y": 0.371036
-   },
-   {
-    "x": 7.401,
-    "y": 0.377331
-   },
-   {
-    "x": 7.445,
-    "y": 0.383488
-   },
-   {
-    "x": 7.49,
-    "y": 0.389461
-   },
-   {
-    "x": 7.534,
-    "y": 0.395186
-   },
-   {
-    "x": 7.579,
-    "y": 0.400581
-   },
-   {
-    "x": 7.623,
-    "y": 0.405552
-   },
-   {
-    "x": 7.668,
-    "y": 0.41
-   },
-   {
-    "x": 7.713,
-    "y": 0.413821
-   },
-   {
-    "x": 7.757,
-    "y": 0.416915
-   },
-   {
-    "x": 7.802,
-    "y": 0.419186
-   },
-   {
-    "x": 7.846,
-    "y": 0.42055
-   },
-   {
-    "x": 7.891,
-    "y": 0.420931
-   },
-   {
-    "x": 7.935,
-    "y": 0.42027
-   },
-   {
-    "x": 7.98,
-    "y": 0.418522
-   },
-   {
-    "x": 8.025,
-    "y": 0.415659
-   },
-   {
-    "x": 8.069,
-    "y": 0.411673
-   },
-   {
-    "x": 8.114,
-    "y": 0.406572
-   },
-   {
-    "x": 8.158,
-    "y": 0.400385
-   },
-   {
-    "x": 8.203,
-    "y": 0.39316
-   },
-   {
-    "x": 8.247,
-    "y": 0.384962
-   },
-   {
-    "x": 8.292,
-    "y": 0.375874
-   },
-   {
-    "x": 8.337,
-    "y": 0.365992
-   },
-   {
-    "x": 8.381,
-    "y": 0.355426
-   },
-   {
-    "x": 8.426,
-    "y": 0.344291
-   },
-   {
-    "x": 8.47,
-    "y": 0.332709
-   },
-   {
-    "x": 8.515,
-    "y": 0.320799
-   },
-   {
-    "x": 8.559,
-    "y": 0.308674
-   },
-   {
-    "x": 8.604,
-    "y": 0.296438
-   },
-   {
-    "x": 8.649,
-    "y": 0.284181
-   },
-   {
-    "x": 8.693,
-    "y": 0.271977
-   },
-   {
-    "x": 8.738,
-    "y": 0.259882
-   },
-   {
-    "x": 8.782,
-    "y": 0.411345
-   },
-   {
-    "x": 8.827,
-    "y": 0.378566
-   },
-   {
-    "x": 8.871,
-    "y": 0.346537
-   },
-   {
-    "x": 8.916,
-    "y": 0.315125
-   },
-   {
-    "x": 8.961,
-    "y": 0.284178
-   },
-   {
-    "x": 9.005,
-    "y": 0.253615
-   },
-   {
-    "x": 9.05,
-    "y": 0.223494
-   },
-   {
-    "x": 9.094,
-    "y": 0.194036
-   },
-   {
-    "x": 9.139,
-    "y": 0.165618
-   },
-   {
-    "x": 9.183,
-    "y": 0.13872
-   },
-   {
-    "x": 9.228,
-    "y": 0.113857
-   },
-   {
-    "x": 9.273,
-    "y": 0.091506
-   },
-   {
-    "x": 9.317,
-    "y": 0.072042
-   },
-   {
-    "x": 9.362,
-    "y": 0.055696
-   },
-   {
-    "x": 9.406,
-    "y": 0.042545
-   },
-   {
-    "x": 9.451,
-    "y": 0.032514
-   },
-   {
-    "x": 9.495,
-    "y": 0.025412
-   },
-   {
-    "x": 9.54,
-    "y": 0.020955
-   },
-   {
-    "x": 9.585,
-    "y": 0.018803
-   },
-   {
-    "x": 9.629,
-    "y": 0.018581
-   },
-   {
-    "x": 9.674,
-    "y": 0.019889
-   },
-   {
-    "x": 9.718,
-    "y": 0.022315
-   },
-   {
-    "x": 9.763,
-    "y": 0.025432
-   },
-   {
-    "x": 9.807,
-    "y": 0.028813
-   },
-   {
-    "x": 9.852,
-    "y": 0.032045
-   },
-   {
-    "x": 9.897,
-    "y": 0.034751
-   },
-   {
-    "x": 9.941,
-    "y": 0.036618
-   },
-   {
-    "x": 9.986,
-    "y": 0.037428
-   },
-   {
-    "x": 10.03,
-    "y": 0.037077
-   },
-   {
-    "x": 10.075,
-    "y": 0.035583
-   },
-   {
-    "x": 10.119,
-    "y": 0.033076
-   },
-   {
-    "x": 10.164,
-    "y": 0.029776
-   },
-   {
-    "x": 10.209,
-    "y": 0.025959
-   },
-   {
-    "x": 10.253,
-    "y": 0.021916
-   },
-   {
-    "x": 10.298,
-    "y": 0.017918
-   },
-   {
-    "x": 10.342,
-    "y": 0.014186
-   },
-   {
-    "x": 10.387,
-    "y": 0.010876
-   },
-   {
-    "x": 10.431,
-    "y": 0.008075
-   },
-   {
-    "x": 10.476,
-    "y": 0.005805
-   },
-   {
-    "x": 10.521,
-    "y": 0.004042
-   },
-   {
-    "x": 10.565,
-    "y": 0.002725
-   },
-   {
-    "x": 10.61,
-    "y": 0.001779
-   },
-   {
-    "x": 10.654,
-    "y": 0.001125
-   },
-   {
-    "x": 10.699,
-    "y": 0.000689
-   },
-   {
-    "x": 10.743,
-    "y": 0.000408
-   },
-   {
-    "x": 10.788,
-    "y": 0.000234
-   },
-   {
-    "x": 10.832,
-    "y": 0.00013
-   },
-   {
-    "x": 10.877,
-    "y": 7e-05
-   },
-   {
-    "x": 10.922,
-    "y": 3.7e-05
-   },
-   {
-    "x": 10.966,
-    "y": 1.8e-05
-   },
-   {
-    "x": 11.011,
-    "y": 9e-06
-   },
-   {
-    "x": 11.055,
+    "x": 5.322,
     "y": 4e-06
    },
    {
-    "x": 11.1,
-    "y": 2e-06
+    "x": 5.372,
+    "y": 1.2e-05
    },
    {
-    "x": 11.144,
-    "y": 1e-06
+    "x": 5.421,
+    "y": 3.4e-05
    },
    {
-    "x": 11.189,
-    "y": 0.0
+    "x": 5.471,
+    "y": 9e-05
    },
    {
-    "x": 11.234,
-    "y": 0.0
+    "x": 5.521,
+    "y": 0.000225
    },
    {
-    "x": 11.278,
-    "y": 0.0
+    "x": 5.571,
+    "y": 0.000531
    },
    {
-    "x": 11.323,
-    "y": 0.0
+    "x": 5.62,
+    "y": 0.001187
    },
    {
-    "x": 11.367,
-    "y": 0.0
+    "x": 5.67,
+    "y": 0.002514
    },
    {
-    "x": 11.412,
-    "y": 0.0
+    "x": 5.72,
+    "y": 0.005052
    },
    {
-    "x": 11.456,
-    "y": 0.0
+    "x": 5.77,
+    "y": 0.009631
    },
    {
-    "x": 11.501,
-    "y": 0.0
+    "x": 5.82,
+    "y": 0.017432
    },
    {
-    "x": 11.546,
-    "y": 0.0
+    "x": 5.869,
+    "y": 0.02997
+   },
+   {
+    "x": 5.919,
+    "y": 0.048984
+   },
+   {
+    "x": 5.969,
+    "y": 0.076174
+   },
+   {
+    "x": 6.019,
+    "y": 0.112813
+   },
+   {
+    "x": 6.068,
+    "y": 0.159302
+   },
+   {
+    "x": 6.118,
+    "y": 0.214778
+   },
+   {
+    "x": 6.168,
+    "y": 0.276931
+   },
+   {
+    "x": 6.218,
+    "y": 0.34215
+   },
+   {
+    "x": 6.267,
+    "y": 0.406018
+   },
+   {
+    "x": 6.317,
+    "y": 0.464079
+   },
+   {
+    "x": 6.367,
+    "y": 0.512692
+   },
+   {
+    "x": 6.417,
+    "y": 0.549754
+   },
+   {
+    "x": 6.466,
+    "y": 0.286289
+   },
+   {
+    "x": 6.516,
+    "y": 0.291371
+   },
+   {
+    "x": 6.566,
+    "y": 0.295274
+   },
+   {
+    "x": 6.616,
+    "y": 0.298221
+   },
+   {
+    "x": 6.665,
+    "y": 0.300473
+   },
+   {
+    "x": 6.715,
+    "y": 0.302318
+   },
+   {
+    "x": 6.765,
+    "y": 0.304059
+   },
+   {
+    "x": 6.815,
+    "y": 0.305995
+   },
+   {
+    "x": 6.864,
+    "y": 0.308415
+   },
+   {
+    "x": 6.914,
+    "y": 0.31158
+   },
+   {
+    "x": 6.964,
+    "y": 0.31571
+   },
+   {
+    "x": 7.014,
+    "y": 0.320973
+   },
+   {
+    "x": 7.063,
+    "y": 0.327477
+   },
+   {
+    "x": 7.113,
+    "y": 0.335255
+   },
+   {
+    "x": 7.163,
+    "y": 0.344265
+   },
+   {
+    "x": 7.213,
+    "y": 0.354384
+   },
+   {
+    "x": 7.262,
+    "y": 0.365407
+   },
+   {
+    "x": 7.312,
+    "y": 0.377052
+   },
+   {
+    "x": 7.362,
+    "y": 0.388969
+   },
+   {
+    "x": 7.412,
+    "y": 0.400755
+   },
+   {
+    "x": 7.461,
+    "y": 0.411968
+   },
+   {
+    "x": 7.511,
+    "y": 0.42215
+   },
+   {
+    "x": 7.561,
+    "y": 0.430851
+   },
+   {
+    "x": 7.611,
+    "y": 0.437656
+   },
+   {
+    "x": 7.66,
+    "y": 0.442204
+   },
+   {
+    "x": 7.71,
+    "y": 0.444216
+   },
+   {
+    "x": 7.76,
+    "y": 0.443506
+   },
+   {
+    "x": 7.81,
+    "y": 0.439998
+   },
+   {
+    "x": 7.86,
+    "y": 0.433724
+   },
+   {
+    "x": 7.909,
+    "y": 0.424822
+   },
+   {
+    "x": 7.959,
+    "y": 0.413521
+   },
+   {
+    "x": 8.009,
+    "y": 0.400128
+   },
+   {
+    "x": 8.059,
+    "y": 0.384994
+   },
+   {
+    "x": 8.108,
+    "y": 0.3685
+   },
+   {
+    "x": 8.158,
+    "y": 0.351021
+   },
+   {
+    "x": 8.208,
+    "y": 0.332907
+   },
+   {
+    "x": 8.258,
+    "y": 0.314464
+   },
+   {
+    "x": 8.307,
+    "y": 0.295944
+   },
+   {
+    "x": 8.357,
+    "y": 0.282697
+   },
+   {
+    "x": 8.407,
+    "y": 0.263821
+   },
+   {
+    "x": 8.457,
+    "y": 0.245289
+   },
+   {
+    "x": 8.506,
+    "y": 0.227142
+   },
+   {
+    "x": 8.556,
+    "y": 0.209398
+   },
+   {
+    "x": 8.606,
+    "y": 0.192063
+   },
+   {
+    "x": 8.656,
+    "y": 0.175149
+   },
+   {
+    "x": 8.705,
+    "y": 0.158681
+   },
+   {
+    "x": 8.755,
+    "y": 0.142707
+   },
+   {
+    "x": 8.805,
+    "y": 0.127297
+   },
+   {
+    "x": 8.855,
+    "y": 0.112538
+   },
+   {
+    "x": 8.904,
+    "y": 0.09853
+   },
+   {
+    "x": 8.954,
+    "y": 0.085375
+   },
+   {
+    "x": 9.004,
+    "y": 0.073169
+   },
+   {
+    "x": 9.054,
+    "y": 0.06199
+   },
+   {
+    "x": 9.103,
+    "y": 0.051895
+   },
+   {
+    "x": 9.153,
+    "y": 0.042914
+   },
+   {
+    "x": 9.203,
+    "y": 0.035048
+   },
+   {
+    "x": 9.253,
+    "y": 0.028268
+   },
+   {
+    "x": 9.302,
+    "y": 0.022526
+   },
+   {
+    "x": 9.352,
+    "y": 0.017749
+   },
+   {
+    "x": 9.402,
+    "y": 0.013853
+   },
+   {
+    "x": 9.452,
+    "y": 0.010749
+   },
+   {
+    "x": 9.501,
+    "y": 0.008342
+   },
+   {
+    "x": 9.551,
+    "y": 0.006545
+   },
+   {
+    "x": 9.601,
+    "y": 0.005275
+   },
+   {
+    "x": 9.651,
+    "y": 0.004459
+   },
+   {
+    "x": 9.7,
+    "y": 0.004037
+   },
+   {
+    "x": 9.75,
+    "y": 0.003958
+   },
+   {
+    "x": 9.8,
+    "y": 0.00418
+   },
+   {
+    "x": 9.85,
+    "y": 0.00467
+   },
+   {
+    "x": 9.9,
+    "y": 0.005402
+   },
+   {
+    "x": 9.949,
+    "y": 0.006348
+   },
+   {
+    "x": 9.999,
+    "y": 0.007484
+   },
+   {
+    "x": 10.049,
+    "y": 0.008781
+   },
+   {
+    "x": 10.099,
+    "y": 0.010208
+   },
+   {
+    "x": 10.148,
+    "y": 0.011726
+   },
+   {
+    "x": 10.198,
+    "y": 0.013291
+   },
+   {
+    "x": 10.248,
+    "y": 0.014854
+   },
+   {
+    "x": 10.298,
+    "y": 0.016361
+   },
+   {
+    "x": 10.347,
+    "y": 0.017757
+   },
+   {
+    "x": 10.397,
+    "y": 0.018988
+   },
+   {
+    "x": 10.447,
+    "y": 0.020002
+   },
+   {
+    "x": 10.497,
+    "y": 0.020756
+   },
+   {
+    "x": 10.546,
+    "y": 0.021218
+   },
+   {
+    "x": 10.596,
+    "y": 0.021367
+   },
+   {
+    "x": 10.646,
+    "y": 0.021197
+   },
+   {
+    "x": 10.696,
+    "y": 0.020713
+   },
+   {
+    "x": 10.745,
+    "y": 0.019939
+   },
+   {
+    "x": 10.795,
+    "y": 0.018907
+   },
+   {
+    "x": 10.845,
+    "y": 0.017662
+   },
+   {
+    "x": 10.895,
+    "y": 0.016252
+   },
+   {
+    "x": 10.944,
+    "y": 0.014731
+   },
+   {
+    "x": 10.994,
+    "y": 0.013154
+   },
+   {
+    "x": 11.044,
+    "y": 0.01157
+   },
+   {
+    "x": 11.094,
+    "y": 0.010025
+   },
+   {
+    "x": 11.143,
+    "y": 0.008556
+   },
+   {
+    "x": 11.193,
+    "y": 0.007194
+   },
+   {
+    "x": 11.243,
+    "y": 0.005959
+   },
+   {
+    "x": 11.293,
+    "y": 0.004862
+   },
+   {
+    "x": 11.342,
+    "y": 0.003907
+   },
+   {
+    "x": 11.392,
+    "y": 0.003093
+   },
+   {
+    "x": 11.442,
+    "y": 0.002413
+   },
+   {
+    "x": 11.492,
+    "y": 0.001854
+   },
+   {
+    "x": 11.541,
+    "y": 0.001403
+   },
+   {
+    "x": 11.591,
+    "y": 0.001046
+   },
+   {
+    "x": 11.641,
+    "y": 0.000768
+   },
+   {
+    "x": 11.691,
+    "y": 0.000556
+   },
+   {
+    "x": 11.74,
+    "y": 0.000396
    }
   ],
   "stressInterval90": {
-   "lower": 2.49,
-   "upper": 9.16
+   "lower": 3.02,
+   "upper": 8.88
   }
  },
  "decomposition": {
   "baseline": 6.7,
-  "reported": 0.87,
-  "carriedForward": 0.41,
-  "nowcast": 7.98
+  "reported": 0.72,
+  "carriedForward": 0.34,
+  "nowcast": 7.76
  },
  "drivers": [
   {
    "id": "iip_general",
-   "weight": 3.624,
-   "contribution": 0.961,
+   "weight": 2.879,
+   "contribution": 0.785,
    "sign": 1,
    "signSource": "weight",
    "correlation": 0.79
   },
   {
    "id": "iip_manufacturing_sector",
-   "weight": 0.453,
-   "contribution": 0.077,
+   "weight": 0.815,
+   "contribution": 0.184,
    "sign": 1,
    "signSource": "weight",
    "correlation": 0.76
@@ -1394,124 +1394,124 @@
    "correlation": 0.51
   },
   {
-   "id": "wpi_all_commodities",
-   "weight": -0.074,
-   "contribution": -0.182,
-   "sign": -1,
-   "signSource": "weight",
-   "correlation": 0.07
-  },
-  {
-   "id": "wpi_manufactured_products",
-   "weight": -0.065,
-   "contribution": -0.114,
-   "sign": -1,
-   "signSource": "weight",
-   "correlation": 0.16
-  },
-  {
-   "id": "non_oil_non_gold_imports",
-   "weight": -0.03,
-   "contribution": null,
-   "sign": -1,
-   "signSource": "weight",
-   "correlation": 0.02
-  },
-  {
    "id": "steel_production_index",
-   "weight": 0.021,
-   "contribution": -0.004,
+   "weight": 0.309,
+   "contribution": -0.06,
    "sign": 1,
    "signSource": "weight",
    "correlation": 0.39
   },
   {
    "id": "cement_production_index",
-   "weight": 0.015,
-   "contribution": 0.004,
+   "weight": 0.27,
+   "contribution": 0.064,
    "sign": 1,
    "signSource": "weight",
    "correlation": 0.16
   },
   {
+   "id": "wpi_manufactured_products",
+   "weight": -0.118,
+   "contribution": -0.188,
+   "sign": -1,
+   "signSource": "weight",
+   "correlation": 0.16
+  },
+  {
+   "id": "wpi_all_commodities",
+   "weight": -0.107,
+   "contribution": -0.238,
+   "sign": -1,
+   "signSource": "weight",
+   "correlation": 0.07
+  },
+  {
+   "id": "petroleum_product_consumption",
+   "weight": 0.061,
+   "contribution": -0.035,
+   "sign": 1,
+   "signSource": "weight",
+   "correlation": 0.28
+  },
+  {
    "id": "cpi_combined_urban_rural",
-   "weight": -0.01,
-   "contribution": 0.003,
+   "weight": -0.031,
+   "contribution": 0.008,
    "sign": -1,
    "signSource": "weight",
    "correlation": -0.1
   },
   {
-   "id": "iip_electricity_sector",
-   "weight": -0.009,
-   "contribution": -0.007,
-   "sign": -1,
+   "id": "electricity_generation_index",
+   "weight": 0.028,
+   "contribution": 0.023,
+   "sign": 1,
    "signSource": "weight",
    "correlation": 0.31
   },
   {
-   "id": "electricity_generation_index",
-   "weight": -0.008,
-   "contribution": -0.009,
-   "sign": -1,
+   "id": "iip_electricity_sector",
+   "weight": 0.026,
+   "contribution": 0.027,
+   "sign": 1,
    "signSource": "weight",
-   "correlation": 0.32
+   "correlation": 0.31
   },
   {
    "id": "cpi_iw",
-   "weight": -0.008,
-   "contribution": 0.004,
+   "weight": -0.021,
+   "contribution": 0.009,
    "sign": -1,
    "signSource": "weight",
    "correlation": -0.04
   },
   {
+   "id": "non_oil_non_gold_imports",
+   "weight": -0.021,
+   "contribution": null,
+   "sign": -1,
+   "signSource": "weight",
+   "correlation": 0.01
+  },
+  {
+   "id": "central_govt_tax_revenue",
+   "weight": 0.017,
+   "contribution": 0.001,
+   "sign": 1,
+   "signSource": "weight",
+   "correlation": 0.11
+  },
+  {
    "id": "money_supply_m3",
-   "weight": -0.007,
-   "contribution": -0.005,
+   "weight": -0.012,
+   "contribution": -0.008,
    "sign": -1,
    "signSource": "weight",
    "correlation": 0.25
   },
   {
-   "id": "coal_production_index",
-   "weight": -0.006,
-   "contribution": -0.0,
-   "sign": -1,
-   "signSource": "weight",
-   "correlation": 0.05
-  },
-  {
    "id": "crude_oil_production_index",
-   "weight": -0.006,
-   "contribution": 0.003,
+   "weight": -0.008,
+   "contribution": 0.005,
    "sign": -1,
    "signSource": "weight",
    "correlation": 0.46
   },
   {
    "id": "bank_credit_non_food",
-   "weight": -0.005,
+   "weight": -0.007,
    "contribution": -0.001,
    "sign": -1,
    "signSource": "weight",
    "correlation": 0.31
   },
   {
-   "id": "petroleum_product_consumption",
-   "weight": 0.004,
-   "contribution": -0.002,
-   "sign": 1,
-   "signSource": "weight",
-   "correlation": 0.28
-  },
-  {
-   "id": "central_govt_tax_revenue",
-   "weight": -0.003,
+   "id": "coal_production_index",
+   "weight": -0.004,
    "contribution": -0.0,
    "sign": -1,
    "signSource": "weight",
-   "correlation": 0.11
+   "correlation": 0.05
   },
   {
    "id": "ici_overall",
@@ -1567,7 +1567,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.02
+   "correlation": 0.01
   },
   {
    "id": "scb_aggregate_deposits",
@@ -1599,7 +1599,7 @@
    "contribution": null,
    "sign": -1,
    "signSource": "correlation",
-   "correlation": -0.13
+   "correlation": -0.12
   },
   {
    "id": "bank_credit_industries",
@@ -1639,7 +1639,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.7
+   "correlation": 0.71
   },
   {
    "id": "nifty_50_close",
@@ -1647,7 +1647,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.68
+   "correlation": 0.69
   },
   {
    "id": "nifty_500_close",
@@ -1695,7 +1695,7 @@
    "contribution": null,
    "sign": -1,
    "signSource": "correlation",
-   "correlation": -0.0
+   "correlation": -0.01
   },
   {
    "id": "slr",
@@ -1711,7 +1711,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.51
+   "correlation": 0.52
   },
   {
    "id": "reer_40currency",
@@ -1719,7 +1719,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.5
+   "correlation": 0.51
   },
   {
    "id": "net_foreign_exchange_assets_bankingsector",
@@ -1759,7 +1759,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.28
+   "correlation": 0.27
   },
   {
    "id": "petroleum_products_exports_value",
@@ -1789,9 +1789,9 @@
    "id": "major_port_cargo_traffic",
    "weight": 0.0,
    "contribution": null,
-   "sign": 1,
+   "sign": -1,
    "signSource": "correlation",
-   "correlation": 0.13
+   "correlation": -0.1
   },
   {
    "id": "us_industrial_production_index",
@@ -1807,15 +1807,15 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.2
+   "correlation": 0.04
   },
   {
    "id": "gst_eway_bill_volume",
    "weight": 0.0,
    "contribution": null,
-   "sign": 1,
+   "sign": -1,
    "signSource": "correlation",
-   "correlation": 0.18
+   "correlation": -0.64
   },
   {
    "id": "iip_mining_sector",
@@ -1839,7 +1839,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.5
+   "correlation": 0.49
   },
   {
    "id": "iip_basic_metals",
@@ -1847,7 +1847,7 @@
    "contribution": null,
    "sign": -1,
    "signSource": "correlation",
-   "correlation": -0.29
+   "correlation": -0.28
   },
   {
    "id": "wpi_non_food_articles",
@@ -1885,9 +1885,9 @@
    "id": "agricultural_rural_wages_men_avg",
    "weight": 0.0,
    "contribution": null,
-   "sign": 1,
+   "sign": -1,
    "signSource": "correlation",
-   "correlation": 0.0
+   "correlation": -0.0
   },
   {
    "id": "central_govt_capital_expenditure",
@@ -1911,7 +1911,7 @@
    "contribution": null,
    "sign": 1,
    "signSource": "correlation",
-   "correlation": 0.27
+   "correlation": 0.26
   },
   {
    "id": "gst_gross_revenue_collection",
@@ -1919,7 +1919,7 @@
    "contribution": null,
    "sign": -1,
    "signSource": "correlation",
-   "correlation": -0.62
+   "correlation": -0.64
   }
  ],
  "signals": {
@@ -10676,56 +10676,56 @@
  "vintages": [
   {
    "asOf": "2026-09-05",
-   "estimate": 8.12,
+   "estimate": 8.14,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.357,
+   "signalShare": 0.358,
    "contributions": {
-    "bank_credit_non_food": 0.016,
-    "cement_production_index": 0.002,
-    "central_govt_tax_revenue": -0.001,
+    "bank_credit_non_food": 0.061,
+    "cement_production_index": 0.041,
+    "central_govt_tax_revenue": 0.003,
     "coal_production_index": -0.001,
-    "cpi_combined_urban_rural": 0.003,
-    "cpi_iw": 0.003,
-    "crude_oil_production_index": 0.003,
-    "electricity_generation_index": -0.002,
+    "cpi_combined_urban_rural": 0.008,
+    "cpi_iw": 0.008,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.007,
     "forex_total_reserves": 0.245,
-    "iip_electricity_sector": -0.003,
-    "iip_general": 0.802,
-    "iip_manufacturing_sector": 0.052,
+    "iip_electricity_sector": 0.01,
+    "iip_general": 0.72,
+    "iip_manufacturing_sector": 0.094,
     "money_supply_m3": -0.0,
-    "petroleum_product_consumption": -0.001,
-    "steel_production_index": -0.003,
-    "wpi_all_commodities": -0.081,
-    "wpi_manufactured_products": -0.05
+    "petroleum_product_consumption": -0.019,
+    "steel_production_index": -0.043,
+    "wpi_all_commodities": -0.11,
+    "wpi_manufactured_products": -0.086
    },
    "released": [],
    "horizonDays": 85
   },
   {
    "asOf": "2026-09-12",
-   "estimate": 7.94,
+   "estimate": 7.88,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.384,
+   "signalShare": 0.386,
    "contributions": {
-    "bank_credit_non_food": 0.017,
-    "cement_production_index": 0.002,
-    "central_govt_tax_revenue": -0.001,
+    "bank_credit_non_food": 0.063,
+    "cement_production_index": 0.041,
+    "central_govt_tax_revenue": 0.003,
     "coal_production_index": -0.001,
-    "cpi_combined_urban_rural": 0.037,
-    "cpi_iw": 0.003,
-    "crude_oil_production_index": 0.003,
-    "electricity_generation_index": -0.002,
+    "cpi_combined_urban_rural": 0.062,
+    "cpi_iw": 0.008,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.007,
     "forex_total_reserves": 0.123,
-    "iip_electricity_sector": -0.003,
-    "iip_general": 0.802,
-    "iip_manufacturing_sector": 0.052,
+    "iip_electricity_sector": 0.01,
+    "iip_general": 0.72,
+    "iip_manufacturing_sector": 0.094,
     "money_supply_m3": -0.0,
-    "petroleum_product_consumption": -0.001,
-    "steel_production_index": -0.003,
-    "wpi_all_commodities": -0.081,
-    "wpi_manufactured_products": -0.051
+    "petroleum_product_consumption": -0.019,
+    "steel_production_index": -0.043,
+    "wpi_all_commodities": -0.11,
+    "wpi_manufactured_products": -0.086
    },
    "released": [
     "brent_crude_spot_price",
@@ -10746,28 +10746,28 @@
   },
   {
    "asOf": "2026-09-19",
-   "estimate": 7.93,
+   "estimate": 7.62,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.395,
+   "signalShare": 0.405,
    "contributions": {
-    "bank_credit_non_food": 0.013,
-    "cement_production_index": 0.002,
-    "central_govt_tax_revenue": -0.001,
+    "bank_credit_non_food": 0.02,
+    "cement_production_index": 0.041,
+    "central_govt_tax_revenue": 0.003,
     "coal_production_index": -0.001,
-    "cpi_combined_urban_rural": 0.03,
-    "cpi_iw": 0.003,
-    "crude_oil_production_index": 0.003,
-    "electricity_generation_index": -0.002,
+    "cpi_combined_urban_rural": 0.048,
+    "cpi_iw": 0.008,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.007,
     "forex_total_reserves": 0.13,
-    "iip_electricity_sector": -0.003,
-    "iip_general": 0.802,
-    "iip_manufacturing_sector": 0.052,
-    "money_supply_m3": 0.042,
-    "petroleum_product_consumption": -0.563,
-    "steel_production_index": -0.003,
-    "wpi_all_commodities": -0.066,
-    "wpi_manufactured_products": -0.011
+    "iip_electricity_sector": 0.01,
+    "iip_general": 0.72,
+    "iip_manufacturing_sector": 0.094,
+    "money_supply_m3": 0.068,
+    "petroleum_product_consumption": -0.998,
+    "steel_production_index": -0.043,
+    "wpi_all_commodities": -0.079,
+    "wpi_manufactured_products": -0.029
    },
    "released": [
     "10y_gsec_yield",
@@ -10810,28 +10810,28 @@
   },
   {
    "asOf": "2026-09-26",
-   "estimate": 8.0,
+   "estimate": 7.79,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.399,
+   "signalShare": 0.444,
    "contributions": {
-    "bank_credit_non_food": 0.003,
-    "cement_production_index": 0.1,
-    "central_govt_tax_revenue": -0.001,
-    "coal_production_index": -0.038,
-    "cpi_combined_urban_rural": 0.011,
-    "cpi_iw": 0.003,
-    "crude_oil_production_index": -0.003,
-    "electricity_generation_index": 0.158,
+    "bank_credit_non_food": 0.001,
+    "cement_production_index": 0.173,
+    "central_govt_tax_revenue": 0.003,
+    "coal_production_index": -0.026,
+    "cpi_combined_urban_rural": 0.016,
+    "cpi_iw": 0.008,
+    "crude_oil_production_index": 0.002,
+    "electricity_generation_index": 0.152,
     "forex_total_reserves": 0.139,
-    "iip_electricity_sector": -0.003,
-    "iip_general": 0.802,
-    "iip_manufacturing_sector": 0.052,
-    "money_supply_m3": 0.008,
-    "petroleum_product_consumption": -0.139,
-    "steel_production_index": -0.092,
-    "wpi_all_commodities": -0.146,
-    "wpi_manufactured_products": -0.083
+    "iip_electricity_sector": 0.01,
+    "iip_general": 0.72,
+    "iip_manufacturing_sector": 0.094,
+    "money_supply_m3": 0.003,
+    "petroleum_product_consumption": -0.147,
+    "steel_production_index": -0.155,
+    "wpi_all_commodities": -0.205,
+    "wpi_manufactured_products": -0.157
    },
    "released": [
     "brent_crude_spot_price",
@@ -10859,28 +10859,28 @@
   },
   {
    "asOf": "2026-10-03",
-   "estimate": 8.07,
+   "estimate": 8.03,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.689,
+   "signalShare": 0.69,
    "contributions": {
-    "bank_credit_non_food": 0.021,
-    "cement_production_index": 0.01,
-    "central_govt_tax_revenue": 0.0,
-    "coal_production_index": 0.002,
-    "cpi_combined_urban_rural": 0.004,
-    "cpi_iw": 0.005,
-    "crude_oil_production_index": 0.004,
-    "electricity_generation_index": -0.001,
+    "bank_credit_non_food": 0.078,
+    "cement_production_index": 0.05,
+    "central_govt_tax_revenue": 0.001,
+    "coal_production_index": 0.001,
+    "cpi_combined_urban_rural": 0.008,
+    "cpi_iw": 0.009,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.016,
     "forex_total_reserves": 0.149,
-    "iip_electricity_sector": -0.002,
-    "iip_general": 0.84,
-    "iip_manufacturing_sector": 0.166,
-    "money_supply_m3": -0.002,
-    "petroleum_product_consumption": -0.008,
-    "steel_production_index": -0.012,
-    "wpi_all_commodities": -0.105,
-    "wpi_manufactured_products": -0.072
+    "iip_electricity_sector": 0.018,
+    "iip_general": 0.815,
+    "iip_manufacturing_sector": 0.136,
+    "money_supply_m3": -0.003,
+    "petroleum_product_consumption": -0.033,
+    "steel_production_index": -0.048,
+    "wpi_all_commodities": -0.149,
+    "wpi_manufactured_products": -0.116
    },
    "released": [
     "agricultural_rural_wages_men_avg",
@@ -10915,28 +10915,28 @@
   },
   {
    "asOf": "2026-10-10",
-   "estimate": 8.07,
+   "estimate": 8.03,
    "lower90": null,
    "upper90": null,
-   "signalShare": 0.689,
+   "signalShare": 0.69,
    "contributions": {
-    "bank_credit_non_food": 0.021,
-    "cement_production_index": 0.01,
-    "central_govt_tax_revenue": 0.0,
-    "coal_production_index": 0.002,
-    "cpi_combined_urban_rural": 0.004,
-    "cpi_iw": 0.005,
-    "crude_oil_production_index": 0.004,
-    "electricity_generation_index": -0.001,
+    "bank_credit_non_food": 0.078,
+    "cement_production_index": 0.05,
+    "central_govt_tax_revenue": 0.001,
+    "coal_production_index": 0.001,
+    "cpi_combined_urban_rural": 0.008,
+    "cpi_iw": 0.009,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.016,
     "forex_total_reserves": 0.149,
-    "iip_electricity_sector": -0.002,
-    "iip_general": 0.84,
-    "iip_manufacturing_sector": 0.166,
-    "money_supply_m3": -0.002,
-    "petroleum_product_consumption": -0.008,
-    "steel_production_index": -0.012,
-    "wpi_all_commodities": -0.105,
-    "wpi_manufactured_products": -0.072
+    "iip_electricity_sector": 0.018,
+    "iip_general": 0.815,
+    "iip_manufacturing_sector": 0.136,
+    "money_supply_m3": -0.003,
+    "petroleum_product_consumption": -0.033,
+    "steel_production_index": -0.048,
+    "wpi_all_commodities": -0.149,
+    "wpi_manufactured_products": -0.116
    },
    "released": [
     "brent_crude_spot_price",
@@ -10960,28 +10960,28 @@
   },
   {
    "asOf": "2026-10-17",
-   "estimate": 8.39,
-   "lower90": 7.08,
-   "upper90": 9.57,
-   "signalShare": 0.701,
+   "estimate": 8.29,
+   "lower90": 6.72,
+   "upper90": 9.41,
+   "signalShare": 0.711,
    "contributions": {
-    "bank_credit_non_food": 0.018,
-    "cement_production_index": 0.004,
-    "central_govt_tax_revenue": -0.0,
-    "coal_production_index": 0.002,
-    "cpi_combined_urban_rural": 0.002,
-    "cpi_iw": 0.004,
-    "crude_oil_production_index": 0.003,
-    "electricity_generation_index": -0.004,
+    "bank_credit_non_food": 0.026,
+    "cement_production_index": 0.05,
+    "central_govt_tax_revenue": 0.001,
+    "coal_production_index": 0.001,
+    "cpi_combined_urban_rural": 0.007,
+    "cpi_iw": 0.009,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.015,
     "forex_total_reserves": 0.149,
-    "iip_electricity_sector": -0.006,
-    "iip_general": 0.904,
-    "iip_manufacturing_sector": 0.106,
-    "money_supply_m3": 0.045,
-    "petroleum_product_consumption": -0.039,
-    "steel_production_index": -0.004,
-    "wpi_all_commodities": -0.101,
-    "wpi_manufactured_products": -0.035
+    "iip_electricity_sector": 0.018,
+    "iip_general": 0.815,
+    "iip_manufacturing_sector": 0.136,
+    "money_supply_m3": 0.07,
+    "petroleum_product_consumption": -0.095,
+    "steel_production_index": -0.048,
+    "wpi_all_commodities": -0.126,
+    "wpi_manufactured_products": -0.069
    },
    "released": [
     "bank_credit_non_food",
@@ -11013,28 +11013,28 @@
   },
   {
    "asOf": "2026-10-24",
-   "estimate": 8.23,
-   "lower90": 6.92,
-   "upper90": 9.41,
-   "signalShare": 0.704,
+   "estimate": 7.94,
+   "lower90": 6.38,
+   "upper90": 9.06,
+   "signalShare": 0.75,
    "contributions": {
-    "bank_credit_non_food": 0.003,
-    "cement_production_index": 0.045,
-    "central_govt_tax_revenue": -0.0,
-    "coal_production_index": 0.018,
-    "cpi_combined_urban_rural": 0.003,
-    "cpi_iw": 0.004,
-    "crude_oil_production_index": 0.002,
-    "electricity_generation_index": 0.076,
+    "bank_credit_non_food": 0.001,
+    "cement_production_index": 0.106,
+    "central_govt_tax_revenue": 0.001,
+    "coal_production_index": 0.012,
+    "cpi_combined_urban_rural": 0.008,
+    "cpi_iw": 0.009,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.088,
     "forex_total_reserves": 0.149,
-    "iip_electricity_sector": -0.007,
-    "iip_general": 0.935,
-    "iip_manufacturing_sector": 0.075,
-    "money_supply_m3": 0.007,
-    "petroleum_product_consumption": -0.011,
-    "steel_production_index": -0.038,
-    "wpi_all_commodities": -0.159,
-    "wpi_manufactured_products": -0.093
+    "iip_electricity_sector": 0.018,
+    "iip_general": 0.814,
+    "iip_manufacturing_sector": 0.136,
+    "money_supply_m3": -0.0,
+    "petroleum_product_consumption": -0.041,
+    "steel_production_index": -0.093,
+    "wpi_all_commodities": -0.223,
+    "wpi_manufactured_products": -0.173
    },
    "released": [
     "brent_crude_spot_price",
@@ -11060,35 +11060,41 @@
    "horizonDays": 30
   },
   {
-   "asOf": "2026-10-29",
-   "estimate": 7.98,
-   "lower90": 6.67,
-   "upper90": 9.16,
-   "signalShare": 0.959,
+   "asOf": "2026-10-30",
+   "estimate": 7.76,
+   "lower90": 6.2,
+   "upper90": 8.88,
+   "signalShare": 0.994,
    "contributions": {
     "bank_credit_non_food": -0.001,
-    "cement_production_index": 0.004,
-    "central_govt_tax_revenue": -0.0,
+    "cement_production_index": 0.064,
+    "central_govt_tax_revenue": 0.001,
     "coal_production_index": -0.0,
-    "cpi_combined_urban_rural": 0.003,
-    "cpi_iw": 0.004,
-    "crude_oil_production_index": 0.003,
-    "electricity_generation_index": -0.009,
+    "cpi_combined_urban_rural": 0.008,
+    "cpi_iw": 0.009,
+    "crude_oil_production_index": 0.005,
+    "electricity_generation_index": 0.023,
     "forex_total_reserves": 0.149,
-    "iip_electricity_sector": -0.007,
-    "iip_general": 0.961,
-    "iip_manufacturing_sector": 0.077,
-    "money_supply_m3": -0.005,
-    "petroleum_product_consumption": -0.002,
-    "steel_production_index": -0.004,
-    "wpi_all_commodities": -0.182,
-    "wpi_manufactured_products": -0.114
+    "iip_electricity_sector": 0.027,
+    "iip_general": 0.785,
+    "iip_manufacturing_sector": 0.184,
+    "money_supply_m3": -0.008,
+    "petroleum_product_consumption": -0.035,
+    "steel_production_index": -0.06,
+    "wpi_all_commodities": -0.238,
+    "wpi_manufactured_products": -0.188
    },
    "released": [
     "bank_credit_non_food",
     "bse_500_close",
     "bse_sensex_close",
+    "iip_basic_metals",
+    "iip_electricity_sector",
     "iip_general",
+    "iip_infrastructure_construction_goods",
+    "iip_intermediate_goods",
+    "iip_manufacturing_sector",
+    "iip_mining_sector",
     "india_vix_close",
     "scb_aggregate_deposits",
     "sp500_close",
@@ -11102,7 +11108,7 @@
    "quarterStart": "2023-04-01",
    "label": "Apr-Jun 2023",
    "asOf": "2023-08-24",
-   "estimate": 7.1,
+   "estimate": 7.6,
    "naive": 6.33,
    "naiveModel": "AR(1)",
    "official": 7.8,
@@ -11116,7 +11122,7 @@
    "quarterStart": "2023-07-01",
    "label": "Jul-Sep 2023",
    "asOf": "2023-11-23",
-   "estimate": 8.51,
+   "estimate": 8.82,
    "naive": 7.14,
    "naiveModel": "AR(1)",
    "official": 7.6,
@@ -11130,7 +11136,7 @@
    "quarterStart": "2023-10-01",
    "label": "Oct-Dec 2023",
    "asOf": "2024-02-22",
-   "estimate": 7.97,
+   "estimate": 7.77,
    "naive": 7.07,
    "naiveModel": "AR(1)",
    "official": 8.4,
@@ -11144,7 +11150,7 @@
    "quarterStart": "2024-01-01",
    "label": "Jan-Mar 2024",
    "asOf": "2024-05-24",
-   "estimate": 7.65,
+   "estimate": 7.54,
    "naive": 7.41,
    "naiveModel": "AR(1)",
    "official": 7.8,
@@ -11158,7 +11164,7 @@
    "quarterStart": "2024-04-01",
    "label": "Apr-Jun 2024",
    "asOf": "2024-08-23",
-   "estimate": 8.06,
+   "estimate": 8.1,
    "naive": 7.14,
    "naiveModel": "AR(1)",
    "official": 6.7,
@@ -11172,7 +11178,7 @@
    "quarterStart": "2024-07-01",
    "label": "Jul-Sep 2024",
    "asOf": "2024-11-22",
-   "estimate": 6.4,
+   "estimate": 6.63,
    "naive": 6.64,
    "naiveModel": "AR(1)",
    "official": 5.4,
@@ -11186,7 +11192,7 @@
    "quarterStart": "2024-10-01",
    "label": "Oct-Dec 2024",
    "asOf": "2025-02-21",
-   "estimate": 6.61,
+   "estimate": 6.85,
    "naive": 6.04,
    "naiveModel": "AR(1)",
    "official": 6.2,
@@ -11200,7 +11206,7 @@
    "quarterStart": "2025-01-01",
    "label": "Jan-Mar 2025",
    "asOf": "2025-05-23",
-   "estimate": 6.86,
+   "estimate": 7.11,
    "naive": 6.42,
    "naiveModel": "AR(1)",
    "official": 7.4,
@@ -11214,7 +11220,7 @@
    "quarterStart": "2025-04-01",
    "label": "Apr-Jun 2025",
    "asOf": "2025-08-22",
-   "estimate": 6.63,
+   "estimate": 6.69,
    "naive": 7.0,
    "naiveModel": "AR(1)",
    "official": 7.8,
@@ -11228,7 +11234,7 @@
    "quarterStart": "2025-07-01",
    "label": "Jul-Sep 2025",
    "asOf": "2025-11-21",
-   "estimate": 7.8,
+   "estimate": 7.86,
    "naive": 7.2,
    "naiveModel": "AR(1)",
    "official": 8.2,
@@ -11242,7 +11248,7 @@
    "quarterStart": "2025-10-01",
    "label": "Oct-Dec 2025",
    "asOf": "2026-02-20",
-   "estimate": 7.64,
+   "estimate": 7.57,
    "naive": 7.41,
    "naiveModel": "AR(1)",
    "official": 7.8,
@@ -11256,7 +11262,7 @@
    "quarterStart": "2026-01-01",
    "label": "Jan-Mar 2026",
    "asOf": "2026-05-29",
-   "estimate": 6.68,
+   "estimate": 6.67,
    "naive": 7.18,
    "naiveModel": "AR(1)",
    "official": 7.8,
@@ -11268,22 +11274,22 @@
   }
  ],
  "caveats": [
-  "The headline averages two models: a regression on GDP's own last value and 3 activity indicators, and a factor model on the 17 Tier 1 indicators. Neither has yet been shown to beat a naive benchmark in ordinary quarters; the live record from the 2026-27 Q2 release is the test.",
-  "The range shown is where past first prints fell around the headline in ordinary conditions, with the COVID years left out. The stress range allows for a miss of the size seen in 2020.",
-  "The track record is a backtest: pseudo-real-time, using only figures released before each GDP print but today's revised values, made a week before the print. Live runs are listed separately.",
-  "The indicators speak for industry, credit, the external sector and prices. Agriculture, services, household spending beyond fuel and investment demand are not yet covered (see coverage).",
-  "Contributions are a static projection; what they leave out, mainly GDP's persistence and the factors' dynamics, is shown as carried forward.",
-  "The training sample includes the 2020-2021 COVID quarters, with no adjustment."
+  "The headline averages two models: a regression on GDP's last value and 3 activity indicators, and a factor model on 17 indicators. In ordinary quarters the headline has been closer to the first print than the AR(1) benchmark, but only narrowly, so luck could still explain it. The live record is the clean test.",
+  "The range is where past first prints fell around the headline in ordinary conditions, with the COVID years left out. The tail-risk range allows for a miss as large as 2020's.",
+  "The track record is a backtest. Each estimate was made a week before the first print, using only data released before it but with today's revised values. Live runs are listed separately.",
+  "The headline reads indicators in Industry, Construction and investment, Household consumption, Government, External sector, Money, credit and financial conditions and Prices. It reads nothing in Services, Agriculture and the rural economy and Labour.",
+  "Each indicator's contribution is a simple projection. What it leaves out, mainly GDP's own persistence and the factors' dynamics, is shown as carried forward.",
+  "The training sample includes the 2020 to 2021 COVID quarters, with no adjustment."
  ],
  "headline": {
   "id": "combo_phase0",
   "members": {
    "arx_phase0_v2": 8.45,
-   "dfm_lag_tier1_k2": 7.51
+   "dfm_lag_tier1_k2": 7.08
   },
   "weights": "equal",
   "horizonDays": 30,
-  "daysToRelease": 31,
+  "daysToRelease": 30,
   "runKind": "live",
   "benchmarks": {
    "Baseline: AR(1)": 7.2,
@@ -11302,90 +11308,90 @@
     "quarters": 29
    },
    "confirmation": {
-    "definition": "Quarters starting from Jul 2022, after the COVID base effects. 2022-23 Q2 to Q4 have no year-on-year growth, so the first quarter scored is Apr-Jun 2023.",
-    "firstQuarter": "2023-04-01",
+    "definition": "Quarters starting from Jul 2022, after the COVID base effects.",
+    "firstQuarter": "2022-07-01",
     "lastQuarter": "2026-01-01",
-    "quarters": 12
+    "quarters": 15
    },
    "ordinary": {
-    "definition": "Selection and confirmation together: outside the COVID window (quarters starting Jan 2020 to Oct 2021) and the base-effect quarters through Apr 2022. This is the sample the claim that neither model has yet beaten a naive benchmark refers to.",
+    "definition": "Selection and confirmation together: everything outside the COVID window (quarters starting Jan 2020 to Oct 2021) and the base-effect quarters through Apr 2022. Our main claims refer to this sample.",
     "firstQuarter": "2012-10-01",
     "lastQuarter": "2026-01-01",
-    "quarters": 41
+    "quarters": 44
    },
    "exCovid": {
-    "definition": "Everything outside the COVID window. It adds the two 2022 base-effect quarters to ordinary, on which the AR(1) benchmark missed badly, so every model looks better against it than on ordinary.",
+    "definition": "Everything outside the COVID window. It adds the two 2022 base-effect quarters, where the AR(1) benchmark missed badly, so models look better here than on ordinary quarters.",
     "firstQuarter": "2012-10-01",
     "lastQuarter": "2026-01-01",
-    "quarters": 43
+    "quarters": 46
    }
   },
   "horizons": {
    "30": {
     "selection": {
      "n": 29,
-     "rmse": 0.77,
+     "rmse": 0.8,
      "ar1Rmse": 0.96,
-     "ratioToAr1": 0.8,
-     "ratioLow": 0.67,
-     "ratioHigh": 0.98
+     "ratioToAr1": 0.84,
+     "ratioLow": 0.66,
+     "ratioHigh": 1.08
     },
     "confirmation": {
-     "n": 12,
-     "rmse": 0.81,
-     "ar1Rmse": 0.87,
-     "ratioToAr1": 0.92,
-     "ratioLow": 0.64,
-     "ratioHigh": 1.33
+     "n": 15,
+     "rmse": 0.99,
+     "ar1Rmse": 1.33,
+     "ratioToAr1": 0.74,
+     "ratioLow": 0.54,
+     "ratioHigh": 1.14
     },
     "ordinary": {
-     "n": 41,
-     "rmse": 0.78,
-     "ar1Rmse": 0.93,
-     "ratioToAr1": 0.84,
-     "ratioLow": 0.71,
-     "ratioHigh": 1.0
+     "n": 44,
+     "rmse": 0.87,
+     "ar1Rmse": 1.1,
+     "ratioToAr1": 0.79,
+     "ratioLow": 0.64,
+     "ratioHigh": 0.99
     },
     "exCovid": {
-     "n": 43,
-     "rmse": 0.89,
-     "ar1Rmse": 1.57,
-     "ratioToAr1": 0.57,
-     "ratioLow": 0.45,
-     "ratioHigh": 0.92
+     "n": 46,
+     "rmse": 1.0,
+     "ar1Rmse": 1.64,
+     "ratioToAr1": 0.61,
+     "ratioLow": 0.5,
+     "ratioHigh": 0.9
     }
    },
    "7": {
     "selection": {
      "n": 29,
-     "rmse": 0.73,
+     "rmse": 0.81,
      "ar1Rmse": 0.96,
-     "ratioToAr1": 0.77,
-     "ratioLow": 0.63,
-     "ratioHigh": 0.95
+     "ratioToAr1": 0.85,
+     "ratioLow": 0.67,
+     "ratioHigh": 1.1
     },
     "confirmation": {
-     "n": 12,
-     "rmse": 0.8,
-     "ar1Rmse": 0.87,
-     "ratioToAr1": 0.91,
-     "ratioLow": 0.65,
-     "ratioHigh": 1.3
+     "n": 15,
+     "rmse": 0.96,
+     "ar1Rmse": 1.33,
+     "ratioToAr1": 0.72,
+     "ratioLow": 0.53,
+     "ratioHigh": 1.1
     },
     "ordinary": {
-     "n": 41,
-     "rmse": 0.75,
-     "ar1Rmse": 0.93,
-     "ratioToAr1": 0.81,
-     "ratioLow": 0.68,
-     "ratioHigh": 0.97
+     "n": 44,
+     "rmse": 0.87,
+     "ar1Rmse": 1.1,
+     "ratioToAr1": 0.79,
+     "ratioLow": 0.64,
+     "ratioHigh": 0.98
     },
     "exCovid": {
-     "n": 43,
-     "rmse": 0.87,
-     "ar1Rmse": 1.57,
-     "ratioToAr1": 0.55,
-     "ratioLow": 0.44,
+     "n": 46,
+     "rmse": 1.0,
+     "ar1Rmse": 1.64,
+     "ratioToAr1": 0.61,
+     "ratioLow": 0.5,
      "ratioHigh": 0.89
     }
    }
@@ -11731,7 +11737,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": false,
-      "note": "a price index; a copy of CPI-AL (correlation 0.999)"
+      "note": "a price index"
      }
     ]
    },
@@ -12085,7 +12091,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": false,
-      "note": "public the same day; the strongest incremental signal in the scorecard"
+      "note": "public the same day"
      },
      {
       "id": "bse_sensex_close",
@@ -12127,7 +12133,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": true,
-      "note": "in the DFM panel only; not an activity measure"
+      "note": "read by the factor model only; not an activity measure"
      },
      {
       "id": "cpi_iw",
@@ -12139,7 +12145,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": true,
-      "note": "in the DFM panel only; not an activity measure"
+      "note": "read by the factor model only; not an activity measure"
      },
      {
       "id": "wpi_all_commodities",
@@ -12151,7 +12157,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": true,
-      "note": "in the DFM panel only"
+      "note": "read by the factor model only"
      },
      {
       "id": "wpi_manufactured_products",
@@ -12163,7 +12169,7 @@
       "basis": "not_applicable",
       "inArx": false,
       "inDfm": true,
-      "note": "in the DFM panel only"
+      "note": "read by the factor model only"
      },
      {
       "id": "wpi_non_food_articles",
@@ -12239,7 +12245,7 @@
     "sectionKey": "agriculture-rural",
     "section": "Agriculture and the rural economy",
     "missing": "Kharif and rabi sowing and output estimates, monsoon rainfall, tractor and fertiliser sales",
-    "why": "Agriculture is roughly a sixth of GVA and has no indicator in either headline model",
+    "why": "Roughly a sixth of GVA, and neither model reads an indicator for it",
     "candidateSource": "Ministry of Agriculture, IMD, FADA and SIAM monthly releases",
     "priority": 1
    },
@@ -12247,7 +12253,7 @@
     "sectionKey": "services",
     "section": "Services",
     "missing": "Services PMI, air passenger traffic, railway freight and passenger earnings, FASTag toll collections",
-    "why": "Services are over half of GVA; the panel holds one bank-credit series and GST",
+    "why": "Over half of GVA. We hold only one bank-credit series and GST for it",
     "candidateSource": "S&P Global PMI, DGCA, Indian Railways, NHAI",
     "priority": 1
    },
@@ -12255,7 +12261,7 @@
     "sectionKey": "household-consumption",
     "section": "Household consumption",
     "missing": "Passenger-vehicle and two-wheeler sales, UPI transaction value and volume, FMCG volumes",
-    "why": "Private consumption is the largest expenditure component; fuel consumption is the only direct measure held",
+    "why": "Private consumption is the largest part of demand. Fuel use is the only direct measure we hold",
     "candidateSource": "SIAM and FADA, NPCI (a timely, real-time series), company and industry releases",
     "priority": 1
    },
@@ -12263,7 +12269,7 @@
     "sectionKey": "construction-investment",
     "section": "Construction and investment",
     "missing": "Capital-goods production, capital-goods imports",
-    "why": "Investment demand; the IIP use-based capital-goods index is in files already held but not wired as a series",
+    "why": "Investment demand. The IIP capital-goods index is in files we hold but is not used yet",
     "candidateSource": "MoSPI IIP use-based tables (held), Tradestat commodity detail (held, when the site restores it)",
     "priority": 1
    },
@@ -12271,7 +12277,7 @@
     "sectionKey": "external",
     "section": "External sector",
     "missing": "The level of merchandise exports, services exports",
-    "why": "Only the export/import ratio is held; exports are in the Tradestat reports already downloaded",
+    "why": "We hold only the export-import ratio, not the level of exports. Exports are in the Tradestat reports we already have",
     "candidateSource": "Tradestat (held), RBI monthly services trade",
     "priority": 2
    },
@@ -12279,7 +12285,7 @@
     "sectionKey": "business-conditions",
     "section": "Business conditions",
     "missing": "Manufacturing PMI and RBI business and consumer surveys",
-    "why": "Survey indicators lead activity and are published within days of the month end",
+    "why": "Surveys lead activity and come out within days of the month end",
     "candidateSource": "S&P Global PMI, RBI surveys",
     "priority": 2
    },
@@ -12287,7 +12293,7 @@
     "sectionKey": "labour",
     "section": "Labour",
     "missing": "EPFO payroll additions, MGNREGA work demand",
-    "why": "The only labour series are urban and quarterly from 2018",
+    "why": "Our only labour series are urban and quarterly, from 2018",
     "candidateSource": "EPFO, Ministry of Rural Development",
     "priority": 3
    }
@@ -12341,7 +12347,7 @@
    "runId": "R073ef87871e24397",
    "modelId": "arx_phase0_v2",
    "role": "member",
-   "name": "ARX on the activity pool",
+   "name": "Regression on activity indicators",
    "asOf": "2026-10-29",
    "quarterStart": "2026-07-01",
    "label": "Jul-Sep 2026",
@@ -12353,7 +12359,7 @@
    "runId": "R566807c4e7510a39",
    "modelId": "combo_phase0",
    "role": "headline",
-   "name": "Equal-weight combination (ARX + Tier 1 DFM)",
+   "name": "Headline (average of the two)",
    "asOf": "2026-10-29",
    "quarterStart": "2026-07-01",
    "label": "Jul-Sep 2026",
@@ -12389,7 +12395,7 @@
    "runId": "Rc262b2cdcd1bdf73",
    "modelId": "dfm_lag_tier1_k2",
    "role": "member",
-   "name": "Dynamic factor model with GDP lag, Tier 1 panel",
+   "name": "Factor model",
    "asOf": "2026-10-29",
    "quarterStart": "2026-07-01",
    "label": "Jul-Sep 2026",
