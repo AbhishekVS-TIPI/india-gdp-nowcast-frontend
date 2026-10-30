@@ -297,7 +297,7 @@ VIS.breadth = {
     c.share.textContent = `${Math.round(b.share * 100)}% above normal`;
   },
 };
-/* ---------- The stat card: the estimate as a few easy numbers; the ranges live in the chart's hover ---------- */
+/* ---------- The stat card: the estimate as a few easy numbers; what the ranges mean is behind the chart's "i" ---------- */
 /* Differences between figures shown to one decimal are taken from the figures as shown, so readers can check them. */
 const r1 = (v) => Math.sign(v) * Math.round((Math.abs(v) + 1e-9) * 10) / 10;
 const ncdf = (z) => {
@@ -306,8 +306,8 @@ const ncdf = (z) => {
   const erf = 1 - poly * Math.exp(-(z * z) / 2);
   return z >= 0 ? 0.5 * (1 + erf) : 0.5 * (1 - erf);
 };
-const rangeText = N.rangeAvailable === false ? ["No likely range yet"] : [`Nine times in ten: ${pct(N.lo90)} to ${pct(N.hi90)}`, `Two times in three: ${pct(N.lo68)} to ${pct(N.hi68)}`];
-/* The likely range as two plain bars: nine times in ten, and two times in three, with the estimate and last quarter marked. */
+const rangeText = N.rangeAvailable === false ? ["No likely range yet"] : [`90% confidence interval: ${pct(N.lo90)} to ${pct(N.hi90)}`, `68% confidence interval: ${pct(N.lo68)} to ${pct(N.hi68)}`];
+/* The likely range as two plain bars, the 90% and the 68% confidence interval, with the estimate and last quarter marked. */
 const massAbove = (t) => { const p = N.pdf || []; let all = 0, up = 0; for (let i = 1; i < p.length; i++) { const w = (p[i][1] + p[i - 1][1]) / 2 * (p[i][0] - p[i - 1][0]); all += w; const mid = (p[i][0] + p[i - 1][0]) / 2; if (mid > t) up += w; } return all > 0 ? up / all : null; };
 const CHANCE_ABOVE_PREV = Math.round((massAbove(D.prev.v) ?? 1 - ncdf((D.prev.v - N.point) / N.se)) * 100);
 VIS.ci = {
@@ -321,7 +321,7 @@ VIS.ci = {
       el("text", { x: clamp(X(v), 17, W - 17), y: ay + 20, "text-anchor": "middle", class: "dz-tick" }, g, G.tickLabel(v));
     });
     el("line", { x1: X(ax.lo), x2: X(ax.hi), y1: ay, y2: ay, class: "dz-axis" }, g);
-    const bars = RANGE ? [[52, N.lo90, N.hi90, "Nine times in ten", "ci-90"], [112, N.lo68, N.hi68, "Two times in three", "ci-68"]] : [];
+    const bars = RANGE ? [[52, N.lo90, N.hi90, "90% confidence interval", "ci-90"], [112, N.lo68, N.hi68, "68% confidence interval", "ci-68"]] : [];
     bars.forEach(([y, lo, hi, , cls]) => el("rect", { x: X(lo), y, width: Math.max(2, X(hi) - X(lo)), height: 24, rx: 6, class: cls }, g));
     el("line", { x1: X(N.point), x2: X(N.point), y1: 28, y2: ay, class: "dz-point" }, g);
     /* the captions are drawn after the estimate line so that their halo keeps the line from running through the words */
@@ -335,18 +335,26 @@ VIS.ci = {
     const px = X(D.prev.v), left = px < W / 2, lab = `Last quarter ${pct(D.prev.v)}`;
     el("path", { d: `M${px},${ay - 6}l6,6l-6,6l-6,-6z`, class: "ci-prev" }, g);
     el("text", { x: left ? px + 11 : px - 11, y: ay - 9, "text-anchor": left ? "start" : "end", class: "ci-prevlbl" }, g, lab);
-    const tp = G.tipper(c);
-    const hit = el("rect", { x: 0, y: 0, width: W, height: H, fill: "transparent", tabindex: 0, role: "img", "aria-label": `Likely range for growth. ${rangeText.join(". ")}. Chance it comes in above last quarter's ${pct(D.prev.v)}: ${CHANCE_ABOVE_PREV} per cent.`, class: "dz-hit" }, g);
-    const fill = (tip) => !RANGE ? tip.append(h("b", { text: "No likely range yet" }), h("span", { text: N.rangeNote || "A likely range is given once the headline has been tested at this distance from a release." })) : tip.append(h("b", { text: "How to read this" }),
-      h("span", { text: `Nine times in ten the official figure should land between ${pct(N.lo90)} and ${pct(N.hi90)}.` }),
-      h("span", { text: `Two times in three, between ${pct(N.lo68)} and ${pct(N.hi68)}. These are for ordinary conditions.` }),
-      h("span", { class: "dz-sep", text: `Chance it comes in above last quarter's ${pct(D.prev.v)}: ${CHANCE_ABOVE_PREV}%` }));
-    const b = tp.bind(hit, fill, { hot: false });
-    hit.addEventListener("focus", () => tp.open(X(N.point) - 80, 40, fill));
-    hit.addEventListener("blur", b.hide);
+    g.setAttribute("role", "img");
+    g.setAttribute("aria-label", `Likely range for growth. ${rangeText.join(". ")}. Chance it comes in above last quarter's ${pct(D.prev.v)}: ${CHANCE_ABOVE_PREV} per cent.`);
   },
   render() {},
 };
+/* The "i" on the first card: what the two confidence intervals mean. Opens on a click, closes on a second click, a click elsewhere or Esc. */
+function ciInfo() {
+  const box = h("div", { class: "ci-info", id: "ci-info", role: "region", "aria-label": "How to read the confidence intervals", hidden: "" });
+  if (!RANGE) box.append(h("b", { text: "No likely range yet" }), h("span", { text: N.rangeNote || "A likely range is given once the headline has been tested at this distance from a release." }));
+  else box.append(h("b", { text: "How to read this" }),
+    h("span", { text: `90% confidence interval: nine times in ten the official figure should land between ${pct(N.lo90)} and ${pct(N.hi90)}.` }),
+    h("span", { text: `68% confidence interval: two times in three, between ${pct(N.lo68)} and ${pct(N.hi68)}. These are for ordinary conditions.` }),
+    h("span", { class: "dz-sep", text: `Chance it comes in above last quarter's ${pct(D.prev.v)}: ${CHANCE_ABOVE_PREV}%` }));
+  const btn = h("button", { type: "button", class: "ci-i", "aria-label": "How to read the confidence intervals", "aria-expanded": "false", "aria-controls": "ci-info", text: "i" });
+  const toggle = (on) => { box.hidden = !on; btn.setAttribute("aria-expanded", String(on)); };
+  btn.addEventListener("click", () => toggle(box.hidden));
+  document.addEventListener("pointerdown", (e) => { if (!box.hidden && !box.contains(e.target) && !btn.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !box.hidden) { toggle(false); btn.focus(); } });
+  return [btn, box];
+}
 function renderStatCard(host) {
   const tiles = [
     [pct(D.prev.v), `Last official figure · ${D.prev.label}`, ""],
@@ -364,7 +372,7 @@ function renderStatCard(host) {
         h("h1", { class: "sc-quarter", text: D.quarterLong }),
         h("p", { class: "sc-big" }, (r1(N.point) < 0 ? "−" : "") + fix(N.point, 1), h("small", { text: "%" })),
         STATE === "early" ? h("p", { class: "sc-flag", text: RANGE ? `Too early to call: only ${Math.round(N.share * 100)}% of the signal is in` : `Too early to call. ${N.rangeNote || "No likely range has been evaluated at this distance from the release."}` }) : null),
-      h("div", { class: "sc-chart" }, fig, h("p", { class: "sc-hint", text: "Hover or tap the bars to see what they mean" }))),
+      h("div", { class: "sc-chart" }, ...ciInfo(), fig, h("p", { class: "sc-hint", text: "Select the i to see what these intervals mean" }))),
     h("ul", { class: "sc-tiles" }, tiles.map(([v, l, cls]) => h("li", null, h("b", { class: cls, text: v }), h("span", { text: l })))))));
   G.figure(fig, "ci");
 }

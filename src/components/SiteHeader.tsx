@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { SITE_SUBTITLE } from "@/lib/site";
 
 const NAV = [
   { to: "/", label: "GDP Pulse", exact: true },
@@ -9,7 +8,7 @@ const NAV = [
   { to: "/methodology", label: "Methodology", exact: false },
 ] as const;
 
-export function SiteHeader({ subtitle = SITE_SUBTITLE }: { subtitle?: string }) {
+export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -42,13 +41,8 @@ export function SiteHeader({ subtitle = SITE_SUBTITLE }: { subtitle?: string }) 
             alt="The India Prosperity Initiative logo"
             className={`w-auto shrink-0 transition-all duration-300 ${scrolled ? "h-7" : "h-9"}`}
           />
-          <span className="min-w-0">
-            <span className="block truncate font-sans text-[15px] font-semibold tracking-[-0.01em] text-navy">
-              India GDP Pulse
-            </span>
-            {subtitle && !scrolled ? (
-              <span className="block truncate text-[11px] text-blue-dark/70">{subtitle}</span>
-            ) : null}
+          <span className="min-w-0 truncate font-sans text-[15px] font-semibold tracking-[-0.01em] text-navy">
+            India GDP Pulse
           </span>
         </Link>
 
