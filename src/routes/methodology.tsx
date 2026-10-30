@@ -227,9 +227,14 @@ function MethodologyPage() {
           </section>
         </article>
 
-        <aside>
+        <aside className="lg:sticky lg:top-24 lg:self-start">
           <p className="eyebrow">Source register</p>
-          <div className="mt-3 divide-y divide-border border-y border-border">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Source of every indicator"
+            className="mt-3 max-h-[60vh] divide-y divide-border overflow-y-auto overscroll-contain border-y border-border pr-3 lg:max-h-[calc(100vh-11rem)]"
+          >
             {indicators.map((ind) => {
               const lu = lastUpdated(ind.id);
               return (
