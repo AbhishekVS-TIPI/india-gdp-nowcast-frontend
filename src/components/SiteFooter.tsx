@@ -10,7 +10,7 @@ const connect = [
 export function SiteFooter() {
   return (
     <footer className="mt-16 bg-navy text-blue-lighter">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 md:grid-cols-2">
+      <div className="mx-auto grid max-w-[88rem] gap-10 px-5 py-12 md:grid-cols-2">
         <div>
           <img
             src="/tipi-logo.svg"
@@ -64,7 +64,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-5">
+      <div className="mx-auto max-w-[88rem] px-5">
         <div className="h-px w-full bg-blue-lighter/25" />
         <p className="py-6 text-xs text-blue-light">
           © {new Date().getFullYear()} The India Prosperity Initiative. Images are owned by

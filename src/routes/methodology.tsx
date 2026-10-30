@@ -54,7 +54,7 @@ function MethodologyPage() {
       <SiteHeader />
 
       <div className="hero-wash border-b border-border">
-        <div className="mx-auto max-w-6xl px-5 py-12">
+        <div className="mx-auto max-w-[88rem] px-5 py-12">
           <p className="eyebrow">How it works</p>
           <h1 className="mt-3 max-w-2xl font-sans text-3xl font-semibold tracking-[-0.02em] text-navy sm:text-4xl">
             Methodology
@@ -67,7 +67,7 @@ function MethodologyPage() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mx-auto grid max-w-[88rem] gap-10 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="space-y-8">
           <section>
             <p className="eyebrow">Data</p>

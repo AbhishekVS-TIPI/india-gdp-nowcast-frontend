@@ -57,7 +57,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 .wrap {
-  max-width: 1160px;
+  max-width: 1408px;
   margin-inline: auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
@@ -393,7 +393,7 @@ p { text-wrap: pretty; }
 /* ---------- Recommended page: chapter rail, chapter heads, takeaways, what to watch ---------- */
 body.has-rail { --rail-h: 46px; }
 .rail { position: sticky; top: var(--head-h); z-index: 35; height: var(--rail-h); background: color-mix(in oklab, var(--bg) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.rail .wrap { height: 100%; display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.rail .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .rail .wrap::-webkit-scrollbar { display: none; }
 .rail a { flex: none; padding: 5px 11px; font-size: 0.8125rem; color: var(--fg-2); text-decoration: none; border-radius: 999px; white-space: nowrap; }
 .rail a:hover { background: var(--band-2); }
@@ -430,55 +430,46 @@ body.has-rail { --rail-h: 46px; }
 .prov.auto { color: var(--accent); }
 .prov.human { color: var(--you); }
 .prov.ever { color: var(--fg-3); }
-.layers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-.layers li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-content: start; padding: 14px; background: var(--surface-2); border-radius: 12px; }
-.layers li span { font-size: 0.875rem; color: var(--fg-2); line-height: 1.5; }
 .stale { margin: 0; padding: 10px 14px; font-size: 0.875rem; color: var(--fg); background: color-mix(in oklab, var(--you) 14%, transparent); border-radius: 10px; }
 .note.night .stale { color: var(--night-fg); }
 .chapter-head .prov { margin-bottom: 2px; font-size: 0.6875rem; line-height: 1.4; }
 .panel > .prov { margin-bottom: 14px; }
-@media (max-width: 860px) { .layers { grid-template-columns: minmax(0, 1fr); } }
 .plot .ring-static { fill: none; stroke: var(--you); stroke-width: 2; }
 
 /* ---------- Recommended page: the dark stat card ---------- */
-.statcard { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 28px; background: var(--night); color: var(--night-fg); border-radius: 22px; }
-.statcard .prov { background: oklch(1 0 0 / 0.06); border-color: var(--night-line); color: var(--night-accent); }
-.statcard .eyebrow { color: var(--night-dim); }
-.sc-top { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; align-items: end; }
+/* ---------- The first card: a full-width opener, the GDP record drawn as terrain behind it ---------- */
+.hero { position: relative; isolation: isolate; background: var(--night); color: var(--night-fg); }
+.hero .terrain { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -1; }
+.hero-in { display: grid; gap: 26px; padding-block: 36px 40px; }
+.hero .prov { width: fit-content; background: oklch(1 0 0 / 0.06); border-color: var(--night-line); color: var(--night-accent); }
+.hero-num { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 32px; }
+.ci-lines { position: relative; display: flex; align-items: flex-end; gap: 10px; padding-bottom: 0.7rem; }
+.ci-rows { display: grid; gap: 3px; font-size: 0.9375rem; line-height: 1.35; }
+.ci-rows p { margin: 0; display: flex; flex-wrap: wrap; gap: 0 10px; }
+.ci-rows span { color: var(--night-dim); }
+.ci-rows b { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--night-fg); }
+.hero .eyebrow { color: var(--night-dim); font-size: 0.85rem; }
 .sc-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; min-width: 0; }
 .sc-big { margin: 0; font-size: clamp(5rem, 13vw, 9rem); line-height: 0.92; font-weight: 600; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
 .sc-big small { font-size: 0.4em; color: var(--night-accent); letter-spacing: 0; margin-left: 0.04em; }
-.sc-chart { position: relative; display: grid; gap: 4px; min-width: 0; }
-.ci-i { position: absolute; top: -2px; right: 0; z-index: 4; display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 1px solid var(--night-line); border-radius: 50%; background: oklch(1 0 0 / 0.06); color: var(--night-fg); font: 600 14px/1 var(--font-sans); cursor: pointer; transition: background-color 0.15s; }
+.ci-i { flex: none; display: grid; place-items: center; width: 22px; height: 22px; margin-bottom: 2px; padding: 0; border: 1px solid var(--night-line); border-radius: 50%; background: oklch(1 0 0 / 0.06); color: var(--night-fg); font: 600 12px/1 var(--font-sans); cursor: pointer; transition: background-color 0.15s; }
 .ci-i:hover { background: oklch(1 0 0 / 0.16); }
 .ci-i[aria-expanded="true"] { background: var(--night-accent); border-color: var(--night-accent); color: var(--night); }
 .ci-i:focus-visible { outline: 2px solid var(--night-accent); outline-offset: 2px; }
-.ci-info { position: absolute; top: 32px; right: 0; z-index: 5; display: grid; gap: 3px; width: min(300px, 100%); padding: 12px 14px; font-size: 0.8125rem; line-height: 1.45; color: var(--fg); background: var(--surface); border-radius: 10px; box-shadow: var(--shadow); }
+.ci-info { position: absolute; top: calc(100% + 4px); left: 0; z-index: 5; display: grid; gap: 3px; width: min(320px, 90vw); padding: 12px 14px; font-size: 0.8125rem; line-height: 1.45; color: var(--fg); background: var(--surface); border-radius: 10px; box-shadow: var(--shadow); }
 .ci-info b { font-weight: 600; }
 .ci-info .dz-sep { margin-top: 4px; padding-top: 6px; border-top: 1px solid var(--line); color: var(--fg-2); }
-.sc-hint { margin: 0; font-size: 0.8125rem; color: var(--night-dim); }
 .sc-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-.sc-tiles li { display: grid; gap: 4px; align-content: start; padding: 14px 16px; background: oklch(1 0 0 / 0.06); border: 1px solid var(--night-line); border-radius: 14px; min-width: 0; }
+.sc-tiles li { display: grid; gap: 4px; align-content: start; padding: 14px 16px; background: oklch(0.225 0.146 265.8 / 0.66); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--night-line); border-radius: 14px; min-width: 0; }
 .sc-tiles b { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .sc-tiles b.down { color: oklch(0.78 0.13 30); }
 .sc-tiles b.up { color: oklch(0.8 0.14 152); }
 .sc-tiles span { font-size: 0.8125rem; line-height: 1.35; color: var(--night-dim); }
-.statcard .plot .dz-all { fill: var(--night-accent); fill-opacity: 0.08; }
-.statcard .plot .dz-90 { fill: var(--night-accent); fill-opacity: 0.28; }
-.statcard .plot .dz-68 { fill: var(--night-accent); fill-opacity: 0.55; }
-.statcard .plot .dz-line { fill: none; stroke: var(--night-accent); stroke-width: 2; }
-.statcard .plot .dz-point { stroke: var(--night-fg); stroke-width: 2; }
-.statcard .plot .dz-axis { stroke: var(--night-line); stroke-width: 1; }
-.statcard .plot .dz-guide { stroke: var(--night-fg); stroke-width: 1; stroke-dasharray: 3 3; }
-.statcard .plot .dz-tick { fill: var(--night-dim); font-size: 11px; }
-.statcard .plot .dz-hit { cursor: crosshair; outline: none; }
-.statcard .plot .dz-hit:focus-visible { stroke: var(--night-accent); stroke-width: 1.5; }
 .dz-tip { position: absolute; top: 4px; display: grid; gap: 3px; width: max-content; max-width: 260px; padding: 10px 12px; font-size: 0.8125rem; line-height: 1.4; color: var(--fg); background: var(--surface); border-radius: 10px; box-shadow: var(--shadow); pointer-events: none; z-index: 3; }
 .dz-tip b { font-weight: 600; }
 .dz-tip .dz-sep { margin-top: 4px; padding-top: 6px; border-top: 1px solid var(--line); color: var(--fg-2); }
 @media (max-width: 860px) {
-  .statcard { padding: 20px; }
-  .sc-top { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .hero-in { padding-block: 28px 30px; gap: 20px; }
   .sc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -516,12 +507,6 @@ body.has-rail { --rail-h: 46px; }
 .nc-read { margin-top: auto; font-size: 0.875rem; font-weight: 600; color: var(--fg-3); }
 
 /* ---------- Recommended page: the closing recap ---------- */
-.recap { list-style: none; counter-reset: rc; display: grid; gap: 16px; margin: 0; padding: 0; }
-.recap li { counter-increment: rc; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; }
-.recap li::before { content: counter(rc); grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-family: var(--font-mono); font-size: 0.8125rem; }
-.recap a { font-weight: 600; color: var(--fg); text-decoration: none; }
-.recap a:hover { text-decoration: underline; }
-.recap span { color: var(--fg-2); line-height: 1.55; }
 
 .sc-flag { margin: 10px 0 0; width: fit-content; max-width: 100%; overflow-wrap: anywhere; padding: 6px 14px; font-size: 0.875rem; font-weight: 600; line-height: 1.35; color: oklch(0.22 0.06 80); background: oklch(0.82 0.13 78); border-radius: 999px; }
 
@@ -530,22 +515,12 @@ body.has-rail { --rail-h: 46px; }
 .site-head .wrap { min-width: 0; }
 @media (max-width: 420px) {
   .prov { letter-spacing: 0; }
-  .statcard { padding: 16px; }
   .sc-tiles { gap: 8px; }
   .sc-tiles li { padding: 12px; }
 }
 
 /* ---------- The first card: the quarter as a real heading, and the likely-range bars ---------- */
-.statcard .eyebrow { font-size: 0.85rem; }
 .sc-quarter { margin: 2px 0 0; font-size: clamp(2.1rem, 4.6vw, 3.3rem); line-height: 1.04; font-weight: 600; letter-spacing: -0.028em; color: var(--night-fg); }
-.statcard .plot .ci-90 { fill: var(--night-accent); fill-opacity: 0.3; }
-.statcard .plot .ci-68 { fill: var(--night-accent); fill-opacity: 0.78; }
-.statcard .plot .ci-cap { font-family: var(--font-sans); font-size: 13.5px; fill: var(--night-fg); }
-.statcard .plot .ci-est { font-family: var(--font-sans); font-size: 17px; font-weight: 600; fill: var(--night-fg); }
-.statcard .plot .ci-prev { fill: oklch(0.82 0.13 78); }
-.statcard .plot .ci-prevlbl { font-family: var(--font-sans); font-size: 13px; fill: oklch(0.82 0.13 78); }
-.statcard .plot .dz-grid { stroke: var(--night-line); stroke-width: 1; }
-.statcard .plot .dz-tick { font-size: 12px; }
 
 /* ---------- Optional depth: closed until someone asks ---------- */
 details.more { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
@@ -582,7 +557,6 @@ details.more.slim > .more-body { padding: 0 16px 16px; }
 @media (max-width: 860px) { .bc-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; } .breadth-line { font-size: 1.2rem; } }
 .plot .sbar { fill: color-mix(in srgb, var(--accent) 28%, white); }
 .plot .sbar.sel { fill: var(--accent); }
-.statcard .plot .ci-cap, .statcard .plot .ci-prevlbl { paint-order: stroke; stroke: var(--night); stroke-width: 5px; stroke-linejoin: round; }
 
 /* The site header on the live page: real links, a menu on small screens. */
 .nav a { position: relative; padding: 0 4px 4px; font-size: 13px; letter-spacing: -0.01em; text-decoration: none; color: color-mix(in oklab, var(--fg-2) 80%, transparent); }

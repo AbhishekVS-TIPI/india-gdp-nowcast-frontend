@@ -9,17 +9,8 @@ import {
   verdictLabel,
   whenBefore,
 } from "@/lib/evaluation";
-import {
-  NOWCAST,
-  NOWCAST_ROWS,
-  benchmarkLabel,
-  benchmarks,
-  trackSummary,
-  type LiveRecordRow,
-  type TrackRecordRow,
-} from "@/lib/nowcast";
+import { NOWCAST, NOWCAST_ROWS, trackSummary, type TrackRecordRow } from "@/lib/nowcast";
 import { Link } from "@tanstack/react-router";
-import { fmtDate } from "@/lib/series";
 
 const fmt = (v: number | null | undefined) => (v == null ? "—" : `${v.toFixed(1)}%`);
 const miss = (est: number | null, official: number | null) =>
@@ -29,7 +20,6 @@ const signed1 = (v: number) => {
   const r = Math.round(v * 10) / 10;
   return r === 0 ? "0.0" : `${r > 0 ? "+" : "−"}${Math.abs(r).toFixed(1)}`;
 };
-const day = (iso: string) => fmtDate(Date.parse(`${iso}T00:00:00Z`));
 
 const TONE = {
   better: "text-trend-up",
@@ -267,93 +257,6 @@ export function EvaluationTable() {
           </dl>
         </details>
       ) : null}
-    </div>
-  );
-}
-
-const ROLE_ORDER: Record<string, number> = { headline: 0, member: 1, benchmark: 2 };
-
-/**
- * Who a live run is: the export's own `name` (a benchmark's is its key in `headline.benchmarks`,
- * shown as the stat card shows it). An older export carries only an id, so then the headline and
- * the members come from the model list and a benchmark is matched to the headline's named
- * benchmarks by its value (the same run exports both); an id that matches nothing is shown as it is.
- */
-function liveName(r: LiveRecordRow): string {
-  if (r.name) return r.role === "benchmark" ? benchmarkLabel(r.name) : r.name;
-  if (r.role === "headline" || r.modelId === NOWCAST?.headline?.id) return "Headline (average)";
-  const member = NOWCAST?.model.members?.find((m) => m.id === r.modelId);
-  if (member) return member.name;
-  if (r.role === "benchmark" && r.estimate != null) {
-    const same = benchmarks().filter((b) => Math.abs(b.value - r.estimate!) < 0.005);
-    if (same.length === 1) return same[0]!.label;
-  }
-  return r.modelId;
-}
-
-/** Runs the archive recorded at the time, scored against the first print once it is out. */
-export function LiveRecordTable() {
-  const all = NOWCAST?.liveRecord ?? [];
-  if (!all.length) return null;
-  const rows = [...all].sort(
-    (a, b) =>
-      b.asOf.localeCompare(a.asOf) ||
-      (ROLE_ORDER[a.role ?? ""] ?? 3) - (ROLE_ORDER[b.role ?? ""] ?? 3) ||
-      a.modelId.localeCompare(b.modelId),
-  );
-  const scored = rows.filter((r) => r.official != null).length;
-  const open = rows.find((r) => r.official == null);
-  const release =
-    open && NOWCAST?.nowcast && open.quarterStart === NOWCAST.nowcast.quarterStart
-      ? NOWCAST.nowcast.nextOfficialRelease
-      : null;
-  const compared = rows.some((r) => r.role === "benchmark" || r.role === "member");
-  return (
-    <div>
-      <p className="eyebrow">Live record</p>
-      <p className="mt-2 text-sm leading-relaxed text-navy">
-        {scored === 0
-          ? `Every run is saved when it is made${compared ? ", for the headline, its two models and the benchmarks" : ""}, then scored against the first print once that is out. Nothing has been scored yet${open ? `: the first is ${open.label}${release ? `, due around ${day(release)}` : ""}` : ""}. Until then the backtest above is the only evidence of accuracy.`
-          : `Every run is saved when it is made, then scored against the first print once that is out. ${scored} of ${rows.length} have been scored.`}
-      </p>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[520px] border-collapse text-sm">
-          <thead>
-            <tr className="border-b border-border font-mono text-[11px] uppercase tracking-wider text-blue-dark">
-              <th className="py-2 text-left font-normal">Quarter</th>
-              <th className="py-2 text-left font-normal">Run on</th>
-              <th className="py-2 text-left font-normal">Model</th>
-              <th className="py-2 text-right font-normal">Estimate</th>
-              <th className="py-2 text-right font-normal">First print</th>
-              <th className="py-2 text-right font-normal">Miss</th>
-            </tr>
-          </thead>
-          <tbody className="font-mono text-xs">
-            {rows.map((r) => {
-              const m = miss(r.estimate, r.official);
-              return (
-                <tr key={r.runId ?? `${r.modelId}-${r.asOf}`} className="border-b border-border/60">
-                  <td className="py-2 font-sans text-sm text-navy">{r.label}</td>
-                  <td className="py-2 text-blue-dark">{day(r.asOf)}</td>
-                  <td className="py-2 font-sans text-sm text-navy">
-                    {liveName(r)}
-                    {r.role ? (
-                      <span className="ml-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                        {r.role}
-                      </span>
-                    ) : null}
-                  </td>
-                  <td className="py-2 text-right text-navy">{fmt(r.estimate)}</td>
-                  <td className="py-2 text-right text-muted-foreground">
-                    {r.official == null ? "awaiting" : fmt(r.official)}
-                  </td>
-                  <td className="py-2 text-right text-blue-dark">{m == null ? "—" : signed1(m)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }

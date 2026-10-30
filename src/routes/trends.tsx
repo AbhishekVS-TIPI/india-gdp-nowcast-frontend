@@ -6,11 +6,7 @@ import { EstimateHistory } from "@/components/evidence/EstimateHistory";
 import { Heatmap } from "@/components/evidence/Heatmap";
 import { Probabilities } from "@/components/evidence/Probabilities";
 import { SignalMovers } from "@/components/evidence/SignalMovers";
-import {
-  EvaluationTable,
-  LiveRecordTable,
-  TrackRecordTable,
-} from "@/components/evidence/TrackRecord";
+import { EvaluationTable, TrackRecordTable } from "@/components/evidence/TrackRecord";
 import { NowcastVsActualChart } from "@/components/NowcastCharts";
 import { FrozenNote } from "@/components/FrozenNote";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -47,7 +43,7 @@ function EvidencePage() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
+      <div className="mx-auto max-w-[88rem] space-y-6 px-5 py-8">
         <FrozenNote />
         <Card>
           <p className="eyebrow">The evidence{headline ? ` · ${headline.label}` : ""}</p>
@@ -87,19 +83,19 @@ function EvidencePage() {
         {headline ? (
           <Card title="Track record">
             <NowcastVsActualChart />
-            <div className="mt-6">
-              <TrackRecordTable />
-            </div>
-            {NOWCAST?.evaluation ? (
-              <div className="mt-8 border-t border-border pt-6">
-                <EvaluationTable />
+            <details className="mt-6 rounded-lg border border-border/70 bg-muted/20 p-4">
+              <summary className="cursor-pointer font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                Quarter by quarter, and the tests
+              </summary>
+              <div className="mt-5">
+                <TrackRecordTable />
               </div>
-            ) : null}
-            {NOWCAST?.liveRecord?.length ? (
-              <div className="mt-8 border-t border-border pt-6">
-                <LiveRecordTable />
-              </div>
-            ) : null}
+              {NOWCAST?.evaluation ? (
+                <div className="mt-8 border-t border-border pt-6">
+                  <EvaluationTable />
+                </div>
+              ) : null}
+            </details>
           </Card>
         ) : null}
 

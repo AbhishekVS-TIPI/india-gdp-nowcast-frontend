@@ -5,12 +5,10 @@ const ST = window.GDP_STORY, $ = (id) => document.getElementById(id), h = GDP.h;
 if (ST.STATE !== "release-week") document.querySelectorAll("[data-release-week]").forEach((e) => { e.hidden = true; e.removeAttribute("data-block"); });   /* a hidden section is not built at all */
 
 /* Everything that quotes a number is written by rule before the page is drawn. */
-/* Chapter 7 shows the Stat team's note, so it is only on the page once someone has written one. */
+/* The Stat team insights sit under the first card and are only on the page once someone has written a note. */
 const hasNote = Boolean(GDP.NOTE && GDP.NOTE.title);
 if (!hasNote) {
   document.querySelectorAll("[data-needs-note]").forEach((e) => { e.hidden = true; e.removeAttribute("data-chapter"); });
-  const human = document.querySelector('.layers [data-prov="human"]');
-  if (human) human.closest("li").remove(); /* nothing here is written by the Stat team yet */
 }
 ST.renderStatCard($("stat-card"));
 if (hasNote) ST.renderNotes($("notes"));
@@ -32,15 +30,11 @@ if (hasNote) $("experts-intro").textContent += !$("sc-since").hidden ? " First, 
 ST.R.watch().forEach((w) => $("watch").append(h("li", null, h("span", { class: "d", text: GDP.day(w.date, false) }), h("b", { text: w.title }), h("span", { text: w.why }))));
 document.querySelectorAll("[data-prov]").forEach((e) => e.replaceWith(ST.prov(e.dataset.prov)));
 
-/* Chapters are numbered and recapped from what is on the page, so a hidden chapter leaves no gap. */
+/* Chapters are numbered from what is on the page, so a hidden chapter leaves no gap. */
 const chapters = [...document.querySelectorAll("[data-chapter]")].filter((c) => !c.hidden);
 chapters.forEach((c, i) => (c.querySelector(".num").textContent = `Chapter ${i + 1} of ${chapters.length}`));   /* the heading below already carries the title */
-const railLinks = [h("a", { href: "#answer", text: "Answer" })].concat(chapters.map((c, i) => h("a", { href: `#${c.id}` }, h("b", { text: String(i + 1) }), c.dataset.short)), [h("a", { href: "#recap", text: "Summary" })]);
+const railLinks = [h("a", { href: "#answer", text: "Answer" })].concat(chapters.map((c, i) => h("a", { href: `#${c.id}` }, h("b", { text: String(i + 1) }), c.dataset.short)));
 $("rail-links").append(...railLinks);
-chapters.forEach((c, i) => {
-  const take = [...document.querySelectorAll(".takeaway [data-take]")].find((t) => c.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING && (!chapters[i + 1] || t.compareDocumentPosition(chapters[i + 1]) & Node.DOCUMENT_POSITION_FOLLOWING));
-  if (take) $("recap-list").append(h("li", null, h("a", { href: `#${c.id}`, text: c.dataset.title }), h("span", { text: take.textContent })));
-});
 
 /* The sector picker lists the sectors in the data, so a new or dropped sector needs no change here. */
 const sectors = GDP.D.sec.filter((s) => s.k !== "prices" && s.n > 0);

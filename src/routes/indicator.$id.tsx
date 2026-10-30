@@ -73,7 +73,7 @@ function IndicatorDetail() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-5 py-8">
+      <div className="mx-auto max-w-6xl px-5 py-8">
         <Link
           to="/indicators"
           className="font-mono text-xs text-muted-foreground hover:text-foreground"

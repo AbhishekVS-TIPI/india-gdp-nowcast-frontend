@@ -297,7 +297,7 @@ VIS.breadth = {
     c.share.textContent = `${Math.round(b.share * 100)}% above normal`;
   },
 };
-/* ---------- The stat card: the estimate as a few easy numbers; what the ranges mean is behind the chart's "i" ---------- */
+/* ---------- The first card: the estimate, its two confidence intervals in small type, and a few easy numbers over the GDP record drawn as terrain ---------- */
 /* Differences between figures shown to one decimal are taken from the figures as shown, so readers can check them. */
 const r1 = (v) => Math.sign(v) * Math.round((Math.abs(v) + 1e-9) * 10) / 10;
 const ncdf = (z) => {
@@ -306,40 +306,8 @@ const ncdf = (z) => {
   const erf = 1 - poly * Math.exp(-(z * z) / 2);
   return z >= 0 ? 0.5 * (1 + erf) : 0.5 * (1 - erf);
 };
-const rangeText = N.rangeAvailable === false ? ["No likely range yet"] : [`90% confidence interval: ${pct(N.lo90)} to ${pct(N.hi90)}`, `68% confidence interval: ${pct(N.lo68)} to ${pct(N.hi68)}`];
-/* The likely range as two plain bars, the 90% and the 68% confidence interval, with the estimate and last quarter marked. */
 const massAbove = (t) => { const p = N.pdf || []; let all = 0, up = 0; for (let i = 1; i < p.length; i++) { const w = (p[i][1] + p[i - 1][1]) / 2 * (p[i][0] - p[i - 1][0]); all += w; const mid = (p[i][0] + p[i - 1][0]) / 2; if (mid > t) up += w; } return all > 0 ? up / all : null; };
 const CHANCE_ABOVE_PREV = Math.round((massAbove(D.prev.v) ?? 1 - ncdf((D.prev.v - N.point) / N.se)) * 100);
-VIS.ci = {
-  n: 1,
-  build(c) {
-    const g = c.svg, W = c.W, H = c.H, mL = 18, mR = 18;   /* room for half an axis label at either end */
-    const ax = niceAxis([N.lo90, N.hi90, N.point, D.prev.v], 0.3, [0, 12], 7);
-    const X = scale(ax.lo, ax.hi, mL, W - mR), ay = H - 34;
-    ax.ticks.forEach((v) => {
-      el("line", { x1: X(v), x2: X(v), y1: 34, y2: ay, class: "dz-grid" }, g);
-      el("text", { x: clamp(X(v), 17, W - 17), y: ay + 20, "text-anchor": "middle", class: "dz-tick" }, g, G.tickLabel(v));
-    });
-    el("line", { x1: X(ax.lo), x2: X(ax.hi), y1: ay, y2: ay, class: "dz-axis" }, g);
-    const bars = RANGE ? [[52, N.lo90, N.hi90, "90% confidence interval", "ci-90"], [112, N.lo68, N.hi68, "68% confidence interval", "ci-68"]] : [];
-    bars.forEach(([y, lo, hi, , cls]) => el("rect", { x: X(lo), y, width: Math.max(2, X(hi) - X(lo)), height: 24, rx: 6, class: cls }, g));
-    el("line", { x1: X(N.point), x2: X(N.point), y1: 28, y2: ay, class: "dz-point" }, g);
-    /* the captions are drawn after the estimate line so that their halo keeps the line from running through the words */
-    bars.forEach(([y, lo, hi, cap]) => {
-      const text = `${cap} · ${pct(lo)} to ${pct(hi)}`, w = text.length * 7.2;
-      el("text", { x: clamp(X(lo), mL, Math.max(mL, W - mR - w)), y: y - 9, class: "ci-cap" }, g, text);
-    });
-    el("text", { x: clamp(X(N.point), 24, W - 24), y: 18, "text-anchor": "middle", class: "ci-est" }, g, pct(N.point));
-    if (!RANGE) el("text", { x: W / 2, y: 98, "text-anchor": "middle", class: "ci-cap" }, g, "No likely range yet");
-    /* last quarter's official figure, as a marker on the axis */
-    const px = X(D.prev.v), left = px < W / 2, lab = `Last quarter ${pct(D.prev.v)}`;
-    el("path", { d: `M${px},${ay - 6}l6,6l-6,6l-6,-6z`, class: "ci-prev" }, g);
-    el("text", { x: left ? px + 11 : px - 11, y: ay - 9, "text-anchor": left ? "start" : "end", class: "ci-prevlbl" }, g, lab);
-    g.setAttribute("role", "img");
-    g.setAttribute("aria-label", `Likely range for growth. ${rangeText.join(". ")}. Chance it comes in above last quarter's ${pct(D.prev.v)}: ${CHANCE_ABOVE_PREV} per cent.`);
-  },
-  render() {},
-};
 /* The "i" on the first card: what the two confidence intervals mean. Opens on a click, closes on a second click, a click elsewhere or Esc. */
 function ciInfo() {
   const box = h("div", { class: "ci-info", id: "ci-info", role: "region", "aria-label": "How to read the confidence intervals", hidden: "" });
@@ -363,18 +331,28 @@ function renderStatCard(host) {
     [V.length < 2 ? "First run" : Math.abs(weekly[weekly.length - 1]) < 0.05 ? "No change" : pp(weekly[weekly.length - 1], 1), V.length < 2 ? "Of this quarter" : "Since last week", ""],
     [day(D.release, false), toRelease < 0 ? "Official figure was due" : "Official figure due", ""],
   ];
-  const fig = h("div", { class: "fig", style: "height:200px" });
-  host.append(h("div", { class: "wrap" }, h("div", { class: "statcard" },
-    prov("auto"),
-    h("div", { class: "sc-top" },
+  /* Both confidence intervals as small type beside the percentage; the "i" says what they mean. */
+  const ci = h("div", { class: "ci-lines" },
+    RANGE
+      ? h("div", { class: "ci-rows" },
+        h("p", null, h("span", { text: "90% confidence interval" }), h("b", { text: `${pct(N.lo90)} to ${pct(N.hi90)}` })),
+        h("p", null, h("span", { text: "68% confidence interval" }), h("b", { text: `${pct(N.lo68)} to ${pct(N.hi68)}` })))
+      : h("div", { class: "ci-rows" }, h("p", null, h("span", { text: "Confidence intervals" }), h("b", { text: "not yet available" }))),
+    ...ciInfo());
+  const hero = h("section", { class: "hero", "aria-labelledby": "hero-quarter" },
+    el("svg", { class: "terrain", "aria-hidden": "true" }, null),
+    h("div", { class: "wrap hero-in" },
+      prov("auto"),
       h("div", { class: "sc-main" },
         h("p", { class: "eyebrow", text: "India's GDP growth · early estimate" }),
-        h("h1", { class: "sc-quarter", text: D.quarterLong }),
-        h("p", { class: "sc-big" }, (r1(N.point) < 0 ? "−" : "") + fix(N.point, 1), h("small", { text: "%" })),
+        h("h1", { class: "sc-quarter", id: "hero-quarter", text: D.quarterLong }),
+        h("div", { class: "hero-num" },
+          h("p", { class: "sc-big" }, (r1(N.point) < 0 ? "−" : "") + fix(N.point, 1), h("small", { text: "%" })),
+          ci),
         STATE === "early" ? h("p", { class: "sc-flag", text: RANGE ? `Too early to call: only ${Math.round(N.share * 100)}% of the signal is in` : `Too early to call. ${N.rangeNote || "No likely range has been evaluated at this distance from the release."}` }) : null),
-      h("div", { class: "sc-chart" }, ...ciInfo(), fig, h("p", { class: "sc-hint", text: "Select the i to see what these intervals mean" }))),
-    h("ul", { class: "sc-tiles" }, tiles.map(([v, l, cls]) => h("li", null, h("b", { class: cls, text: v }), h("span", { text: l })))))));
-  G.figure(fig, "ci");
+      h("ul", { class: "sc-tiles" }, tiles.map(([v, l, cls]) => h("li", null, h("b", { class: cls, text: v }), h("span", { text: l }))))));
+  host.append(hero);
+  G.terrain(hero);
 }
 
 /* ---------- The Stat team's notes, newest first, each checked against what happened next ---------- */

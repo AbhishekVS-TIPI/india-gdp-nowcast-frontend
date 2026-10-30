@@ -262,7 +262,7 @@ function Briefing() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      <div className="mx-auto max-w-6xl space-y-6 px-5 py-8">
+      <div className="mx-auto max-w-[88rem] space-y-6 px-5 py-8">
         <FrozenNote />
         <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
           <Card>

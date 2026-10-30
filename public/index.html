@@ -43,9 +43,26 @@
     </nav>
     <main>
       <!-- The answer -->
-      <section class="chapter" id="answer" style="padding-block: 18px 8px">
+      <section id="answer">
         <div id="stat-card"></div>
       </section>
+
+      <!-- Stat team insights: right under the first card, and only on the page once someone has written a note -->
+      <section class="chapter" id="experts" data-needs-note>
+        <div class="wrap chapter-head">
+          <h2>Stat team insights</h2>
+          <p id="experts-intro">
+            The numbers say what is happening; the Stat team says why. They write when there is
+            something to say, not every week.
+          </p>
+        </div>
+      </section>
+      <section class="sec recap-cards" id="sc-since" data-needs-note>
+        <div class="wrap">
+          <div class="steps"></div>
+        </div>
+      </section>
+      <section class="sec" id="notes" data-needs-note></section>
 
       <!-- Where growth stands: context first -->
       <section
@@ -56,7 +73,6 @@
         data-title="Growth trend"
       >
         <div class="wrap chapter-head">
-          <span data-prov="auto"></span>
           <p class="num"></p>
           <h2>Growth trend</h2>
           <p>Quarterly growth since 2005, each quarter against the same quarter a year earlier.</p>
@@ -293,32 +309,6 @@
       </section>
       <section class="sec" data-block="guess" data-title="" data-sub="" data-release-week></section>
 
-      <!-- The experts' view: the latest note, checked against the latest run, then the archive -->
-      <section
-        class="chapter"
-        id="experts"
-        data-needs-note
-        data-chapter
-        data-short="Experts' view"
-        data-title="The experts' view"
-      >
-        <div class="wrap chapter-head">
-          <span data-prov="human"></span>
-          <p class="num"></p>
-          <h2>The experts' view</h2>
-          <p id="experts-intro">
-            The numbers say what is happening; the Stat team says why. They write when there is
-            something to say, not every week.
-          </p>
-        </div>
-      </section>
-      <section class="sec recap-cards" id="sc-since" data-needs-note>
-        <div class="wrap">
-          <div class="steps"></div>
-        </div>
-      </section>
-      <section class="sec" id="notes" data-needs-note></section>
-
       <!-- What to watch: the close looks ahead -->
       <section
         class="chapter"
@@ -344,56 +334,10 @@
                 this quarter updates with each run.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Recap: what the reader now knows, from this week's run -->
-      <section class="chapter" id="recap">
-        <div class="wrap chapter-head">
-          <span data-prov="auto"></span>
-          <p class="num">All chapters</p>
-          <h2>Summary</h2>
-          <p>The page in a few lines. Each links back to its chapter.</p>
-        </div>
-      </section>
-      <section class="sec">
-        <div class="wrap">
-          <div class="panel">
-            <ol class="recap" id="recap-list"></ol>
             <p class="evidence-link">
               The weekly history of the estimate, the full track record and every indicator's recent
               readings are on the <a href="/trends">Evidence page</a>.
             </p>
-          </div>
-        </div>
-      </section>
-      <section class="sec">
-        <div class="wrap">
-          <div class="panel">
-            <div class="sec-head"><p class="eyebrow">Keeping this page current</p></div>
-            <ul class="layers">
-              <li>
-                <span data-prov="auto"></span>
-                <span
-                  >Numbers, charts and the sentences that quote them are rewritten every time the
-                  model runs.</span
-                >
-              </li>
-              <li>
-                <span data-prov="human"></span>
-                <span
-                  >The Stat team's notes keep the date they were written, and the page shows how far
-                  the estimate has moved since.</span
-                >
-              </li>
-              <li>
-                <span data-prov="ever"></span>
-                <span
-                  >Headings and explanations are written once and never quote a live number.</span
-                >
-              </li>
-            </ul>
           </div>
         </div>
       </section>

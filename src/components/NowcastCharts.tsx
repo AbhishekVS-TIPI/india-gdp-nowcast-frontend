@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -13,6 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { TimelineSlider } from "@/components/TimelineSlider";
 import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
 import { NOWCAST, NOWCAST_ROWS, ciFor, stressRange } from "@/lib/nowcast";
 
@@ -48,11 +49,19 @@ export function NowcastVsActualChart() {
     nowcastPoint: "Nowcast",
   };
 
+  // The window the reader picked: the chart zooms to it, and the scale follows what is in view.
+  const last = data.length - 1;
+  const [window, setWindow] = useState<[number, number]>([0, last]);
+  const from = Math.min(window[0], last);
+  const to = Math.min(window[1], last);
+  const shown = data.slice(from, to + 1);
+  const zoomed = from > 0 || to < last;
+
   return (
     <div>
       <div className="h-[260px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+          <ComposedChart data={shown} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
             <CartesianGrid stroke="var(--color-border)" vertical={false} />
             <XAxis
               dataKey="label"
@@ -115,6 +124,27 @@ export function NowcastVsActualChart() {
           ? "Dot and whisker: this quarter's estimate and its 90% range"
           : "Dot: this quarter's estimate (no likely range yet)"}
       </p>
+      {data.length > 8 ? (
+        <div className="mx-auto mt-4 max-w-xl">
+          <TimelineSlider
+            labels={data.map((r) => r.label)}
+            value={[from, to]}
+            onChange={setWindow}
+          />
+          <div className="mt-1 flex items-center justify-between text-[11px] text-muted-foreground">
+            <span>Drag the handles to choose the start and end quarter.</span>
+            {zoomed ? (
+              <button
+                type="button"
+                onClick={() => setWindow([0, last])}
+                className="font-mono uppercase tracking-wider text-primary underline underline-offset-2"
+              >
+                Show all
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

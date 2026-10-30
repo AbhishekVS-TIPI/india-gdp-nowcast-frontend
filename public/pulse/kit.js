@@ -880,23 +880,25 @@ function heroScene(root) {
 }
 
 /* ---------- 07 Field-note opener: terrain drawn from the GDP record, with parallax ---------- */
+/* Three ridges drawn from the GDP record, layered back to front. The same drawing is the opener's backdrop and the first card's. */
+function drawTerrain(root, svg) {
+  const W = root.offsetWidth, H = root.offsetHeight;
+  svg.textContent = "";
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("preserveAspectRatio", "none");
+  const sm = A.map((v, i) => { let s = 0, k = 0; for (let j = i - 3; j <= i + 3; j++) if (j >= 0 && j < A.length && A[j] != null) { s += clamp(A[j], 0, 12); k++; } return k ? s / k : 6; });
+  [[0.6, 0.18, 0], [0.72, 0.13, 21], [0.84, 0.09, 42]].forEach(([base, amp, shift], L) => {
+    let d = `M0,${H}`;
+    for (let j = 0; j <= 60; j++) {
+      const v = sm[(Math.round((j / 60) * (sm.length - 1)) + shift) % sm.length];
+      d += `L${((j / 60) * W).toFixed(1)},${(H * base - ((v - 6) / 6) * H * amp).toFixed(1)}`;
+    }
+    el("path", { d: d + `L${W},${H}Z`, class: "t" + L }, svg);
+  });
+}
 function opener(root) {
   const svg = root.querySelector(".terrain"), inner = root.querySelector(".wrap");
-  const draw = () => {
-    const W = root.offsetWidth, H = root.offsetHeight;
-    svg.textContent = "";
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-    svg.setAttribute("preserveAspectRatio", "none");
-    const sm = A.map((v, i) => { let s = 0, k = 0; for (let j = i - 3; j <= i + 3; j++) if (j >= 0 && j < A.length && A[j] != null) { s += clamp(A[j], 0, 12); k++; } return k ? s / k : 6; });
-    [[0.6, 0.18, 0], [0.72, 0.13, 21], [0.84, 0.09, 42]].forEach(([base, amp, shift], L) => {
-      let d = `M0,${H}`;
-      for (let j = 0; j <= 60; j++) {
-        const v = sm[(Math.round((j / 60) * (sm.length - 1)) + shift) % sm.length];
-        d += `L${((j / 60) * W).toFixed(1)},${(H * base - ((v - 6) / 6) * H * amp).toFixed(1)}`;
-      }
-      el("path", { d: d + `L${W},${H}Z`, class: "t" + L }, svg);
-    });
-  };
+  const draw = () => drawTerrain(root, svg);
   draw();
   addEventListener("resize", draw);
   TRACKS.push({
@@ -908,6 +910,13 @@ function opener(root) {
       inner.style.opacity = String(1 - seg(y, root.offsetHeight * 0.15, root.offsetHeight * 0.7));
     },
   });
+}
+/* The first card's backdrop: the same terrain, still, so the numbers over it never move or fade. */
+function terrain(root) {
+  const svg = root.querySelector(".terrain");
+  drawTerrain(root, svg);
+  let w = root.offsetWidth;
+  addEventListener("resize", () => { if (root.offsetWidth !== w) { w = root.offsetWidth; drawTerrain(root, svg); } });
 }
 
 /* ---------- Content blocks: cards like the live site's, the topic as an eyebrow and the takeaway as the heading ---------- */
@@ -1208,5 +1217,5 @@ function mount() {
   requestTick();
 }
 
-window.GDP = { charts: ALL, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
+window.GDP = { charts: ALL, terrain, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
 })();

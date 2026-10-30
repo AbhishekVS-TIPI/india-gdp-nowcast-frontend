@@ -31,7 +31,7 @@ export function SiteHeader() {
       }`}
     >
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 transition-all duration-300 ${
+        className={`mx-auto flex max-w-[88rem] items-center justify-between gap-4 px-5 transition-all duration-300 ${
           scrolled ? "py-2.5" : "py-4"
         }`}
       >

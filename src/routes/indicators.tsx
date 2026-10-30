@@ -94,7 +94,7 @@ function IndicatorsPage() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      <div className="mx-auto max-w-6xl px-5 py-8">
+      <div className="mx-auto max-w-[88rem] px-5 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="eyebrow">Indicators by sector · {groups.length}</h2>
           <div className="flex flex-wrap gap-2">
