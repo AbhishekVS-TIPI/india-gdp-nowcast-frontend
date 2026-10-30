@@ -1148,7 +1148,7 @@ function chrome() {
     menu.addEventListener("click", () => { const open = !nav.classList.contains("open"); nav.classList.toggle("open", open); menu.setAttribute("aria-expanded", String(open)); });
     hd.append(h("div", { class: "wrap" },
       h("a", { class: "brand", href: "/" },
-        h("img", { src: "/tipi-logo.svg", alt: "The India Prosperity Initiative logo", width: "88", height: "36" }),
+        h("img", { src: "/tipi-logo.svg", alt: "The India Prosperity Initiative logo", width: "91", height: "36" }),
         h("span", null, h("b", { text: "India GDP Pulse" }))),
       nav, menu));
     const onScroll = () => hd.classList.toggle("scrolled", scrollY > 12);
@@ -1165,7 +1165,7 @@ function chrome() {
     ft.append(
       h("div", { class: "wrap top" },
         h("div", null,
-          h("img", { class: "plate", src: "/tipi-logo.svg", alt: "The India Prosperity Initiative logo", width: "156", height: "64" }),
+          h("img", { class: "plate", src: "/tipi-logo.svg", alt: "The India Prosperity Initiative logo", width: "162", height: "64" }),
           h("p", { class: "lead", text: "India GDP Pulse is the flagship project of The India Prosperity Initiative" })),
         h("div", { class: "cols" },
           h("div", null, h("h2", { text: "Connect" }), h("ul", null, CONNECT.map(([l, u]) => ext(l, u)))),
