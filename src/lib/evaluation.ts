@@ -6,16 +6,19 @@
  */
 import type { Evaluation, EvaluationCell } from "@/lib/nowcast";
 
-export type Verdict = "better" | "worse" | "unclear";
+export type Verdict = "better" | "narrow" | "worse" | "unclear";
+
+/** A range whose upper end is this close to 1 clears the benchmark only narrowly (the pipeline uses the same margin). */
+export const NARROW = 0.05;
 
 /**
  * `ratioToAr1` below 1 means closer than the benchmark, but a result counts as
- * better only if the whole interval is below 1 (`ratioHigh < 1`), and as worse
- * only if it is wholly above (`ratioLow > 1`). An interval that spans 1 shows
- * nothing.
+ * better only if the whole interval is below 1 (`ratioHigh < 1`), as narrowly
+ * better if its upper end is within `NARROW` of 1, and as worse only if it is
+ * wholly above (`ratioLow > 1`). An interval that spans 1 shows nothing.
  */
 export function verdict(c: EvaluationCell): Verdict {
-  if (c.ratioHigh < 1) return "better";
+  if (c.ratioHigh < 1) return c.ratioHigh >= 1 - NARROW ? "narrow" : "better";
   if (c.ratioLow > 1) return "worse";
   return "unclear";
 }
@@ -31,9 +34,11 @@ export function benchmarkName(
 export function verdictLabel(v: Verdict, bench: string): string {
   return v === "better"
     ? `Closer than ${bench}`
-    : v === "worse"
-      ? `Further than ${bench}`
-      : "Not clearly different";
+    : v === "narrow"
+      ? `Narrowly closer than ${bench}`
+      : v === "worse"
+        ? `Further than ${bench}`
+        : "Not clearly different";
 }
 
 /** The samples in the order they read best, with the names the export gives them. */
@@ -96,9 +101,11 @@ export function evaluationRows(ev: Evaluation | null | undefined): EvaluationRow
 const claim = (v: Verdict) =>
   v === "better"
     ? "closer than the benchmark"
-    : v === "worse"
-      ? "further from the outcome than the benchmark"
-      : "not clearly different from the benchmark";
+    : v === "narrow"
+      ? "closer than the benchmark, but only narrowly"
+      : v === "worse"
+        ? "further from the outcome than the benchmark"
+        : "not clearly different from the benchmark";
 
 /** The horizon a summary should lead with: `days` if the export has it, else the nearest to the release. */
 function pickHorizon(rows: EvaluationRow[], days: number | null | undefined): number | null {
@@ -139,9 +146,11 @@ export function evaluationSentences(
       `On the ${c.n} confirmation quarters the ratio was ${fix(c.ratioToAr1)} (${fix(c.ratioLow)} to ${fix(c.ratioHigh)}). ${
         confirmation.verdict === "better"
           ? "The whole range is below 1, so it holds up."
-          : confirmation.verdict === "worse"
-            ? "The whole range is above 1, so it is worse than the benchmark."
-            : "The range includes 1, so we cannot say it is better."
+          : confirmation.verdict === "narrow"
+            ? "The whole range is below 1, but only just, so it holds up only narrowly."
+            : confirmation.verdict === "worse"
+              ? "The whole range is above 1, so it is worse than the benchmark."
+              : "The range includes 1, so we cannot say it is better."
       }`,
     );
   }
@@ -189,7 +198,13 @@ export function trackLine(t: {
 }
 
 const short = (v: Verdict) =>
-  v === "better" ? "closer" : v === "worse" ? "further" : "not clearly different";
+  v === "better"
+    ? "closer"
+    : v === "narrow"
+      ? "narrowly closer"
+      : v === "worse"
+        ? "further"
+        : "not clearly different";
 
 /** One line for a footer: the ordinary-quarter result at the distance the current estimate is made from. */
 export function evaluationBrief(

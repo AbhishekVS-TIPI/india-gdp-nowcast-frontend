@@ -280,9 +280,12 @@ const trackStats = {
   below: em.filter((e) => e < 0).length,
 };
 const evalCell = NC.evaluation?.horizons?.["30"]?.ordinary;
+const NARROW = 0.05; // the same margin as src/lib/evaluation.ts and the pipeline's caveat
 const verdict = evalCell
   ? evalCell.ratioHigh < 1
-    ? "closer than the benchmark"
+    ? evalCell.ratioHigh >= 1 - NARROW
+      ? "closer than the benchmark, but only narrowly"
+      : "closer than the benchmark"
     : evalCell.ratioLow > 1
       ? "further from the first print than the benchmark"
       : "not clearly different"

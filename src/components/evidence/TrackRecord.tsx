@@ -1,6 +1,7 @@
 import {
   benchmarkName,
   evaluationRows,
+  NARROW,
   evaluationSentences,
   otherHorizonSentences,
   quarterLabel,
@@ -32,6 +33,7 @@ const day = (iso: string) => fmtDate(Date.parse(`${iso}T00:00:00Z`));
 
 const TONE = {
   better: "text-trend-up",
+  narrow: "text-trend-up",
   unclear: "text-blue-dark",
   worse: "text-trend-down",
 } as const;
@@ -238,8 +240,9 @@ export function EvaluationTable() {
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         Error is the root-mean-square miss against the first print. A ratio below 1 means closer
-        than the {bench} benchmark, but we call it better only when the whole range is below 1. If
-        the range includes 1, there is no clear difference. The{" "}
+        than the {bench} benchmark, but we call it better only when the whole range is below 1, and
+        only narrowly better when its top end is within {NARROW} of 1. If the range includes 1,
+        there is no clear difference. The{" "}
         <Link to="/methodology" className="underline underline-offset-2">
           methodology
         </Link>{" "}
