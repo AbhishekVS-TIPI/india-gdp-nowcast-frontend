@@ -6,7 +6,7 @@
 (() => {
 "use strict";
 const G = window.GDP;
-const { D, SEC, VIS, NOTE, pct, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, niceAxis } = G;
+const { D, SEC, VIS, NOTE, TREND, pct, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, niceAxis } = G;
 const N = D.now, DEC = D.dec, V = D.vint, A = D.A, T = D.track;
 /* The record is worked out here from the track itself, so it cannot drift from the quarters it describes. */
 const TS = (() => {
@@ -115,13 +115,74 @@ R.take = {
 
 /* ---------- Scroll steps, chosen and written by rule ---------- */
 const S = {};
-S.history = () => {
-  const known = A.filter((v) => v != null), frac = known.filter((v) => v >= 5 && v <= 10).length / known.length;
-  return [
-    { at: 0, k: "Since 2005", h: `${Math.abs(frac - 2 / 3) < 0.04 ? "Two quarters in three" : `${Math.round(frac * 100)}% of quarters`} land between 5% and 10%`, p: "With sharp breaks in the 2008–09 financial crisis and the 2020 lockdown." },
-    { at: 3, k: `Since ${qStart(RUN.start)}`, h: `A run between ${pct(RUN.lo)} and ${pct(RUN.hi)}`, p: `The last official figure, for ${D.prev.labelLong} ${D.prev.label.slice(-4)}, was ${pct(D.prev.v)}.` },
-    { at: 4, k: D.quarterLong, h: `About ${pct(N.point)}`, p: `${Math.abs(diffPrev) < 0.05 ? "Level with" : diffPrev < 0 ? "A step down from" : "A step up from"} ${pct(D.prev.v)}, ${inRun ? "inside" : "outside"} the recent run.${RANGE ? ` The whisker shows the likely range, ${pct(N.lo90)} to ${pct(N.hi90)}.` : " There is no likely range to show yet."}` },
-  ];
+/* The growth trend reads from this financial year outwards: this year's quarters and our estimates, a little further
+   back, this year against last year quarter by quarter, then everything since 2005 with the estimate ranked against the
+   last ten years. The first two quarters of a year have too few points, so last year is shown with them. */
+const QLONG_ALL = ["April to June", "July to September", "October to December", "January to March"];
+const QEND = ["June", "September", "December", "March"];
+const ord = (n) => { const r = Math.round(n), s = ["th", "st", "nd", "rd"], v = r % 100; return r + (s[(v - 20) % 10] || s[v] || s[0]); };
+const qName = (i) => `Q${(i % 4) + 1}`;
+const qLong = (i) => `${QLONG_ALL[i % 4]} ${qYear(i)}`;
+S.trend = () => {
+  const { qn, cfy, rank: RK, wins, idxOfLabel, fyLong } = TREND;
+  const cur = A.length, val = (i) => (i === cur ? N.point : A[i]);
+  const official = [];
+  for (let i = cfy; i < cur; i++) if (A[i] != null) official.push(i);
+  const lastOff = official[official.length - 1];
+  const inView = T.some((r) => { const i = idxOfLabel(r[0]); return i >= wins[0][0] && i <= wins[0][1]; });
+  const rangeBit = RANGE ? `; the bar is its likely range, ${pct(N.lo90)} to ${pct(N.hi90)}` : "";
+  const prevYear = []; for (let i = cfy - 4; i < cfy; i++) if (A[i] != null) prevYear.push(A[i]);
+  const steps = [];
+  /* 1. This financial year so far, with our estimates */
+  steps.push({
+    at: 0, k: `${fyLong(cfy)} so far`,
+    h: lastOff != null ? `${qName(lastOff)} came in at ${pct(A[lastOff])}; ${qName(cur)} is estimated at about ${pct(N.point)}` : `${qName(cur)} is estimated at about ${pct(N.point)}`,
+    p: [
+      official.length > 1 ? `So far this year: ${official.map((i) => `${qName(i)} ${pct(A[i])}`).join(", ")}.` : "",
+      `The large dot is our estimate for ${qLong(cur)}${rangeBit}.`,
+      qn < 3 && prevYear.length ? `${fyLong(cfy - 4)} is shown too, so there is more to read: its quarters ran from ${pct(Math.min(...prevYear))} to ${pct(Math.max(...prevYear))}.` : "",
+      inView ? "Each ring is what we had estimated for an earlier quarter before its official figure came out." : "",
+    ].filter(Boolean).join(" "),
+  });
+  /* 2. A little further back: the last two quarters of last year join in (only when this year has already given three or four points) */
+  if (qn >= 3) {
+    const from = Math.ceil(wins[1][0]), run = [];
+    for (let i = from; i <= LAST; i++) if (A[i] != null) run.push(A[i]);
+    const lo = Math.min(...run), hi = Math.max(...run);
+    const where = N.point > hi + 0.05 ? "above" : N.point < lo - 0.05 ? "below" : "inside";
+    steps.push({
+      at: 1, k: "A little further back",
+      h: `Growth has run between ${pct(lo)} and ${pct(hi)} over the last ${count(run.length)} quarters`,
+      p: `The last two quarters of ${fyLong(cfy - 4)} were ${pct(A[cfy - 2])} and ${pct(A[cfy - 1])}. This quarter's estimate, ${pct(N.point)}, is ${where} that run.`,
+    });
+  }
+  /* 3. This year against last year, quarter by quarter: differences between growth rates, not between levels */
+  const cmp = [];
+  for (let i = cfy; i <= cur; i++) if (i - 4 >= 0 && A[i - 4] != null && val(i) != null) cmp.push({ i, a: A[i - 4], b: val(i), d: val(i) - A[i - 4] });
+  if (cmp.length) {
+    const c = cmp[cmp.length - 1], rel = (d) => (Math.abs(d) < 0.05 ? "level with" : `${fix(Math.abs(d), 1)} pp ${d > 0 ? "above" : "below"}`);
+    steps.push({
+      at: 2, k: "Against a year earlier",
+      h: `${qName(c.i)} is estimated ${rel(c.d)} the same quarter last year`,
+      p: `${cmp.map((x) => `${qName(x.i)}${x.i === cur ? " (estimate)" : ""}: ${pct(x.b)} against ${pct(x.a)} a year earlier, ${pp(x.d, 1)}.`).join(" ")} These are differences between growth rates, not between levels.`,
+    });
+  }
+  /* 4. Everything since 2005, and where the estimate ranks against the last ten years */
+  if (RK.n >= 12) {
+    const rk = RK.rank(N.point), p0 = RK.pand[0], p1 = RK.pand[RK.pand.length - 1];
+    const known = A.filter((v) => v != null), frac = known.filter((v) => v >= 5 && v <= 10).length / known.length;
+    steps.push({
+      at: 3, k: "Since 2005",
+      h: `At ${pct(N.point)}, the estimate sits at the ${ord(rk)} percentile of the last ten years`,
+      p: [
+        `It is higher than ${RK.below(N.point)} of the ${RK.n} quarters since ${qStart(RK.first)}${RK.pand.length ? `, leaving out the pandemic quarters (${qStart(p0)} to ${QEND[p1 % 4]} ${qYear(p1)}), whose rates are distorted` : ""}. A percentile is the share of those quarters that grew more slowly.`,
+        `The middle half of them ran from ${pct(RK.q25)} to ${pct(RK.q75)}, with a median of ${pct(RK.med)}.`,
+        RANGE ? `Anywhere in the likely range, ${pct(N.lo90)} to ${pct(N.hi90)}, the quarter would rank between the ${ord(RK.rank(N.lo90))} and the ${ord(RK.rank(N.hi90))} percentile.` : "",
+        `Since 2005, ${Math.abs(frac - 2 / 3) < 0.04 ? "two quarters in three" : `${Math.round(frac * 100)}% of quarters`} have landed between 5% and 10%.`,
+      ].filter(Boolean).join(" "),
+    });
+  }
+  return steps;
 };
 S.buildup = () => {
   /* The same sector groups the chart uses, so a sector added or dropped in a later run stays in step. */
@@ -325,10 +386,9 @@ function ciInfo() {
 }
 function renderStatCard(host) {
   const tiles = [
-    [pct(D.prev.v), `Last official figure · ${D.prev.label}`, ""],
+    [pct(D.prev.v), `First estimate · ${D.prev.label}`, ""],
     [r1(N.point) === r1(D.prev.v) ? "No change" : pp(r1(N.point) - r1(D.prev.v), 1), "Change from last quarter", r1(N.point) < r1(D.prev.v) ? "down" : r1(N.point) > r1(D.prev.v) ? "up" : ""],
-    [`${Math.round(N.share * 100)}%`, `Of the signal in · ${N.reporting} of ${N.total} indicators`, ""],
-    [V.length < 2 ? "First run" : Math.abs(weekly[weekly.length - 1]) < 0.05 ? "No change" : pp(weekly[weekly.length - 1], 1), V.length < 2 ? "Of this quarter" : "Since last week", ""],
+    [V.length < 2 ? "First run" : Math.abs(weekly[weekly.length - 1]) < 0.05 ? "No change" : pp(weekly[weekly.length - 1], 1), V.length < 2 ? "Of this quarter" : "Since last run", ""],
     [day(D.release, false), toRelease < 0 ? "Official figure was due" : "Official figure due", ""],
   ];
   /* Both confidence intervals as small type beside the percentage; the "i" says what they mean. */
@@ -349,7 +409,7 @@ function renderStatCard(host) {
         h("div", { class: "hero-num" },
           h("p", { class: "sc-big" }, (r1(N.point) < 0 ? "−" : "") + fix(N.point, 1), h("small", { text: "%" })),
           ci),
-        STATE === "early" ? h("p", { class: "sc-flag", text: RANGE ? `Too early to call: only ${Math.round(N.share * 100)}% of the signal is in` : `Too early to call. ${N.rangeNote || "No likely range has been evaluated at this distance from the release."}` }) : null),
+        STATE === "early" ? h("p", { class: "sc-flag", text: RANGE ? "Too early to call: most of this quarter's data is still to come" : `Too early to call. ${N.rangeNote || "No likely range has been evaluated at this distance from the release."}` }) : null),
       h("ul", { class: "sc-tiles" }, tiles.map(([v, l, cls]) => h("li", null, h("b", { class: cls, text: v }), h("span", { text: l }))))));
   host.append(hero);
   G.terrain(hero);

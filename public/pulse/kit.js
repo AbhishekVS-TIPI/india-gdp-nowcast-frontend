@@ -236,6 +236,200 @@ VIS.history = {
   },
 };
 
+/* ---------- Growth trend: this financial year first, then further and further out to 2005 ----------
+   The financial year runs April to March, so a quarter's place in its year is its index modulo four.
+   Four views, each wider than the last: this year's quarters with our estimates (last year too while this year has
+   only two quarters), the same plus the last two quarters of last year, this year against last year quarter by
+   quarter, and everything since 2005 with the estimate ranked against the last ten years. */
+const FY_MONTHS = ["Apr–Jun", "Jul–Sep", "Oct–Dec", "Jan–Mar"];
+const fyStart = (i) => 2005 + Math.floor(i / 4);
+const fyShort = (i) => "FY" + String(fyStart(i) + 1).slice(2);
+const fyLong = (i) => `FY${fyStart(i)}-${String(fyStart(i) + 1).slice(2)}`;
+/* The track record names its quarters ("Jan-Mar 2026"); this finds each one's place on the quarterly axis. */
+const idxOfLabel = (label) => {
+  const q = ["Apr-Jun", "Jul-Sep", "Oct-Dec", "Jan-Mar"].indexOf(String(label).slice(0, 7));
+  if (q < 0) return -1;
+  const year = Number(String(label).slice(-4));
+  return (q === 3 ? year - 1 - 2005 : year - 2005) * 4 + q;
+};
+const T_QN = (NOW_I % 4) + 1, T_CFY = NOW_I - (NOW_I % 4);
+const trendValues = (x0, x1) => {
+  const v = [N.point];
+  if (N.rangeAvailable !== false) v.push(N.lo90, N.hi90);
+  for (let i = Math.max(0, Math.ceil(x0)); i <= Math.min(LAST, Math.floor(x1)); i++) if (A[i] != null) v.push(A[i]);
+  T.forEach((r) => { const i = idxOfLabel(r[0]); if (i >= x0 && i <= x1) v.push(r[1]); });
+  return v;
+};
+/* Four windows [x0, x1, y0, y1]. The first two quarters of a year have too few points to read, so last year comes too. */
+const TREND_WINS = (() => {
+  const late = T_QN >= 3, xr = NOW_I + 0.7;
+  const xs = [[T_CFY - (late ? 0 : 4) - 0.5, xr], [late ? T_CFY - 2.5 : T_CFY - 4.5, xr], [T_CFY - 4.5, xr], [-0.5, xr]];
+  const wins = xs.map(([x0, x1], k) => {
+    if (k === 3) {
+      const all = A.filter((v) => Number.isFinite(v));
+      return [x0, x1, Math.min(-26, Math.min(...all) - 1), Math.max(27, Math.max(...all) + 1)];
+    }
+    const ax = niceAxis(trendValues(x0, x1), 0.35, [], 6);
+    return [x0, x1, ax.lo, ax.hi];
+  });
+  /* The wider views keep the vertical range of the narrower ones that they contain, so nothing jumps between steps. */
+  wins[1][2] = Math.min(wins[1][2], wins[0][2]); wins[1][3] = Math.max(wins[1][3], wins[0][3]);
+  wins[2][2] = Math.min(wins[2][2], wins[1][2]); wins[2][3] = Math.max(wins[2][3], wins[1][3]);
+  return wins;
+})();
+/* Where the estimate sits among the last ten years (forty quarters), leaving out the pandemic quarters, which are left
+   out of the evaluation too: the COVID window and the two quarters after it, whose year-on-year rates are distorted. */
+const RANK = (() => {
+  const key = (i) => qCalYear(i) * 12 + [3, 6, 9, 0][i % 4];
+  const lo = 2020 * 12, hi = 2022 * 12 + 3, first = Math.max(0, LAST - 39);
+  const pand = [];
+  for (let i = 0; i <= LAST; i++) if (key(i) >= lo && key(i) <= hi) pand.push(i);
+  const xs = [];
+  for (let i = first; i <= LAST; i++) if (A[i] != null && !pand.includes(i)) xs.push(A[i]);
+  xs.sort((a, b) => a - b);
+  const n = xs.length, EPS = 1e-9;
+  const below = (v) => xs.filter((x) => x < v - EPS).length;
+  const ties = (v) => xs.filter((x) => Math.abs(x - v) <= EPS).length;
+  const quant = (p) => { const at = (n - 1) * p, f = Math.floor(at); return xs[f] + (xs[Math.min(n - 1, f + 1)] - xs[f]) * (at - f); };
+  return {
+    n, first, pand, below,
+    rank: (v) => (n ? (100 * (below(v) + ties(v) / 2)) / n : null),
+    q25: n ? quant(0.25) : null, med: n ? quant(0.5) : null, q75: n ? quant(0.75) : null,
+  };
+})();
+const TREND = { wins: TREND_WINS, qn: T_QN, cfy: T_CFY, rank: RANK, idxOfLabel, fyShort, fyLong, FY_MONTHS };
+
+VIS.trend = {
+  n: 4,
+  build(c) {
+    const g = c.svg, first = Math.max(0, Math.floor(TREND_WINS[2][0]));
+    c.clipId = "clip-t-" + Math.random().toString(36).slice(2, 8);
+    c.clipR = el("rect", null, el("clipPath", { id: c.clipId }, el("defs", null, g)));
+    c.gGrid = el("g", null, g);
+    c.gQ = el("g", null, g);
+    c.gYr = el("g", null, g);
+    const pl = el("g", { "clip-path": `url(#${c.clipId})` }, g);
+    c.shPan = el("rect", { class: "shade" }, pl);
+    c.shBand = el("rect", { class: "band90" }, pl);
+    c.ref = el("line", { class: "refline" }, pl);
+    c.path = el("path", { class: "line" }, pl);
+    c.gYoy = el("g", null, pl);
+    c.yoy = [];
+    for (let i = T_CFY; i <= NOW_I; i++) {
+      const a = i - 4 >= 0 ? A[i - 4] : null, b = i <= LAST ? A[i] : N.point;
+      if (a == null || b == null) continue;
+      c.yoy.push({ i, a, b, ring: el("circle", { class: "yago", r: 8 }, c.gYoy), guide: el("line", { class: "guide" }, c.gYoy), gap: el("line", { class: "gap" }, c.gYoy) });
+    }
+    c.gTrack = el("g", null, pl);
+    c.track = T.map((r) => ({ i: idxOfLabel(r[0]), est: r[1], err: el("line", { class: "err" }, c.gTrack), dot: el("circle", { r: 4.5, class: "ours" }, c.gTrack) }));
+    c.conn = el("path", { class: "conn" }, pl);
+    c.band = el("rect", { class: "band68", rx: 3 }, pl);
+    c.gPts = el("g", null, pl);
+    c.pts = [];
+    for (let i = first; i <= LAST; i++) if (A[i] != null) c.pts.push({ i, dot: el("circle", { class: "pt", r: 4 }, c.gPts), lab: el("text", { class: "lbl sm", "text-anchor": "middle" }, g) });
+    c.dot = el("circle", { class: "nowdot", r: 5.5 }, pl);
+    c.l3 = el("text", { class: "lbl strong", "text-anchor": "end" }, g);
+    c.l3r = el("text", { class: "lbl strong" }, g);
+    c.panLab = el("text", { class: "lbl sm", "text-anchor": "middle" }, g, "left out of the ranking");
+    c.yoyLab = c.yoy.map(() => el("text", { class: "lbl sm strong", "text-anchor": "middle" }, g));
+    c.leg1 = el("text", { class: "lbl", x: 48, y: 16 }, g, "○ our final estimate for each quarter");
+    c.leg2 = el("text", { class: "lbl", x: 48, y: 16 }, g, "Change from the same quarter a year earlier (pp)");
+    c.leg3 = el("text", { class: "lbl", x: 48, y: 16 }, g);
+    c.leg3.textContent = RANK.n ? `Shaded: middle half of the last ten years (${tickLabel(RANK.q25)} to ${tickLabel(RANK.q75)})` : "";
+  },
+  render(c, pos) {
+    const W = c.W, H = c.H, m = { l: 46, r: 24, t: 44, b: W < 520 ? 52 : 58 };
+    const wide = W >= 520;
+    const t1 = ease(seg(pos, 0.1, 0.95)), t2 = ease(seg(pos, 1.1, 1.95)), t3 = ease(seg(pos, 2.25, 2.95));
+    const mixw = (a, b, t) => a.map((v, k) => lerp(v, b[k], t));
+    const [x0, x1, y0, y1] = mixw(mixw(mixw(TREND_WINS[0], TREND_WINS[1], t1), TREND_WINS[2], t2), TREND_WINS[3], t3);
+    const X = scale(x0, x1, m.l, W - m.r), Y = scale(y0, y1, H - m.b, m.t);
+    const wq = x1 - x0;
+    const near = 1 - seg(wq, 10, 16);                       /* the close-up marks (points, rings, comparisons) */
+    const yo = ease(seg(pos, 1.5, 2)) * (1 - ease(seg(pos, 2.05, 2.4)));
+    const pb = ease(seg(pos, 2.6, 3));
+    set(c.clipR, { x: m.l, y: m.t - 10, width: W - m.l - m.r + 14, height: H - m.b - m.t + 20 });
+    /* horizontal grid */
+    c.gGrid.textContent = "";
+    const span = y1 - y0, st = span > 20 ? 10 : span > 9 ? 2 : span > 4.5 ? 1 : 0.5;
+    for (let v = Math.ceil(y0 / st - 1e-9) * st; v <= y1 + 1e-9; v += st) {
+      const tv = Math.round(v * 100) / 100;                  /* 7 and not 7.000000000000001, so the label reads "7%" */
+      el("line", { x1: m.l, x2: W - m.r, y1: Y(tv), y2: Y(tv), class: Math.abs(tv) < 1e-9 ? "zero" : "grid" }, c.gGrid);
+      el("text", { x: m.l - 8, y: Y(tv) + 4, "text-anchor": "end" }, c.gGrid, tickLabel(tv));
+    }
+    /* quarter labels with the financial year underneath while few quarters are in view; calendar years once many are */
+    c.gQ.textContent = ""; c.gYr.textContent = "";
+    c.gQ.setAttribute("opacity", 1 - seg(wq, 9, 14));
+    c.gYr.setAttribute("opacity", seg(wq, 14, 22));
+    const i0 = Math.max(0, Math.ceil(x0 - 1e-9)), i1 = Math.min(NOW_I, Math.floor(x1 + 1e-9));
+    if (wq < 14) {
+      for (let i = i0; i <= i1; i++) {
+        el("text", { x: X(i), y: H - m.b + 16, "text-anchor": "middle", class: i === NOW_I ? "strong" : "" }, c.gQ, "Q" + (i % 4 + 1));
+        if (wide && wq <= 9.5) el("text", { x: X(i), y: H - m.b + 29, "text-anchor": "middle", class: "sm" }, c.gQ, FY_MONTHS[i % 4]);
+      }
+      const seen = new Set();
+      for (let i = i0; i <= i1; i++) {
+        const f0 = i - (i % 4);
+        if (seen.has(f0)) continue; seen.add(f0);
+        const a = Math.max(f0, i0), b = Math.min(f0 + 3, i1), yy = H - m.b + (wide && wq <= 9.5 ? 41 : 30);
+        el("line", { x1: X(a) - 14, x2: X(b) + 14, y1: yy - 11, y2: yy - 11, class: "axis" }, c.gQ);
+        el("text", { x: (X(a) + X(b)) / 2, y: yy + 2, "text-anchor": "middle", class: "sm" }, c.gQ, fyLong(f0));
+      }
+    }
+    if (wq >= 12) {
+      const ys = wq > 40 ? (W < 520 ? 10 : 5) : wq > 24 ? 2 : 1;
+      for (let yr = 2005; yr <= qCalYear(A.length); yr += ys) {
+        const i = (yr - 2005) * 4;
+        if (i < x0 || i > x1) continue;
+        el("text", { x: X(i), y: H - m.b + 18, "text-anchor": "middle" }, c.gYr, String(yr));
+      }
+    }
+    c.path.setAttribute("d", A.map((v, i) => (v == null ? "" : (i === 0 || A[i - 1] == null ? "M" : "L") + X(i).toFixed(1) + "," + Y(v).toFixed(1))).join(""));
+    /* official points with their values */
+    c.pts.forEach((p) => {
+      set(p.dot, { cx: X(p.i), cy: Y(A[p.i]), opacity: near });
+      set(p.lab, { x: X(p.i), y: Y(A[p.i]) - 11, opacity: p.i >= x0 - 0.01 && p.i <= x1 ? near : 0 });   /* the labels sit outside the clip, so one out of view is hidden here */
+      p.lab.textContent = pct(A[p.i]);
+    });
+    /* our estimate for each earlier quarter, and how far off it was */
+    c.track.forEach((t) => {
+      const ok = t.i >= 0 && A[t.i] != null, op = ok ? near * (1 - yo) : 0;
+      if (ok) { set(t.err, { x1: X(t.i), x2: X(t.i), y1: Y(A[t.i]), y2: Y(t.est), opacity: op }); set(t.dot, { cx: X(t.i), cy: Y(t.est), opacity: op }); }
+      else { set(t.err, { opacity: 0 }); set(t.dot, { opacity: 0 }); }
+    });
+    /* this quarter's estimate */
+    const xn = X(NOW_I), yn = Y(N.point), rng = N.rangeAvailable !== false && Number.isFinite(N.lo90);
+    const hasLast = A[LAST] != null;
+    set(c.conn, { d: hasLast ? `M${X(LAST)},${Y(A[LAST])}L${xn},${yn}` : "", opacity: 1 });
+    set(c.band, { x: xn - 7, width: 14, y: rng ? Y(N.hi90) : yn, height: rng ? Y(N.lo90) - Y(N.hi90) : 0, opacity: rng ? 1 : 0 });
+    set(c.dot, { cx: xn, cy: yn, opacity: 1 });
+    /* The value sits to the right of the dot while a few quarters are in view (the neighbouring quarter's value is on its left), and above-left once many are. */
+    const lr = near;
+    set(c.l3r, { x: xn + 12, y: yn + 4, opacity: lr }); c.l3r.textContent = pct(N.point);
+    set(c.l3, { x: xn - 12, y: yn - 12, opacity: 1 - lr }); c.l3.textContent = pct(N.point);
+    /* this year against last year, quarter by quarter */
+    c.yoy.forEach((y, k) => {
+      const xa = X(y.i - 4), xb = X(y.i), ya = Y(y.a), yb = Y(y.b), up = y.b >= y.a;
+      set(y.ring, { cx: xa, cy: ya, opacity: yo });
+      set(y.guide, { x1: xa, x2: xb - 11, y1: ya, y2: ya, opacity: yo });
+      set(y.gap, { x1: xb - 11, x2: xb - 11, y1: ya, y2: yb, opacity: yo, stroke: `var(--${up ? "up" : "down"})` });
+      const lab = c.yoyLab[k];
+      set(lab, { x: xb, y: m.t - 10, opacity: yo, class: `lbl sm strong ${up ? "up" : "down"}` });
+      lab.textContent = wide ? pp(y.b - y.a, 1) : pts(y.b - y.a, 1);   /* on a phone the unit is in the legend, so neighbouring labels never touch */
+    });
+    /* the last ten years, ranked */
+    const p0 = RANK.pand.length ? RANK.pand[0] : 0, p1 = RANK.pand.length ? RANK.pand[RANK.pand.length - 1] : 0;
+    set(c.shPan, { x: X(p0 - 0.5), width: Math.max(0, X(p1 + 0.5) - X(p0 - 0.5)), y: m.t, height: H - m.b - m.t, opacity: RANK.pand.length ? pb : 0 });
+    set(c.panLab, { x: (X(p0 - 0.5) + X(p1 + 0.5)) / 2, y: m.t + 14, opacity: RANK.pand.length ? pb : 0 });
+    const bx0 = X(RANK.first - 0.5), bx1 = X(NOW_I + 0.5);
+    set(c.shBand, { x: bx0, width: Math.max(0, bx1 - bx0), y: RANK.n ? Y(RANK.q75) : 0, height: RANK.n ? Y(RANK.q25) - Y(RANK.q75) : 0, opacity: RANK.n ? pb : 0 });
+    set(c.ref, { x1: bx0, x2: xn, y1: yn, y2: yn, opacity: RANK.n ? pb * 0.8 : 0 });
+    c.leg1.setAttribute("opacity", near * (1 - yo) * (T.length ? 1 : 0));
+    c.leg2.setAttribute("opacity", yo);
+    c.leg3.setAttribute("opacity", RANK.n ? pb : 0);
+  },
+};
+
 VIS.buildup = {
   n: 6,
   /* The live site's waterfall: long-run average, each sector, momentum from earlier months, the estimate.
@@ -1213,5 +1407,5 @@ function mount() {
   requestTick();
 }
 
-window.GDP = { charts: ALL, terrain, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
+window.GDP = { TREND, charts: ALL, terrain, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
 })();

@@ -380,6 +380,15 @@ p { text-wrap: pretty; }
 .plot .arrowhead { fill: var(--fg-3); }
 .plot .off { fill: var(--fg); }
 .plot .ours { fill: var(--surface); stroke: var(--accent); stroke-width: 2.25; }
+.plot .pt { fill: var(--accent); stroke: var(--surface); stroke-width: 1.5; }
+.plot .lbl.sm, .plot text.sm { font-size: 12px; }
+.plot text.strong { font-weight: 600; }
+.plot text.up { fill: var(--up); }
+.plot text.down { fill: var(--down); }
+.plot .yago { fill: none; stroke: var(--fg-2); stroke-width: 1.25; stroke-dasharray: 2 3; }
+.plot .guide { stroke: var(--fg-2); stroke-width: 1; stroke-dasharray: 3 4; }
+.plot .gap { stroke-width: 2.5; stroke-linecap: round; }
+.plot .refline { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 4; }
 .plot .err { stroke: var(--down); stroke-width: 1.5; opacity: 0.7; }
 .plot .hz-pos { fill: var(--up); }
 .plot .hz-neg { fill: var(--down); }
@@ -460,7 +469,7 @@ body.has-rail { --rail-h: 46px; }
 .ci-info { position: absolute; top: calc(100% + 4px); left: 0; z-index: 5; display: grid; gap: 3px; width: min(320px, 90vw); padding: 12px 14px; font-size: 0.8125rem; line-height: 1.45; color: var(--fg); background: var(--surface); border-radius: 10px; box-shadow: var(--shadow); }
 .ci-info b { font-weight: 600; }
 .ci-info .dz-sep { margin-top: 4px; padding-top: 6px; border-top: 1px solid var(--line); color: var(--fg-2); }
-.sc-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.sc-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .sc-tiles li { display: grid; gap: 4px; align-content: start; padding: 14px 16px; background: oklch(0.225 0.146 265.8 / 0.66); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--night-line); border-radius: 14px; min-width: 0; }
 .sc-tiles b { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .sc-tiles b.down { color: oklch(0.78 0.13 30); }
