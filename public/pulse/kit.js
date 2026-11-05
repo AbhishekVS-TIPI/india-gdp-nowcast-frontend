@@ -11,6 +11,11 @@ const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, t) => a + (b - a) * t;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 const seg = (x, a, b) => clamp((x - a) / (b - a), 0, 1);
+/* The page scales with the screen (the root font size grows on large displays). A chart is drawn in units that are scaled by the
+   same factor, so its labels, margins and marks grow with the page instead of staying small. */
+const rootScale = () => (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16;
+/* The pinned graphic sits above the text on narrow, tall screens; on a short screen (a phone on its side) it stays beside it. */
+const STACKED = matchMedia("(max-width: 860px) and (min-height: 521px)");
 /* A domain of a single value (one weekly run, one point) sits in the middle instead of dividing by zero. */
 const scale = (d0, d1, r0, r1) => (v) => (d1 === d0 ? (r0 + r1) / 2 : r0 + ((v - d0) / (d1 - d0)) * (r1 - r0));
 /* Round half up on the decimal value (8.35 shows as 8.4), not on its binary approximation. */
@@ -333,13 +338,14 @@ VIS.trend = {
     c.panLab = el("text", { class: "lbl sm", "text-anchor": "middle" }, g, "left out of the ranking");
     c.yoyLab = c.yoy.map(() => el("text", { class: "lbl sm strong", "text-anchor": "middle" }, g));
     c.leg1 = el("text", { class: "lbl", x: 48, y: 16 }, g, "○ our final estimate for each quarter");
-    c.leg2 = el("text", { class: "lbl", x: 48, y: 16 }, g, "Change from the same quarter a year earlier (pp)");
+    c.leg2 = el("text", { class: "lbl", x: 48, y: 16 }, g, c.W < 430 ? "vs the same quarter a year earlier (pp)" : "Change from the same quarter a year earlier (pp)");
     c.leg3 = el("text", { class: "lbl", x: 48, y: 16 }, g);
-    c.leg3.textContent = RANK.n ? `Shaded: middle half of the last ten years (${tickLabel(RANK.q25)} to ${tickLabel(RANK.q75)})` : "";
+    c.leg3.textContent = RANK.n ? (c.W < 430 ? "Shaded: middle half of ten years" : `Shaded: middle half of the last ten years (${tickLabel(RANK.q25)} to ${tickLabel(RANK.q75)})`) : "";
   },
   render(c, pos) {
-    const W = c.W, H = c.H, m = { l: 46, r: 24, t: 44, b: W < 520 ? 52 : 58 };
-    const wide = W >= 520;
+    const W = c.W, H = c.H, wide = W >= 520;
+    /* On a short chart (a small phone) the margins shrink, so the plot itself keeps most of the height. */
+    const m = { l: 46, r: 24, t: H < 260 ? 36 : 44, b: wide ? 58 : 44 };
     const t1 = ease(seg(pos, 0.1, 0.95)), t2 = ease(seg(pos, 1.1, 1.95)), t3 = ease(seg(pos, 2.25, 2.95));
     const mixw = (a, b, t) => a.map((v, k) => lerp(v, b[k], t));
     const [x0, x1, y0, y1] = mixw(mixw(mixw(TREND_WINS[0], TREND_WINS[1], t1), TREND_WINS[2], t2), TREND_WINS[3], t3);
@@ -351,7 +357,8 @@ VIS.trend = {
     set(c.clipR, { x: m.l, y: m.t - 10, width: W - m.l - m.r + 14, height: H - m.b - m.t + 20 });
     /* horizontal grid */
     c.gGrid.textContent = "";
-    const span = y1 - y0, st = span > 20 ? 10 : span > 9 ? 2 : span > 4.5 ? 1 : 0.5;
+    const span = y1 - y0, room = Math.max(2, Math.floor((H - m.t - m.b) / 28));   /* a gridline every 28 units of height at most */
+    const st = [0.5, 1, 2, 2.5, 5, 10, 20].find((s) => span / s <= Math.min(room, 7)) || 20;
     for (let v = Math.ceil(y0 / st - 1e-9) * st; v <= y1 + 1e-9; v += st) {
       const tv = Math.round(v * 100) / 100;                  /* 7 and not 7.000000000000001, so the label reads "7%" */
       el("line", { x1: m.l, x2: W - m.r, y1: Y(tv), y2: Y(tv), class: Math.abs(tv) < 1e-9 ? "zero" : "grid" }, c.gGrid);
@@ -420,7 +427,7 @@ VIS.trend = {
     /* the last ten years, ranked */
     const p0 = RANK.pand.length ? RANK.pand[0] : 0, p1 = RANK.pand.length ? RANK.pand[RANK.pand.length - 1] : 0;
     set(c.shPan, { x: X(p0 - 0.5), width: Math.max(0, X(p1 + 0.5) - X(p0 - 0.5)), y: m.t, height: H - m.b - m.t, opacity: RANK.pand.length ? pb : 0 });
-    set(c.panLab, { x: (X(p0 - 0.5) + X(p1 + 0.5)) / 2, y: m.t + 14, opacity: RANK.pand.length ? pb : 0 });
+    set(c.panLab, { x: (X(p0 - 0.5) + X(p1 + 0.5)) / 2, y: m.t + 14, opacity: RANK.pand.length && wide && H >= 260 ? pb : 0 });   /* the card says it too; no room on a small chart */
     const bx0 = X(RANK.first - 0.5), bx1 = X(NOW_I + 0.5);
     set(c.shBand, { x: bx0, width: Math.max(0, bx1 - bx0), y: RANK.n ? Y(RANK.q75) : 0, height: RANK.n ? Y(RANK.q25) - Y(RANK.q75) : 0, opacity: RANK.n ? pb : 0 });
     set(c.ref, { x1: bx0, x2: xn, y1: yn, y2: yn, opacity: RANK.n ? pb * 0.8 : 0 });
@@ -816,8 +823,9 @@ function tipper(c) {
     tip.textContent = "";
     fill(tip);
     tip.hidden = false;
-    tip.style.left = clamp(x + 14, 0, Math.max(0, c.W - tip.offsetWidth)) + "px";
-    tip.style.top = clamp(y + 14, 0, Math.max(0, c.H - tip.offsetHeight)) + "px";
+    const U = c.U || 1;
+    tip.style.left = clamp((x + 14) * U, 0, Math.max(0, c.W * U - tip.offsetWidth)) + "px";
+    tip.style.top = clamp((y + 14) * U, 0, Math.max(0, c.H * U - tip.offsetHeight)) + "px";
   };
   const hide = () => { tip.hidden = true; if (c.hot) { c.hot.removeAttribute("data-hot"); c.hot = null; } };
   /* Opens `fill(tip)` beside the pointer whenever it is over `target`; the target is outlined while it is the one shown. */
@@ -952,7 +960,7 @@ function ctx(host, name, opt) {
   c.rebuild = () => { build(c); draw(c, c.pos < 0 ? 0 : c.pos); };
   build(c);
   if ("ResizeObserver" in window) {
-    new ResizeObserver(() => { const r = host.getBoundingClientRect(); if (Math.round(r.width) !== c.W || Math.round(r.height) !== c.H) c.rebuild(); }).observe(host);
+    new ResizeObserver(() => { const r = host.getBoundingClientRect(), U = rootScale(); if (Math.round(r.width / U) !== c.W || Math.round(r.height / U) !== c.H) c.rebuild(); }).observe(host);
   }
   ALL.push(c);
   return c;
@@ -962,8 +970,9 @@ function build(c) {
   /* A chart whose box has no size yet (not laid out, or inside a closed section) is drawn once it has one: the ResizeObserver calls rebuild. */
   if (r.width < 4 || r.height < 4) { c.built = false; return; }
   c.built = true;
-  c.W = Math.max(1, Math.round(r.width));
-  c.H = Math.max(1, Math.round(r.height));
+  c.U = rootScale();
+  c.W = Math.max(1, Math.round(r.width / c.U));
+  c.H = Math.max(1, Math.round(r.height / c.U));
   if (c.svg) c.svg.remove();
   c.svg = el("svg", { class: "plot", viewBox: `0 0 ${c.W} ${c.H}`, "aria-hidden": "true" });
   c.host.prepend(c.svg);
@@ -993,7 +1002,7 @@ function updateScene(c, vh) {
   const r = c.root.getBoundingClientRect();
   if (r.bottom < -100 || r.top > vh + 100) return;
   const g = c.root.querySelector(".graphic").getBoundingClientRect();
-  const stacked = innerWidth <= 860;
+  const stacked = STACKED.matches;
   const trigger = stacked ? (g.bottom + vh) / 2 : vh * 0.55;
   const centers = c.steps.map((s) => { const b = (s.querySelector(".box") || s).getBoundingClientRect(); return b.top + b.height / 2; });
   let f = 0;

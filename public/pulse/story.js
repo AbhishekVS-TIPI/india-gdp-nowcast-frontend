@@ -140,6 +140,8 @@ S.trend = () => {
     p: [
       official.length > 1 ? `So far this year: ${official.map((i) => `${qName(i)} ${pct(A[i])}`).join(", ")}.` : "",
       `The large dot is our estimate for ${qLong(cur)}${rangeBit}.`,
+    ].filter(Boolean).join(" "),
+    more: [
       qn < 3 && prevYear.length ? `${fyLong(cfy - 4)} is shown too, so there is more to read: its quarters ran from ${pct(Math.min(...prevYear))} to ${pct(Math.max(...prevYear))}.` : "",
       inView ? "Each ring is what we had estimated for an earlier quarter before its official figure came out." : "",
     ].filter(Boolean).join(" "),
@@ -164,7 +166,8 @@ S.trend = () => {
     steps.push({
       at: 2, k: "Against a year earlier",
       h: `${qName(c.i)} is estimated ${rel(c.d)} the same quarter last year`,
-      p: `${cmp.map((x) => `${qName(x.i)}${x.i === cur ? " (estimate)" : ""}: ${pct(x.b)} against ${pct(x.a)} a year earlier, ${pp(x.d, 1)}.`).join(" ")} These are differences between growth rates, not between levels.`,
+      p: cmp.map((x) => `${qName(x.i)}${x.i === cur ? " (estimate)" : ""}: ${pct(x.b)} against ${pct(x.a)} a year earlier, ${pp(x.d, 1)}.`).join(" "),
+      more: "These are differences between growth rates, not between levels.",
     });
   }
   /* 4. Everything since 2005, and where the estimate ranks against the last ten years */
@@ -174,9 +177,9 @@ S.trend = () => {
     steps.push({
       at: 3, k: "Since 2005",
       h: `At ${pct(N.point)}, the estimate sits at the ${ord(rk)} percentile of the last ten years`,
-      p: [
-        `It is higher than ${RK.below(N.point)} of the ${RK.n} quarters since ${qStart(RK.first)}${RK.pand.length ? `, leaving out the pandemic quarters (${qStart(p0)} to ${QEND[p1 % 4]} ${qYear(p1)}), whose rates are distorted` : ""}. A percentile is the share of those quarters that grew more slowly.`,
-        `The middle half of them ran from ${pct(RK.q25)} to ${pct(RK.q75)}, with a median of ${pct(RK.med)}.`,
+      p: `It is higher than ${RK.below(N.point)} of the ${RK.n} quarters since ${qStart(RK.first)}, leaving out the pandemic quarters. The middle half of them ran from ${pct(RK.q25)} to ${pct(RK.q75)}, with a median of ${pct(RK.med)}.`,
+      more: [
+        `A percentile is the share of those quarters that grew more slowly.${RK.pand.length ? ` The pandemic quarters (${qStart(p0)} to ${QEND[p1 % 4]} ${qYear(p1)}) are left out because their rates are distorted.` : ""}`,
         RANGE ? `Anywhere in the likely range, ${pct(N.lo90)} to ${pct(N.hi90)}, the quarter would rank between the ${ord(RK.rank(N.lo90))} and the ${ord(RK.rank(N.hi90))} percentile.` : "",
         `Since 2005, ${Math.abs(frac - 2 / 3) < 0.04 ? "two quarters in three" : `${Math.round(frac * 100)}% of quarters`} have landed between 5% and 10%.`,
       ].filter(Boolean).join(" "),
@@ -470,7 +473,7 @@ function renderNotes(host) {
 function fillSteps(root, steps) {
   const box = root.querySelector(".steps");
   box.textContent = "";
-  steps.forEach((s) => box.append(h("div", { class: "step", "data-at": String(s.at) }, h("div", { class: "box" }, h("p", { class: "k", text: s.k }), h("p", { class: "h", text: s.h }), h("p", { text: s.p })))));
+  steps.forEach((s) => box.append(h("div", { class: "step", "data-at": String(s.at) }, h("div", { class: "box" }, h("p", { class: "k", text: s.k }), h("p", { class: "h", text: s.h }), h("p", { text: s.p }), s.more ? h("p", { class: "extra", text: s.more }) : null))));
 }
 function prov(kind) {
   const text = kind === "auto" ? `Updates weekly · model run of ${day(D.asOf)}` : kind === "human" ? `Stat team · written ${day(NOTE.date)}` : "Explainer · no live numbers";
