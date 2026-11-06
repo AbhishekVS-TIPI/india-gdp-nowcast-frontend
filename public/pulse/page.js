@@ -23,7 +23,7 @@ const since = hasNote ? ST.S.since() : [];
 if (since.length) ST.fillSteps($("sc-since"), since); else $("sc-since").hidden = true;
 ST.R.breadthNote().forEach(([k, p]) => $("breadth-crit").append(h("li", null, h("b", { text: k }), h("span", { text: p }))));
 if (ST.RANGE) ST.fillSteps($("sc-noise"), ST.S.noise()); else $("range-more").closest("section").hidden = true;   /* no range to show in detail */   /* the detailed range: the same rule-written lines, as a list, only seen when opened */
-if (!ST.BREADTH.length) $("breadth-card-sec").hidden = true;
+if (!ST.SEATS.n) $("breadth-card-sec").hidden = true;
 document.querySelectorAll("[data-take]").forEach((e) => (e.textContent = ST.R.take[e.dataset.take]()));
 /* The experts' intro only promises what is on the page: the since-this-note replay exists when the latest note is about this quarter. */
 if (hasNote) $("experts-intro").textContent += !$("sc-since").hidden ? " First, what has changed since their latest note; then the notes themselves, newest first." : " Here are their notes, newest first.";
@@ -53,7 +53,27 @@ GDP.onSector((k) => { sector = k; if (heat) { heat.opt.sector = k; heat.rebuild(
 GDP.picker($("picker"))(worst);
 whenOpened($("sector-more"), () => { heat = GDP.figure($("heat"), "heat", { sector }); });
 whenOpened($("range-more"), () => GDP.figure($("noise-fig"), "noise", { pos: 3 }));
-if (ST.BREADTH.length) GDP.figure($("breadth-fig"), "breadth");
+/* Breadth: every indicator the models read as a parliament of seats, a numbered list of its parts, and all the indicators ranked. */
+if (ST.SEATS.n) {
+  const S = ST.SEATS, tone = (c) => (c == null || GDP.bps(c) === 0 ? "" : c > 0 ? "up" : "down");
+  const fig = GDP.figure($("breadth-fig"), "breadth");
+  $("breadth-legend").append(...S.groups.map((g, i) => {
+    const li = h("li", { tabindex: "0" },
+      h("span", { class: "n", text: String(i + 1) }), h("b", { text: g.info.label }),
+      h("span", { class: "m", text: `${g.seats.length} ${g.seats.length === 1 ? "indicator" : "indicators"}` }),
+      h("span", { class: "v " + tone(g.c), text: g.seats.every((x) => x.c == null) ? "not yet in" : GDP.bp(g.c) }));
+    ["mouseenter", "focus"].forEach((ev) => li.addEventListener(ev, () => fig.highlight(g.sec)));
+    ["mouseleave", "blur"].forEach((ev) => li.addEventListener(ev, () => fig.highlight(null)));
+    return li;
+  }));
+  const ranked = S.list.slice().sort((a, b) => (b.c ?? -Infinity) - (a.c ?? -Infinity) || b.share - a.share);
+  $("breadth-table").append(h("table", { class: "rank" },
+    h("thead", null, h("tr", null, ["Indicator", "Part of the economy", "Weight", "Effect"].map((t, k) => h("th", { scope: "col", class: k > 1 ? "num" : "", text: t })))),
+    h("tbody", null, ranked.map((x) => h("tr", null,
+      h("td", { text: GDP.D.names[x.i] }), h("td", { text: GDP.D.sec[x.sec].label }),
+      h("td", { class: "num", text: S.wText(x.share) }),
+      h("td", { class: "num " + tone(x.c), text: x.c == null ? "not yet in" : GDP.bp(x.c) }))))));
+}
 
 /* Chapter rail: highlight the chapter in view and show reading progress. */
 const rail = $("rail-links");

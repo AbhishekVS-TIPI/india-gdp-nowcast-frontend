@@ -6,7 +6,7 @@
 (() => {
 "use strict";
 const G = window.GDP;
-const { D, SEC, VIS, NOTE, TREND, pct, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, niceAxis } = G;
+const { D, SEC, VIS, NOTE, TREND, pct, pp, bp, bps, fix, day, h, el, set, scale, clamp, lerp, ease, seg, niceAxis } = G;
 const N = D.now, DEC = D.dec, V = D.vint, A = D.A, T = D.track;
 /* The record is worked out here from the track itself, so it cannot drift from the quarters it describes. */
 const TS = (() => {
@@ -53,13 +53,39 @@ const BREADTH = D.zMonths.map((m, j) => {
   const vals = growthIds.map((i) => D.z[i][j]).map((z, n) => (z == null ? null : z * D.sg[growthIds[n]])).filter((z) => z != null);
   return { j, month: m, share: vals.filter((z) => z > 0).length / (vals.length || 1), covered: vals.length };
 }).filter((b) => b.covered >= growthIds.length / 2);
-/* One source for breadth: the readings themselves, so a sentence can never disagree with its own chart. Three months back may not exist yet. */
+/* One source for breadth: the readings themselves, so a sentence can never disagree with its own chart. */
 const shareNow = BREADTH.length ? Math.round(BREADTH[BREADTH.length - 1].share * 100) : null;
-const sharePrev = BREADTH.length >= 4 ? Math.round(BREADTH[BREADTH.length - 4].share * 100) : null;
 /* The heaviest monthly releases that landed in a given week; daily and weekly market series arrive every week, so they say nothing. */
 const notable = (i) => V[i][4].filter((d) => D.freq[d] === "Monthly").sort((a, b) => D.dots[b][1] - D.dots[a][1]).slice(0, 2).map((d) => D.names[d]);
 const growthSectors = D.sec.filter((s) => s.k !== "prices");
-const breadthWord = (s) => (s >= 0.6 ? "Strength is broad-based." : s <= 0.4 ? "Weakness is widespread." : "The picture is mixed.");
+/* The indicators the models read (the rest are only monitored and carry no weight), by part of the economy. Parts run from the biggest
+   net push to the biggest net drag, the order of the build-up; inside a part, from the strongest push to the strongest drag, with an
+   indicator that has not reported last. Contribution is what the indicator adds to, or takes from, this quarter's estimate. */
+const SEATS = (() => {
+  const ids = D.read.map((r, i) => (r ? i : -1)).filter((i) => i >= 0);
+  const wTot = ids.reduce((a, i) => a + D.dots[i][1], 0) || 1;
+  const by = new Map();
+  ids.forEach((i) => {
+    const sec = D.dots[i][0];
+    if (!by.has(sec)) by.set(sec, []);
+    by.get(sec).push({ i, sec, c: D.contrib[i], share: D.dots[i][1] / wTot });
+  });
+  const groups = [...by.entries()]
+    .map(([sec, seats]) => ({ sec, info: D.sec[sec], seats: seats.sort((a, b) => (b.c ?? -Infinity) - (a.c ?? -Infinity) || b.share - a.share), c: seats.reduce((a, x) => a + (x.c ?? 0), 0) }))
+    .sort((a, b) => b.c - a.c);
+  const list = groups.flatMap((g) => g.seats);
+  const got = list.filter((x) => x.c != null);
+  const maxAbs = Math.max(0.0001, ...got.map((x) => Math.abs(x.c)));
+  return {
+    groups, list, n: list.length, maxAbs,
+    up: got.filter((x) => bps(x.c) > 0 && x.c > 0).length,
+    down: got.filter((x) => bps(x.c) > 0 && x.c < 0).length,
+    flat: got.filter((x) => bps(x.c) === 0).length,
+    wait: list.length - got.length,
+    /* A weight is the indicator's share of all the weight the models give to indicators. */
+    wText: (share) => { const w = share * 100; return w < 0.1 ? "under 0.1%" : (w < 10 ? w.toFixed(1) : Math.round(w)) + "%"; },
+  };
+})();
 
 /* ---------- Headline rules ---------- */
 const R = {};
@@ -104,7 +130,18 @@ R.take = {
     if (!parts.length) parts.push("No part of the economy is moving the estimate much so far.");
     return `${reportedLine} ${parts.join(" ")}`;
   },
-  breadth: () => shareNow == null ? "" : `${shareNow}% of growth indicators are above normal${sharePrev == null ? "." : `, ${shareNow === sharePrev ? "the same as" : shareNow > sharePrev ? `up from ${sharePrev}%` : `down from ${sharePrev}%`} three months earlier.`} ${breadthWord(BREADTH[BREADTH.length - 1].share)}`,
+  breadth: () => {
+    const S = SEATS;
+    if (!S.n) return "";
+    if (S.up + S.down + S.flat === 0) return `The models read ${S.n} indicators. None has reported for ${D.quarterLong} yet, so none is moving the estimate.`;
+    const rest = [S.flat ? `${S.flat} ${S.flat === 1 ? "has" : "have"} almost no effect` : "", S.wait ? `${S.wait} ${S.wait === 1 ? "is" : "are"} still to report` : ""].filter(Boolean);
+    return `Of the ${S.n} indicators the models read, ${S.up} ${S.up === 1 ? "is" : "are"} adding to this quarter's estimate and ${S.down} ${S.down === 1 ? "is" : "are"} pulling it down${rest.length ? `; ${list(rest)}` : ""}.`;
+  },
+  breadthTop: () => {
+    const got = SEATS.list.filter((x) => x.c != null && bps(x.c) > 0).sort((a, b) => b.c - a.c);
+    const up = got.filter((x) => x.c > 0)[0], down = got.filter((x) => x.c < 0).pop();
+    return [up ? `Biggest push: ${D.names[up.i]}, ${bp(up.c)}.` : "", down ? `Biggest drag: ${D.names[down.i]}, ${bp(down.c)}.` : ""].filter(Boolean).join(" ");
+  },
   ch4: () => (RANGE ? `Plan around the range, ${pct(N.lo90)} to ${pct(N.hi90)}, not the point.` : "There is no likely range yet, so treat the estimate as a first look, not a forecast to plan around.") +
     (TS.below >= 3 ? ` Our last ${count(TS.below)} misses were all on the low side, so an upside surprise would fit the pattern.` : TS.above >= 3 ? ` Our last ${count(TS.above)} misses were all on the high side, so a downside surprise would fit the pattern.` : ""),
   method: () => {
@@ -188,41 +225,34 @@ S.trend = () => {
   return steps;
 };
 S.buildup = () => {
-  /* The same sector groups the chart uses, so a sector added or dropped in a later run stays in step. */
+  /* The same groups the chart uses (those adding to the estimate, then those taking from it), so a part added or dropped in a later run stays in step. */
   const steps = [{ at: 0, k: "The starting point", h: `${pct(DEC.baseline)}: long-run average growth`, p: "What the model expects when every indicator is at its normal level." }];
   G.GROUPS.forEach((secs, g) => {
-    const sum = secs.reduce((a, x) => a + x.c, 0);
+    const sum = secs.reduce((a, x) => a + x.c, 0), up = secs[0].c > 0;
     const big = secs.slice().sort((a, b) => Math.abs(b.c) - Math.abs(a.c))[0];
-    let p = Math.abs(sum) < 0.05 ? "Little net effect. " : "";
-    if (Math.abs(big.c) >= 0.05) p += `${big.label} ${big.c < 0 ? "takes off" : "adds"} ${fix(big.c, 2)} pp${big.top ? `; its biggest mover is ${lc(big.top)}` : ""}.`;
+    let p = `${up ? "Pushing the estimate up. " : "Pulling the estimate down. "}${big.label} ${big.c < 0 ? "takes off" : "adds"} ${bps(big.c)} bp${big.top ? `; its biggest mover is ${lc(big.top)}` : ""}.`;
     if (g === G.GROUPS.length - 1) p += ` The data in so far adds up to ${pct(reported)}.`;
-    steps.push({ at: g + 1, k: list(secs.map((x, i) => (i ? lcl(x.label) : x.label))), h: pp(sum, 2), p: p.trim() || "Little net effect." });
+    steps.push({ at: g + 1, k: list(secs.map((x, i) => (i ? lcl(x.label) : x.label))), h: bp(sum), p });
   });
   const G2 = G.GROUPS.length;
-  const noMomentum = Math.abs(DEC.carriedForward) < 0.005;
-  steps.push({ at: G2 + 1, k: "Momentum from earlier months", h: noMomentum ? "No effect" : pp(DEC.carriedForward, 2), p: noMomentum ? `Nothing is carried forward for the figures not yet in, so the estimate is ${pct(N.point)}.` : `What the model carries forward from earlier months for the figures not yet in. It brings the estimate to ${pct(N.point)}.` });
-  steps.push({ at: G2 + 2, k: "This quarter's estimate", h: `About ${pct(N.point)}`, p: `Long-run average ${pct(DEC.baseline)}, this quarter's data ${pp(DEC.reported)}${Math.abs(DEC.carriedForward) < 0.05 ? "" : `, momentum ${pp(DEC.carriedForward)}`}.` });
+  const noMomentum = bps(DEC.carriedForward) === 0;
+  steps.push({ at: G2 + 1, k: "Momentum from earlier months", h: noMomentum ? "No effect" : bp(DEC.carriedForward), p: noMomentum ? `Nothing is carried forward for the figures not yet in, so the estimate is ${pct(N.point)}.` : `What the model carries forward from earlier months for the figures not yet in. It brings the estimate to ${pct(N.point)}.` });
+  steps.push({ at: G2 + 2, k: "This quarter's estimate", h: `About ${pct(N.point)}`, p: `Long-run average ${pct(DEC.baseline)}, this quarter's data ${bp(DEC.reported)}${noMomentum ? "" : `, momentum ${bp(DEC.carriedForward)}`}. 100 bp is one percentage point.` });
   return steps;
 };
 /* The criteria behind the breadth card, built from the data so the counts and examples never go stale. */
 R.breadthNote = () => {
-  const others = D.dots.length - growthIds.length;
-  const flipped = growthIds.filter((i) => D.sg[i] < 0).sort((a, b) => D.dots[b][1] - D.dots[a][1]).slice(0, 2).map((i) => D.names[i]);
+  const flipped = SEATS.list.filter((x) => D.sg[x.i] < 0).sort((x, y) => y.share - x.share).slice(0, 2).map((x) => D.names[x.i]);
+  const others = D.dots.length - SEATS.n;
   return [
-    ["Indicators included", `The ${growthIds.length} indicators in the model that measure growth.${others > 0 ? ` The other ${others} are price indicators. Prices describe inflation rather than how strongly the economy is growing, so they are left out.` : ""}`],
-    ["Above normal", "An indicator is above normal when its growth is higher than its own long-run average. Each one is compared only with its own history, so a small series and a large one are treated alike."],
-    flipped.length ? ["Direction of readings", `A few indicators point the other way: when they rise, growth has tended to fall, such as ${list(flipped.map(lc))}. Their readings are flipped, so green always means stronger growth.`] : null,
-    ["Colours and shades", "Green is above normal and red is below. The deeper the colour, the further from normal. Grey means the indicator has not published for that month; it is left out of the percentage."],
-    ["Months shown", "A month is shown once at least half of the growth indicators have published for it."],
+    ["Indicators included", `The ${SEATS.n} indicators the two models read.${others > 0 ? ` The other ${others} we track carry no weight in the estimate, so they cannot move it.` : ""}`],
+    ["What a seat shows", "How much that indicator adds to this quarter's estimate (green) or takes from it (red): its reading against its own normal, times its weight in the models. The deeper the colour, the bigger the effect."],
+    ["Order", "Parts of the economy run from the biggest net push on the left to the biggest net drag on the right, the same order as the build-up above. Inside a part, seats run the same way, strongest push first."],
+    flipped.length ? ["Direction of readings", `A few indicators work the other way: when they rise, growth has tended to fall, such as ${list(flipped.map(lc))}. Their readings are flipped, so green always means a push towards stronger growth.`] : null,
+    ["Pale and dashed seats", "A pale seat adds or takes less than half a basis point, so it has almost no effect. A dashed outline means the indicator has not published for this quarter yet; it is coloured once it does."],
+    ["Weights", "An indicator's weight is its share of all the weight the models give to indicators. It shows when you hover or tap a seat, and every indicator is ranked in the list above."],
   ].filter(Boolean);
 };
-S.breadth = () => BREADTH.map((b, i) => {
-  const share = Math.round(b.share * 100), prev = i ? Math.round(BREADTH[i - 1].share * 100) : null;
-  const p = i === 0 ? "Each square is one growth indicator: green when it is above its normal level, red when below."
-    : i === BREADTH.length - 1 ? `${share === prev ? "Level with" : share > prev ? `Up from ${prev}% in` : `Down from ${prev}% in`} ${monthOnly(BREADTH[i - 1].month)}. ${breadthWord(b.share)}`
-      : `${share === prev ? "Level with" : share > prev ? `Up from ${prev}% in` : `Down from ${prev}% in`} ${monthOnly(BREADTH[i - 1].month)}.`;
-  return { at: i, k: `${monthOnly(b.month)} ${b.month.slice(0, 4)}`, h: `${share}% of growth indicators above normal`, p };
-});
 S.noise = () => {
   const est = V.map((v) => v[1]), inside = est.every((e) => e >= N.lo90 && e <= N.hi90);
   return [
@@ -312,54 +342,75 @@ R.watch = () => {
 };
 
 /* ---------- Two new scenes ---------- */
-/* Breadth, month by month: one square per growth indicator, coloured by its reading that month. */
+/* The indicators the models read, drawn as a parliament: one seat each, in rows of arcs. Parts of the economy sit side by side from the biggest
+   push (left) to the biggest drag (right), numbered like the list under the chart; a seat is green when the indicator adds to this quarter's
+   estimate and red when it takes from it, deeper for a bigger effect. Hover or tap a seat for its name, its effect and its weight. */
 VIS.breadth = {
-  n: Math.max(1, BREADTH.length),
+  n: 1,
   build(c) {
-    const g = c.svg, W = c.W, H = c.H, n = growthIds.length;
-    c.n = Math.max(1, BREADTH.length);
-    c.month = el("text", { x: 4, y: 28, class: "head" }, g);
-    c.share = el("text", { x: W - 4, y: 28, class: "head", "text-anchor": "end" }, g);
-    el("text", { x: 4, y: 48 }, g, "one square per growth indicator");
-    const cols = W < 520 ? 10 : 15, gap = 4, top = 62;
-    const size = Math.min(34, (W - 8 - gap * (cols - 1)) / cols, (H - top - 120) / Math.ceil(n / cols) - gap);
+    const g = c.svg, W = c.W, H = c.H, S = SEATS, n = S.n;
+    /* Rows of seats on concentric arcs; each row holds seats in proportion to its length, so the spacing is even. */
+    const rows = n < 4 ? 1 : clamp(Math.round(Math.sqrt(n / 3.5)), 2, 7), rIn = 0.5;
+    const radii = Array.from({ length: rows }, (_, k) => (rows === 1 ? 1 : rIn + (k * (1 - rIn)) / (rows - 1)));
+    const cnt = radii.map((r) => Math.max(1, Math.round((n * r) / radii.reduce((a, b) => a + b, 0))));
+    for (let k = rows - 1, diff = n - cnt.reduce((a, b) => a + b, 0); diff !== 0; k = (k - 1 + rows) % rows) { if (diff > 0 || cnt[k] > 1) { cnt[k] += Math.sign(diff); diff -= Math.sign(diff); } }
+    const gap = rows > 1 ? (1 - rIn) / (rows - 1) : 1;
+    const arc = Math.min(...radii.map((r, k) => (cnt[k] > 1 ? (Math.PI * r) / (cnt[k] - 1) : 9)));
+    const rho = 0.5 * Math.min(gap, arc) * 0.86;                         /* seat radius as a share of the outer radius */
+    /* The outer radius fits the width (room for the numbers at both ends) and the height (room for them on top). */
+    const R0 = Math.max(40, Math.min((W / 2 - 26) / (1 + rho), (H - 34) / (1 + 2 * rho)));
+    const sr = rho * R0, cx = W / 2, y0 = Math.min(H - sr - 8, 24 + (1 + rho) * R0 + Math.max(0, (H - 34 - (1 + 2 * rho) * R0) / 2));
+    const spots = [];
+    radii.forEach((r, k) => { for (let j = 0; j < cnt[k]; j++) spots.push({ th: cnt[k] === 1 ? Math.PI / 2 : Math.PI - (j * Math.PI) / (cnt[k] - 1), r: r * R0 }); });
+    spots.sort((a, b) => b.th - a.th || b.r - a.r);                       /* left to right, outer seat first where two are level, so each part fills a wedge */
+    /* A faint divider between neighbouring parts, from the inner edge out to the bracket. */
+    let at = 0;
+    S.groups.slice(0, -1).forEach((grp) => {
+      at += grp.seats.length;
+      const th = (spots[at - 1].th + spots[at].th) / 2, r0 = Math.max(0, rIn * R0 - sr - 6), r1 = R0 + sr + 6;
+      if (spots[at - 1].th - spots[at].th > 0.02) el("line", { x1: cx + r0 * Math.cos(th), y1: y0 - r0 * Math.sin(th), x2: cx + r1 * Math.cos(th), y2: y0 - r1 * Math.sin(th), class: "sep" }, g);
+    });
     const tp = G.tipper(c);
-    c.cells = growthIds.map((id, r) => {
-      const cell = el("rect", { x: 4 + (r % cols) * (size + gap), y: top + Math.floor(r / cols) * (size + gap), width: size, height: size, rx: 3, class: "hz-na" }, g);
-      /* Hover (or tap) a square to see which indicator it is and how it reads in the month shown. */
-      tp.bind(cell, (tip) => {
-        const b = BREADTH[clamp(Math.round(c.pos), 0, BREADTH.length - 1)], z = D.z[id][b.j], when = `${MONTHS_LONG[Number(b.month.slice(5)) - 1]} ${b.month.slice(0, 4)}`;
-        const s = z == null ? null : z * D.sg[id];
-        tip.append(h("b", { text: D.names[id] }), h("span", { text: D.sec[D.dots[id][0]].label }));
-        if (D.sg[id] < 0) tip.append(h("span", { text: "A rise here has gone with weaker growth, so its reading is flipped" }));
-        tip.append(h("span", { class: "dz-sep", text: s == null ? `${when}: not yet published` : `${when}: ${s > 0 ? "above" : "not above"} normal. ${Math.abs(s) < 0.05 ? "Right at its own long-run average" : `${Math.abs(s).toFixed(1)} standard deviations ${s > 0 ? "above" : "below"} its own long-run average`}` }));
+    c.seats = S.list.map((x, k) => {
+      const sp = spots[k], px = cx + sp.r * Math.cos(sp.th), py = y0 - sp.r * Math.sin(sp.th);
+      const flat = x.c != null && bps(x.c) === 0;
+      const cls = x.c == null ? "seat seat-wait" : flat ? "seat seat-flat" : x.c > 0 ? "seat hz-pos" : "seat hz-neg";
+      const dot = el("circle", { cx: px, cy: py, r: sr, class: cls }, g);
+      if (x.c != null && !flat) dot.setAttribute("fill-opacity", (0.2 + 0.8 * Math.sqrt(Math.min(1, Math.abs(x.c) / S.maxAbs))).toFixed(2));
+      tp.bind(dot, (tip) => {
+        tip.append(h("b", { text: D.names[x.i] }), h("span", { text: D.sec[x.sec].label }));
+        if (D.sg[x.i] < 0) tip.append(h("span", { text: "A rise here has gone with weaker growth, so its reading is flipped" }));
+        tip.append(h("span", { class: "dz-sep", text: x.c == null ? "Not published for this quarter yet" : flat ? "Almost no effect on this quarter's estimate (under 1 bp)" : `${x.c > 0 ? "Adds" : "Takes off"} ${bps(x.c)} bp ${x.c > 0 ? "to" : "from"} this quarter's estimate` }), h("span", { text: `Weight in the models: ${S.wText(x.share)} of the total` }));
       });
-      return cell;
+      return { dot, sec: x.sec, th: sp.th };
     });
-    const by = top + Math.ceil(n / cols) * (size + gap) + 26, bh = H - by - 24;
-    const bw = Math.min(70, (W - 8) / Math.max(1, BREADTH.length) - 10), mx = Math.max(0.01, ...BREADTH.map((b) => b.share));   /* bars are scaled to the tallest month, so they read as a comparison */
-    c.bars = BREADTH.map((b, i) => {
-      const x = 4 + i * (bw + 10), hgt = bh * (b.share / mx);
-      const r = el("rect", { x, y: by + bh - hgt, width: bw, height: hgt, rx: 3, class: "sbar" }, g);
-      el("text", { x: x + bw / 2, y: H - 6, "text-anchor": "middle" }, g, MONTHS_LONG[Number(b.month.slice(5)) - 1].slice(0, 3));
-      el("text", { x: x + bw / 2, y: by + bh - hgt - 6, "text-anchor": "middle", class: "val" }, g, Math.round(b.share * 100) + "%");
-      return r;
+    /* A bracket round each part with its number, the same number as in the list under the chart. */
+    const rb = R0 + sr + 6, badges = [];
+    S.groups.forEach((grp, gi) => {
+      const mine = c.seats.filter((s) => s.sec === grp.sec), hi = Math.max(...mine.map((s) => s.th)), lo = Math.min(...mine.map((s) => s.th));
+      const pad = Math.min(0.5 * (hi - lo + 0.001), (sr * 0.9) / rb), a0 = hi + pad, a1 = lo - pad;
+      const P = (th, r) => `${(cx + r * Math.cos(th)).toFixed(1)},${(y0 - r * Math.sin(th)).toFixed(1)}`;
+      el("path", { d: `M${P(a0, rb)}A${rb} ${rb} 0 0 1 ${P(a1, rb)}`, class: "brk" }, g);
+      const mid = (a0 + a1) / 2;
+      let rr = rb + 14;
+      /* Neighbouring numbers that would touch step outwards. */
+      for (let t = 0; t < 3 && badges.some((b) => Math.hypot(b.x - (cx + rr * Math.cos(mid)), b.y - (y0 - rr * Math.sin(mid))) < 21); t++) rr += 15;
+      const bx = cx + rr * Math.cos(mid), by = y0 - rr * Math.sin(mid);
+      badges.push({ x: bx, y: by });
+      if (rr > rb + 14) el("line", { x1: cx + rb * Math.cos(mid), y1: y0 - rb * Math.sin(mid), x2: cx + (rr - 9) * Math.cos(mid), y2: y0 - (rr - 9) * Math.sin(mid), class: "brk" }, g);
+      el("circle", { cx: bx, cy: by, r: 9, class: "bdg" }, g);
+      el("text", { x: bx, y: by + 4, class: "bdg-n", "text-anchor": "middle" }, g, String(gi + 1));
     });
-    el("line", { x1: 4, x2: 4 + BREADTH.length * (bw + 10) - 10, y1: by + bh, y2: by + bh, class: "axis" }, g);
+    /* In the middle: how many of the indicators have reported. */
+    const inner = (rIn * R0 - sr) * 0.92, got = n - S.wait;
+    if (inner > 30) {
+      const big = Math.round(clamp(inner * 0.42, 17, 30));
+      el("text", { x: cx, y: y0 - inner * 0.28, class: "head", "text-anchor": "middle", style: `font-size:${big}px` }, g, `${got} of ${n}`);
+      el("text", { x: cx, y: y0 - inner * 0.28 + big * 0.62 + 2, class: "lbl sm", "text-anchor": "middle" }, g, "reported");
+    }
+    c.highlight = (sec) => c.seats.forEach((s) => { s.dot.style.opacity = sec == null || s.sec === sec ? "" : "0.2"; });
   },
-  render(c, pos) {
-    const i = clamp(Math.round(pos), 0, BREADTH.length - 1), b = BREADTH[i];
-    if (!b) return;
-    c.cells.forEach((cell, r) => {
-      const id = growthIds[r], z = D.z[id][b.j];
-      if (z == null) { set(cell, { class: "hz-na", opacity: 1 }); return; }
-      const s = z * D.sg[id];
-      set(cell, { class: s > 0 ? "hz-pos" : "hz-neg", opacity: (0.2 + 0.8 * Math.min(1, Math.abs(s) / 1.5)).toFixed(2) });
-    });
-    c.bars.forEach((r, k) => r.setAttribute("class", k === i ? "sbar sel" : "sbar"));
-    c.month.textContent = `${MONTHS_LONG[Number(b.month.slice(5)) - 1]} ${b.month.slice(0, 4)}`;
-    c.share.textContent = `${Math.round(b.share * 100)}% above normal`;
-  },
+  render() {},
 };
 /* ---------- The first card: the estimate, its two confidence intervals in small type, and a few easy numbers over the GDP record drawn as terrain ---------- */
 /* Differences between figures shown to one decimal are taken from the figures as shown, so readers can check them. */
@@ -480,5 +531,5 @@ function prov(kind) {
   return h("p", { class: "prov " + kind, text });
 }
 
-window.GDP_STORY = { STATE, RANGE, R, S, WATCH, fillSteps, prov, BREADTH, renderStatCard, renderNotes };
+window.GDP_STORY = { STATE, RANGE, R, S, WATCH, fillSteps, prov, BREADTH, SEATS, renderStatCard, renderNotes };
 })();

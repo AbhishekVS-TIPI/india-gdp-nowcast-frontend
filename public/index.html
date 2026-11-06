@@ -117,7 +117,9 @@
           <div class="graphic">
             <div>
               <div class="fig"></div>
-              <p class="gcap">Components of GDP estimate, in percentage points (pp).</p>
+              <p class="gcap">
+                Components of the GDP estimate, in basis points (bp). 100 bp = 1 percentage point.
+              </p>
             </div>
           </div>
           <div class="steps"></div>
@@ -128,21 +130,48 @@
           <div class="panel breadth-card">
             <div class="sec-head">
               <p class="eyebrow">Indicators</p>
-              <h2 class="take">Breadth of growth</h2>
+              <h2 class="take">Breadth of indicators</h2>
               <p>
-                Performance of growth indicators compared to their normal level. Hover or tap a
-                square for its name.
+                Every indicator the models read, one seat each. Seats are grouped by part of the
+                economy and shaded by how much the indicator adds to, or takes from, this quarter's
+                estimate. Hover or tap a seat for its name and weight.
               </p>
             </div>
             <div class="bc-grid">
-              <div class="fig" id="breadth-fig"></div>
-              <p class="breadth-line" data-take="breadth"></p>
+              <div class="bc-chart">
+                <div class="fig" id="breadth-fig"></div>
+                <ol
+                  class="bc-legend"
+                  id="breadth-legend"
+                  aria-label="Parts of the economy, left to right"
+                ></ol>
+                <p class="bc-key">
+                  <span><i class="ramp neg"></i>Takes from the estimate</span>
+                  <span><i class="ramp pos"></i>Adds to it</span>
+                  <span><i class="pale"></i>Almost no effect</span>
+                  <span><i class="dash"></i>Not yet in</span>
+                </p>
+              </div>
+              <div class="bc-text">
+                <p class="breadth-line" data-take="breadth"></p>
+                <p class="breadth-sub" data-take="breadthTop"></p>
+              </div>
             </div>
+            <details class="more slim" id="breadth-rank">
+              <summary>
+                <span
+                  >All indicators, ranked<small
+                    >Each indicator's weight and what it adds this quarter</small
+                  ></span
+                >
+              </summary>
+              <div class="more-body" id="breadth-table"></div>
+            </details>
             <details class="more slim" id="breadth-note">
               <summary>
                 <span
-                  >Growth indicator criteria<small
-                    >Also includes what "above normal" means</small
+                  >How to read this chart<small
+                    >What the colours, the order and the weights mean</small
                   ></span
                 >
               </summary>

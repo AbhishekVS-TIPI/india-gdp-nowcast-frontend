@@ -40,6 +40,10 @@ const pts = (v, d = 2) => {
   const zero = Math.abs(v) < 0.5 * Math.pow(10, -d);
   return (zero ? "" : v > 0 ? "+" : "−") + fix(zero ? 0 : v, d);
 };
+/* What each part of the economy adds to the estimate is shown in basis points (bp): whole numbers, 100 bp = 1 percentage point.
+   Growth rates stay in percent, because those are the official figures. A value under half a basis point shows as 0 bp. */
+const bps = (v) => Math.round(Math.abs(v) * 100 + 1e-9);
+const bp = (v) => (bps(v) === 0 ? "0" : (v > 0 ? "+" : "−") + bps(v)) + " bp";
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTHS_LONG = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const ymd = (iso) => iso.split("-").map(Number);
@@ -77,10 +81,11 @@ function seeded(seed) {
 
 const N = D.now, A = D.A, DEC = D.dec, V = D.vint, T = D.track, TS = D.trackStats;
 const SEC = Object.fromEntries(D.sec.map((x) => [x.k, x]));
-/* The build-up adds sectors in three steps, in a fixed story order. A sector the list does not know joins the
-   last step and an empty step is dropped, so indicators or sectors can come and go between runs. */
-const GROUP_OF = { industry: 1, households: 1, credit: 1, trade: 2, government: 2, financial: 3, global: 3, prices: 3 };
-const GROUPS = [1, 2, 3].map((g) => D.sec.filter((x) => (GROUP_OF[x.k] || 3) === g)).filter((g) => g.length);
+/* The build-up lists the parts of the economy from the biggest push to the biggest drag, in two steps: those adding to the
+   estimate, then those taking from it. A part that rounds to 0 bp is left out until it has a value, and an empty step is
+   dropped, so parts can come and go between runs. */
+const SHOWN = D.sec.filter((x) => bps(x.c) > 0).sort((a, b) => b.c - a.c);
+const GROUPS = [SHOWN.filter((x) => x.c > 0), SHOWN.filter((x) => x.c < 0)].filter((g) => g.length);
 const SEC_INDUSTRY = D.sec.findIndex((x) => x.k === "industry");
 const secOf = (i) => D.sec[i] || { k: "other", label: "Other", short: "Other" };
 const LAST = A.length - 1;    // the latest official quarter
@@ -467,7 +472,7 @@ VIS.buildup = {
     const pat = el("pattern", { id: c.pid, width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, el("defs", null, g));
     el("rect", { width: 6, height: 6, class: "hatch-bg" }, pat);
     el("line", { x1: 0, y1: 0, x2: 0, y2: 6, class: "hatch-ln" }, pat);
-    const narrow = W < 520, m = { l: narrow ? 124 : 206, r: narrow ? 56 : 62, t: 6, b: 40 };
+    const narrow = W < 520, m = { l: narrow ? 124 : 206, r: narrow ? 66 : 76, t: 6, b: 40 };
     /* Every running total the bars pass through has to fit, wherever growth has moved to. */
     let lvl = 0; const levels = [];
     c.rows.forEach((r) => { lvl = r.kind === "base" || r.kind === "total" ? r.v : lvl + r.v; levels.push(lvl); });
@@ -478,7 +483,7 @@ VIS.buildup = {
       el("line", { x1: c.X(v), x2: c.X(v), y1: m.t, y2: H - m.b, class: "grid" }, g);
       el("text", { x: c.X(v), y: H - m.b + 16, "text-anchor": "middle" }, g, tickLabel(v));
     }
-    el("text", { x: m.l, y: H - 4 }, g, narrow ? `axis starts at ${tickLabel(ax.lo)}` : `axis starts at ${tickLabel(ax.lo)} · pp = percentage points`);
+    el("text", { x: m.l, y: H - 4 }, g, narrow ? `axis starts at ${tickLabel(ax.lo)}` : `axis starts at ${tickLabel(ax.lo)} · bp = basis points (100 bp = 1 percentage point)`);
     c.els = c.rows.map((r, i) => {
       const cy = m.t + i * rowH + rowH / 2;
       const cls = r.kind === "base" || r.kind === "total" ? "b-base" : r.kind === "carry" ? "b-carry" : r.v < 0 ? "b-neg" : "b-pos";
@@ -511,7 +516,7 @@ VIS.buildup = {
         a = Math.min(from, to); b = Math.max(from, to); level = from + r.v;
         const neg = r.v < 0;
         set(e.val, { x: neg ? X(a) - 6 : X(b) + 6, "text-anchor": neg ? "end" : "start" });
-        e.val.textContent = pts(r.v);
+        e.val.textContent = bp(r.v);
       }
       set(e.bar, { x: X(a), width: Math.max(0, X(b) - X(a)), opacity: t > 0.001 ? 1 : 0 });
       e.val.setAttribute("opacity", t);
@@ -1128,6 +1133,7 @@ function panel(el, eyebrow, title, sub, ...content) {
 }
 function figHost(cls) { return h("div", { class: "fig" + (cls ? " " + cls : "") }); }
 function signedSpan(v, unit = " pp") { return h("span", { class: Math.abs(v) < 0.005 ? "" : v > 0 ? "up" : "down", text: pts(v) + unit }); }
+function signedBp(v) { return h("span", { class: bps(v) === 0 ? "" : v > 0 ? "up" : "down", text: bp(v) }); }
 
 /* Marks a note as written before newer data: three weeks old, or the estimate has moved 0.3 pp since. */
 function noteStale(el) {
@@ -1315,8 +1321,8 @@ function sectorSummary(el) {
       h("p", { class: "eyebrow", text: "Your part of the economy" }),
       h("h3", { text: S.label }),
       h("p", { class: "muted", text: S.blurb }),
-      h("p", { class: "big" }, signedSpan(S.c), h("small", { class: "muted", style: "font-size:1rem", text: " on the estimate so far" })),
-      h("p", { text: `${S.rep === S.n ? `All ${S.n}` : `${S.rep} of ${S.n}`} of its indicators have reported for ${D.quarterLong}.${S.top ? ` The biggest mover so far is ${S.top} (${pp(S.topC, 2)}).` : ""}` })));
+      h("p", { class: "big" }, signedBp(S.c), h("small", { class: "muted", style: "font-size:1rem", text: " on the estimate so far" })),
+      h("p", { text: `${S.rep === S.n ? `All ${S.n}` : `${S.rep} of ${S.n}`} of its indicators have reported for ${D.quarterLong}.${S.top ? ` The biggest mover so far is ${S.top} (${bp(S.topC)}).` : ""}` })));
   };
   sectorViews.push(render);
 }
@@ -1416,5 +1422,5 @@ function mount() {
   requestTick();
 }
 
-window.GDP = { TREND, charts: ALL, terrain, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
+window.GDP = { TREND, charts: ALL, terrain, tipper, niceAxis, tickLabel, mount, figure, scene, sectorSummary, picker, onSector: (f) => sectorViews.push(f), VIS, BLOCKS, COPY, NOTE, TAKE, SEC, GROUPS, D, pct, pts, pp, bp, bps, fix, day, h, el, set, scale, clamp, lerp, ease, seg, draw };
 })();
