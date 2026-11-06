@@ -58,7 +58,7 @@ export function TimelineSlider({
           aria-valuetext={labels[end]}
         />
       </div>
-      <div className="mt-1 flex justify-between font-mono text-[11px] text-muted-foreground">
+      <div className="mt-1 flex justify-between font-mono text-[0.6875rem] text-muted-foreground">
         <span>{labels[start]}</span>
         <span>{labels[end]}</span>
       </div>

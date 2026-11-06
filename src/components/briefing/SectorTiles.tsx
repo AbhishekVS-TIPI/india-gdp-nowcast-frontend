@@ -21,7 +21,7 @@ export function SectorTiles() {
           return (
             <div key={sector.key} className="rounded-xl border border-dashed border-border p-4">
               <p className="text-sm font-semibold text-navy">{sector.label}</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">
+              <p className="mt-1 text-[0.6875rem] text-muted-foreground">
                 Background, not a growth signal
               </p>
               <p className="mt-3 text-sm text-navy">
@@ -48,7 +48,7 @@ export function SectorTiles() {
         return (
           <div key={sector.key} className="rounded-xl border border-border p-4">
             <p className="text-sm font-semibold text-navy">{sector.label}</p>
-            <p className="mt-1 text-[11px] text-muted-foreground">{sector.blurb}</p>
+            <p className="mt-1 text-[0.6875rem] text-muted-foreground">{sector.blurb}</p>
             <p
               className={`mt-3 text-sm font-medium ${word ? TONE[word] : "text-muted-foreground"}`}
             >
@@ -59,11 +59,11 @@ export function SectorTiles() {
                 </span>
               ) : null}
             </p>
-            <p className="mt-1 text-[11px] text-muted-foreground">
+            <p className="mt-1 text-[0.6875rem] text-muted-foreground">
               {status.current} of {status.total} indicators current
             </p>
             {COVERAGE ? (
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
+              <p className="mt-0.5 text-[0.6875rem] text-muted-foreground">
                 {status.read === 0
                   ? "Monitored only: not in the headline"
                   : `Headline reads ${status.read} of ${status.total}`}
@@ -75,7 +75,7 @@ export function SectorTiles() {
       {UNMAPPED_SECTIONS.map((u) => (
         <div key={u.section} className="rounded-xl border border-dashed border-border p-4">
           <p className="text-sm font-semibold text-navy">{u.section}</p>
-          <p className="mt-1 text-[11px] text-muted-foreground">
+          <p className="mt-1 text-[0.6875rem] text-muted-foreground">
             {u.read === 0 ? "Not covered yet" : "Not shown as a sector"}
           </p>
           <p
@@ -86,12 +86,12 @@ export function SectorTiles() {
               : `${u.read} ${u.read === 1 ? "indicator" : "indicators"} in the headline`}
           </p>
           {u.monitored.length ? (
-            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+            <p className="mt-1 text-[0.6875rem] leading-relaxed text-muted-foreground">
               Monitored only: {u.monitored.map((m) => m.name).join(", ")}
             </p>
           ) : null}
           {u.gaps[0] ? (
-            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+            <p className="mt-1 text-[0.6875rem] leading-relaxed text-muted-foreground">
               Missing: {u.gaps[0].missing}
             </p>
           ) : null}

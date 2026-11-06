@@ -64,7 +64,7 @@ export function TrackRecordTable() {
       {summary ? (
         backtest ? (
           <p className="text-sm leading-relaxed text-navy">
-            <span className="mr-2 rounded-full bg-muted px-2 py-0.5 font-mono text-[11px] text-blue-dark">
+            <span className="mr-2 rounded-full bg-muted px-2 py-0.5 font-mono text-[0.6875rem] text-blue-dark">
               Backtest
             </span>
             {trackLine(summary)}
@@ -86,10 +86,10 @@ export function TrackRecordTable() {
       ) : null}
       <div className="mt-4 overflow-x-auto">
         <table
-          className={`w-full border-collapse text-sm ${showLatest ? "min-w-[640px]" : "min-w-[520px]"}`}
+          className={`w-full border-collapse text-sm ${showLatest ? "min-w-[40rem]" : "min-w-[32.5rem]"}`}
         >
           <thead>
-            <tr className="border-b border-border font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+            <tr className="border-b border-border font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
               <th className="py-2 text-left font-normal">Quarter</th>
               <th className="py-2 text-right font-normal">Our estimate</th>
               <th className="py-2 text-right font-normal">
@@ -136,7 +136,7 @@ export function TrackRecordTable() {
         </table>
       </div>
       {backtest ? (
-        <div className="mt-3 space-y-2 text-[11px] leading-relaxed text-muted-foreground">
+        <div className="mt-3 space-y-2 text-[0.6875rem] leading-relaxed text-muted-foreground">
           <p>
             This is a backtest, not what we published at the time. Each estimate was made {when} the
             first print, using only data released before it, but with today's revised values for the
@@ -156,7 +156,7 @@ export function TrackRecordTable() {
           ) : null}
         </div>
       ) : (
-        <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+        <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted-foreground">
           Each estimate uses only data released before that quarter's official figure, but with
           today's revised values. A dash means the model had no estimate for that quarter.
         </p>
@@ -189,9 +189,9 @@ export function EvaluationTable() {
         ))}
       </div>
       <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[560px] border-collapse text-sm">
+        <table className="w-full min-w-[35rem] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-border font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+            <tr className="border-b border-border font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
               <th className="py-2 text-left font-normal">Made</th>
               <th className="py-2 text-left font-normal">Sample</th>
               <th className="py-2 text-right font-normal">Quarters</th>
@@ -228,7 +228,7 @@ export function EvaluationTable() {
           </tbody>
         </table>
       </div>
-      <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted-foreground">
         Error is the root-mean-square miss against the first print. A ratio below 1 means closer
         than the {bench} benchmark, but we call it better only when the whole range is below 1, and
         only narrowly better when its top end is within {NARROW} of 1. If the range includes 1,
@@ -246,7 +246,7 @@ export function EvaluationTable() {
               <div key={key}>
                 <dt className="font-medium text-navy">
                   {rows.find((r) => r.sample === key)?.label ?? key}{" "}
-                  <span className="font-mono text-[11px] font-normal text-muted-foreground">
+                  <span className="font-mono text-[0.6875rem] font-normal text-muted-foreground">
                     {quarterLabel(sample.firstQuarter)} to {quarterLabel(sample.lastQuarter)} ·{" "}
                     {sample.quarters} quarters
                   </span>

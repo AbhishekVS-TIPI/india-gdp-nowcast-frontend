@@ -56,7 +56,7 @@ export function ComingUp({ limit = 5 }: { limit?: number }) {
         ))}
       </ul>
       {overdue ? (
-        <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+        <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted-foreground">
           {overdue} of the {watched.length}{" "}
           {MODEL_DRIVERS.length > INFLUENTIAL ? "most influential" : "weighted"}{" "}
           {overdue === 1 ? "indicator has" : "indicators have"} a newer figure that should be out

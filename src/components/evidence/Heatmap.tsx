@@ -46,7 +46,7 @@ export function Heatmap() {
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3 font-mono text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-3 font-mono text-[0.6875rem] text-muted-foreground">
           <span
             className="inline-block h-3 w-3 rounded-sm"
             style={{ background: tint(-2, false) }}
@@ -66,18 +66,21 @@ export function Heatmap() {
         </label>
       </div>
       <div className="overflow-x-auto">
-        <div className="min-w-[640px]">
+        <div className="min-w-[40rem]">
           <div className="grid gap-px" style={{ gridTemplateColumns: cols }}>
             <span />
             {months.map((m, i) => (
-              <span key={m} className="pb-1 text-center font-mono text-[9px] text-muted-foreground">
+              <span
+                key={m}
+                className="pb-1 text-center font-mono text-[0.5625rem] text-muted-foreground"
+              >
                 {i % 3 === 0 ? fmtMonth(m).replace(" 20", " ’") : ""}
               </span>
             ))}
           </div>
           {groups.map((g) => (
             <div key={g.sector.key} className="mt-3">
-              <p className="mb-1 text-[11px] font-semibold text-navy">
+              <p className="mb-1 text-[0.6875rem] font-semibold text-navy">
                 {g.sector.label}
                 {g.sector.context ? (
                   <span className="font-normal text-muted-foreground"> · background</span>
@@ -92,12 +95,12 @@ export function Heatmap() {
                       <Link
                         to="/indicator/$id"
                         params={{ id }}
-                        className="truncate pr-2 text-[11px] leading-5 text-blue-dark hover:underline"
+                        className="truncate pr-2 text-[0.6875rem] leading-5 text-blue-dark hover:underline"
                       >
                         {name}
                       </Link>
                     ) : (
-                      <span className="truncate pr-2 text-[11px] leading-5 text-blue-dark">
+                      <span className="truncate pr-2 text-[0.6875rem] leading-5 text-blue-dark">
                         {name}
                       </span>
                     )}
@@ -123,7 +126,7 @@ export function Heatmap() {
           ))}
         </div>
       </div>
-      <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted-foreground">
         Each cell shows how far that month's reading is from the indicator's own long-run average,
         in standard deviations. Where a rise goes with slower GDP growth the reading is flipped, so
         green always means stronger growth.{" "}

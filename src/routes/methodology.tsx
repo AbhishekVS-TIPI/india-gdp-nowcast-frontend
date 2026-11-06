@@ -67,7 +67,7 @@ function MethodologyPage() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-[88rem] gap-10 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mx-auto grid max-w-[88rem] grid-cols-1 gap-10 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <article className="space-y-8">
           <section>
             <p className="eyebrow">Data</p>
@@ -240,10 +240,10 @@ function MethodologyPage() {
               return (
                 <div key={ind.id} className="py-4">
                   <p className="text-sm font-medium leading-snug text-navy">{ind.name}</p>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-blue-dark/80">
+                  <p className="mt-1.5 text-[0.6875rem] leading-relaxed text-blue-dark/80">
                     {ind.sourceName ?? "Source pending"}
                   </p>
-                  <p className="tabular mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <p className="tabular mt-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground">
                     {ind.frequency}
                     {UNITS[ind.id] ? ` · ${UNITS[ind.id]}` : ""} · {lu ? fmtDate(lu) : "—"}
                   </p>

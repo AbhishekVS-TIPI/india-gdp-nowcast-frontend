@@ -86,7 +86,7 @@ export function Waterfall() {
               <span className="min-w-0 text-xs leading-tight text-navy">
                 <span className={s.kind === "step" ? "" : "font-semibold"}>{s.label}</span>
                 {s.detail ? (
-                  <span className="block text-[10px] text-muted-foreground">{s.detail}</span>
+                  <span className="block text-[0.6875rem] text-muted-foreground">{s.detail}</span>
                 ) : null}
               </span>
               <span className="relative h-5 rounded-sm bg-muted/40">
@@ -110,7 +110,7 @@ export function Waterfall() {
           );
         })}
       </ul>
-      <p className="mt-2 text-[10px] text-muted-foreground">
+      <p className="mt-2 text-[0.6875rem] text-muted-foreground">
         Axis runs from {lo}% to {hi}%. Contributions are each reported indicator's reading this
         quarter times its weight in the model.
         {DRIVERS.length > MODEL_DRIVERS.length
@@ -119,7 +119,7 @@ export function Waterfall() {
       </p>
 
       {ups.length || downs.length ? (
-        <div className="mt-5 grid gap-6 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {[
             { title: "Pushing the estimate up", items: ups },
             { title: "Pulling it down", items: downs },

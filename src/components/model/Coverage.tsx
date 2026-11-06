@@ -98,7 +98,7 @@ export function CoverageMap() {
             <li key={s.section} className="py-3">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <span className="text-sm font-medium text-navy">{s.section}</span>
-                <span className="font-mono text-[11px] text-muted-foreground">
+                <span className="font-mono text-[0.6875rem] text-muted-foreground">
                   {read === 0 ? (
                     <span className="rounded-full bg-muted px-2 py-0.5 text-trend-down">
                       no indicator read
@@ -117,7 +117,7 @@ export function CoverageMap() {
           );
         })}
       </ul>
-      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[0.6875rem] text-muted-foreground">
         {(["arx", "read", ...(unweighted ? ["unweighted"] : []), "monitor"] as Kind[]).map((k) => (
           <span key={k} className="flex items-center gap-1.5">
             <span aria-hidden className={`block h-3 w-3 rounded-full ${DOT[k]}`} />
@@ -144,13 +144,13 @@ export function GapsList() {
         <li key={`${g.section}-${g.missing}`} className="rounded-xl border border-border p-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
             <p className="text-sm font-semibold text-navy">{g.section}</p>
-            <span className="font-mono text-[11px] text-muted-foreground">
+            <span className="font-mono text-[0.6875rem] text-muted-foreground">
               priority {g.priority}
             </span>
           </div>
           <p className="mt-1 text-sm leading-relaxed text-navy">Missing: {g.missing}.</p>
           <p className="mt-1 text-xs leading-relaxed text-blue-dark">{g.why}.</p>
-          <p className="mt-1 text-[11px] text-muted-foreground">
+          <p className="mt-1 text-[0.6875rem] text-muted-foreground">
             Possible source: {g.candidateSource}
           </p>
         </li>

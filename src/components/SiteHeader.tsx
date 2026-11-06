@@ -20,9 +20,9 @@ export function SiteHeader() {
   }, []);
 
   const base =
-    "relative px-1 pb-1 font-sans text-[13px] tracking-tight transition-colors text-blue-dark/80 hover:text-navy";
+    "relative px-1 pb-1 font-sans text-[0.8125rem] tracking-tight transition-colors text-blue-dark/80 hover:text-navy";
   const active =
-    "relative px-1 pb-1 font-sans text-[13px] tracking-tight text-navy after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-blue-brand after:content-['']";
+    "relative px-1 pb-1 font-sans text-[0.8125rem] tracking-tight text-navy after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-blue-brand after:content-['']";
 
   return (
     <header
@@ -41,7 +41,7 @@ export function SiteHeader() {
             alt="The India Prosperity Initiative logo"
             className={`w-auto shrink-0 transition-all duration-300 ${scrolled ? "h-7" : "h-9"}`}
           />
-          <span className="min-w-0 truncate font-sans text-[15px] font-semibold tracking-[-0.01em] text-navy">
+          <span className="min-w-0 truncate font-sans text-[0.9375rem] font-semibold tracking-[-0.01em] text-navy">
             India GDP Pulse
           </span>
         </Link>

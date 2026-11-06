@@ -241,6 +241,12 @@
     border-color: var(--color-border);
   }
 
+  /* 16px up to about 1650px, then grows with the window to 22px, so text and
+     the rem-sized page width keep their proportions on large displays. */
+  html {
+    font-size: clamp(16px, calc(0.78vw + 3px), 22px);
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

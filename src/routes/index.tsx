@@ -130,11 +130,11 @@ function RangeCell({
 }) {
   return (
     <div>
-      <dt className="text-[11px] font-medium text-navy">{label}</dt>
+      <dt className="text-[0.6875rem] font-medium text-navy">{label}</dt>
       <dd className="mt-0.5 font-mono text-sm text-navy">
         {pct1(lower)} to {pct1(upper)}
       </dd>
-      <dd className="text-[11px] leading-snug text-muted-foreground">{note}</dd>
+      <dd className="text-[0.6875rem] leading-snug text-muted-foreground">{note}</dd>
     </div>
   );
 }
@@ -174,7 +174,7 @@ function Headline() {
             {compare.map((c) => (
               <dd key={c.label} className="mt-1 text-navy">
                 <span className="font-mono text-sm">{pct1(c.value)}</span>{" "}
-                <span className="text-[11px] text-muted-foreground">{c.label}</span>
+                <span className="text-[0.6875rem] text-muted-foreground">{c.label}</span>
               </dd>
             ))}
           </dl>
@@ -190,7 +190,7 @@ function Headline() {
       </p>
 
       {ci68 || ci90 || stress ? (
-        <dl className="mt-4 grid gap-3 rounded-xl bg-muted/30 p-3 sm:grid-cols-3">
+        <dl className="mt-4 grid grid-cols-1 gap-3 rounded-xl bg-muted/30 p-3 sm:grid-cols-3">
           {ci68 ? (
             <RangeCell
               label="68% range"
@@ -218,9 +218,9 @@ function Headline() {
         </dl>
       ) : null}
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <p className="text-[11px] text-muted-foreground">
+          <p className="text-[0.6875rem] text-muted-foreground">
             Data in: {n.indicatorsReporting.length} of {n.indicatorsTotal} indicators the model
             reads
             {share != null
@@ -244,7 +244,7 @@ function Headline() {
           ) : null}
         </div>
         {n.nextOfficialRelease ? (
-          <p className="text-[11px] text-muted-foreground sm:text-right">
+          <p className="text-[0.6875rem] text-muted-foreground sm:text-right">
             Next official GDP figure expected around{" "}
             <span className="font-medium text-navy">{isoDate(n.nextOfficialRelease)}</span>
           </p>
@@ -264,7 +264,7 @@ function Briefing() {
 
       <div className="mx-auto max-w-[88rem] space-y-6 px-5 py-8">
         <FrozenNote />
-        <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
           <Card>
             <Headline />
             {NOWCAST?.nowcast ? (
@@ -297,7 +297,7 @@ function Briefing() {
           </Card>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
           <Card title="What's moving the estimate">
             <Waterfall />
           </Card>
@@ -314,7 +314,7 @@ function Briefing() {
 
         <Card title="The economy by sector">
           <SectorTiles />
-          <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-[0.6875rem] leading-relaxed text-muted-foreground">
             Each sector is judged on its latest readings against their own long-run normal. A
             reading counts as pointing to stronger growth when the model links it to faster GDP
             growth, so a rise in unemployment or market volatility counts as weaker. A tile judges

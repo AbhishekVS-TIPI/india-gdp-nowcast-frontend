@@ -1,7 +1,7 @@
 import { IndicatorTable } from "@/components/IndicatorTable";
 import { RangeSwitch } from "@/components/RangeSwitch";
 import { SiteFooter } from "@/components/SiteFooter";
-import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
+import { TOOLTIP_STYLE, axisTick, compactTick, useRootScale } from "@/lib/chart";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -53,7 +53,7 @@ export const Route = createFileRoute("/indicator/$id")({
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="border-b border-border py-4 last:border-0">
-      <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+      <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
         {label}
       </dt>
       <dd className="mt-1.5 text-sm leading-relaxed break-words text-foreground">{children}</dd>
@@ -62,6 +62,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 function IndicatorDetail() {
+  const k = useRootScale();
   const { indicator, table } = Route.useLoaderData();
   const [range, setRange] = useState<RangeKey>(() => defaultRange(indicator.id));
   const [view, setView] = useState<ViewMode>("graph");
@@ -84,11 +85,11 @@ function IndicatorDetail() {
         <h1 className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-navy">
           {indicator.name}
         </h1>
-        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-blue-dark">
+        <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-blue-dark">
           {indicator.category} · {indicator.frequency}
           {UNITS[indicator.id] ? ` · ${UNITS[indicator.id]}` : ""}
         </p>
-        <p className="mt-3 inline-block rounded-md border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <p className="mt-3 inline-block rounded-md border border-border px-2 py-0.5 font-mono text-[0.6875rem] uppercase tracking-wider text-muted-foreground">
           {hasRealData(indicator.id) ? "Actual source data" : "Placeholder series"}
         </p>
 
@@ -125,9 +126,12 @@ function IndicatorDetail() {
           </div>
 
           {view === "graph" ? (
-            <div className="mt-5 h-[260px] w-full">
+            <div className="mt-5 h-[16.25rem] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={series} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+                <AreaChart
+                  data={series}
+                  margin={{ top: 8, right: 8, left: Math.round(-16 * k), bottom: 0 }}
+                >
                   <defs>
                     <linearGradient id="indFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="var(--color-blue-lighter)" stopOpacity="0.85" />
@@ -148,8 +152,15 @@ function IndicatorDetail() {
                     tick={axisTick()}
                     axisLine={false}
                     tickLine={false}
+                    tickMargin={Math.round(6 * k)}
                   />
-                  <YAxis width={56} tick={axisTick()} axisLine={false} tickLine={false} />
+                  <YAxis
+                    width={Math.round(56 * k)}
+                    tickFormatter={compactTick}
+                    tick={axisTick()}
+                    axisLine={false}
+                    tickLine={false}
+                  />
                   <Tooltip
                     contentStyle={TOOLTIP_STYLE}
                     labelFormatter={(t) => fmtDate(Number(t))}
@@ -168,13 +179,13 @@ function IndicatorDetail() {
           ) : (
             <div className="mt-5">
               {table ? (
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                <p className="mb-2 font-mono text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
                   The agency has re-based this series {table.baseYears.length - 1}{" "}
                   {table.baseYears.length - 1 === 1 ? "time" : "times"}. Each base year's own values
                   are shown beside the joined series the graph plots. {table.rows.length} rows.
                 </p>
               ) : (
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                <p className="mb-2 font-mono text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
                   {fullSeries.length} rows.
                 </p>
               )}

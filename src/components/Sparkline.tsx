@@ -11,7 +11,8 @@ export function Sparkline({
   height?: number;
   positive?: boolean;
 }) {
-  if (data.length < 2) return <svg width={width} height={height} />;
+  const size = { width: `${width / 16}rem`, height: `${height / 16}rem` };
+  if (data.length < 2) return <svg viewBox={`0 0 ${width} ${height}`} style={size} />;
   const vals = data.map((d) => d.v);
   const min = Math.min(...vals);
   const max = Math.max(...vals);
@@ -27,7 +28,7 @@ export function Sparkline({
   const last = pts[pts.length - 1]!;
 
   return (
-    <svg width={width} height={height} className="overflow-visible">
+    <svg viewBox={`0 0 ${width} ${height}`} style={size} className="overflow-visible">
       <defs>
         <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={stroke} stopOpacity="0.28" />

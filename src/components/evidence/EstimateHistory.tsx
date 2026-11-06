@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
+import { TOOLTIP_STYLE, axisTick, useRootScale } from "@/lib/chart";
 import { indicatorName } from "@/lib/coverage";
 import { DRIVERS, NOWCAST } from "@/lib/nowcast";
 import { SECTORS, sectorOf } from "@/lib/sectors";
@@ -52,6 +52,7 @@ function reading(estimates: number[]): string {
 
 /** This quarter's estimate week by week since the last GDP release, and what moved it. */
 export function EstimateHistory() {
+  const k = useRootScale();
   const runs = (NOWCAST?.vintages ?? []).filter((v) => v.estimate != null);
   const [picked, setPicked] = useState<number | null>(null);
   if (runs.length < 2) {
@@ -105,21 +106,27 @@ export function EstimateHistory() {
       <p className="mt-2 text-sm leading-relaxed text-navy">
         {reading(runs.map((v) => v.estimate!))}
       </p>
-      <div className="mt-4 h-[220px] w-full">
+      <div className="mt-4 h-[13.75rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
-            margin={{ top: 8, right: 12, left: -16, bottom: 0 }}
+            margin={{ top: 8, right: 12, left: Math.round(-16 * k), bottom: 0 }}
             onClick={(s) => {
               const i = s?.activeTooltipIndex;
               if (typeof i === "number") setPicked(i);
             }}
           >
             <CartesianGrid stroke="var(--color-border)" vertical={false} />
-            <XAxis dataKey="label" tick={axisTick(10)} axisLine={false} tickLine={false} />
+            <XAxis
+              dataKey="label"
+              tick={axisTick(10)}
+              axisLine={false}
+              tickLine={false}
+              tickMargin={Math.round(6 * k)}
+            />
             <YAxis
               domain={yDomain}
-              width={44}
+              width={Math.round(44 * k)}
               tickFormatter={(v: number) => `${v}%`}
               tick={axisTick()}
               axisLine={false}
@@ -152,7 +159,7 @@ export function EstimateHistory() {
             <ReferenceDot
               x={data[at]!.label}
               y={data[at]!.estimate}
-              r={6}
+              r={Math.round(6 * k)}
               fill="var(--color-primary)"
               stroke="var(--color-card)"
               strokeWidth={2}
@@ -162,7 +169,7 @@ export function EstimateHistory() {
         </ResponsiveContainer>
       </div>
       {firstRanged !== 0 ? (
-        <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+        <p className="mt-1 text-[0.6875rem] leading-relaxed text-muted-foreground">
           {firstRanged < 0
             ? "No likely range is drawn yet. It can only be measured once the release is near."
             : `The shaded range starts in the week to ${data[firstRanged]!.label}. It can only be measured once the release is near.`}
@@ -228,7 +235,7 @@ export function EstimateHistory() {
             );
           })}
         </div>
-        <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+        <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[0.6875rem] text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-2.5 w-2.5 rounded-[2px] bg-primary" /> this week
           </span>

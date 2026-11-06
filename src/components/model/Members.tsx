@@ -29,27 +29,27 @@ export function MemberCards() {
   const spread = memberSpread(members);
   return (
     <div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {members.map((m) => (
           <div key={m.id} className="rounded-xl border border-border p-4">
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-sm font-semibold text-navy">{m.name}</p>
-              <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
+              <span className="shrink-0 font-mono text-[0.6875rem] text-muted-foreground">
                 weight {share(m.weight)}
               </span>
             </div>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
+            <p className="mt-0.5 text-[0.6875rem] text-muted-foreground">
               {FAMILY[m.family] ?? m.family}
               {m.nFactors != null ? ` · ${m.nFactors} factors` : ""}
             </p>
             <p className="mt-3 font-mono text-2xl font-semibold text-navy">
               {m.nowcast != null ? pct2(m.nowcast) : "—"}
-              <span className="ml-2 text-[11px] font-normal text-muted-foreground">
+              <span className="ml-2 text-[0.6875rem] font-normal text-muted-foreground">
                 its own estimate
               </span>
             </p>
             <p className="mt-2 text-xs leading-relaxed text-blue-dark">{m.description}</p>
-            <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+            <p className="mt-2 font-mono text-[0.6875rem] text-muted-foreground">
               {m.indicators.length} indicators
               {m.rSquared != null ? ` · R² ${m.rSquared.toFixed(2)}` : ""}
               {m.cvRSquared != null ? ` · cross-validated ${m.cvRSquared.toFixed(2)}` : ""}

@@ -10,7 +10,7 @@ const connect = [
 export function SiteFooter() {
   return (
     <footer className="mt-16 bg-navy text-blue-lighter">
-      <div className="mx-auto grid max-w-[88rem] gap-10 px-5 py-12 md:grid-cols-2">
+      <div className="mx-auto grid max-w-[88rem] grid-cols-1 gap-10 px-5 py-12 md:grid-cols-2">
         <div>
           <img
             src="/tipi-logo.svg"

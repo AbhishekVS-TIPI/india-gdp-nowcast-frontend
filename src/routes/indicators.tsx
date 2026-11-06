@@ -122,29 +122,29 @@ function IndicatorsPage() {
                   aria-expanded={isOpen}
                   className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-accent/40"
                 >
-                  <span className="text-[10px] text-blue-dark">{isOpen ? "▾" : "▸"}</span>
-                  <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-navy">
+                  <span className="text-[0.625rem] text-blue-dark">{isOpen ? "▾" : "▸"}</span>
+                  <span className="min-w-0 flex-1 truncate text-[0.9375rem] font-medium text-navy">
                     {g.cat}
                   </span>
                   {g.read && !g.context ? (
-                    <span className="hidden text-[11px] text-blue-dark sm:inline">
+                    <span className="hidden text-[0.6875rem] text-blue-dark sm:inline">
                       <span className="text-trend-up">{g.stronger} stronger</span> ·{" "}
                       <span className="text-trend-down">{g.weaker} weaker</span> than usual
                     </span>
                   ) : null}
-                  <span className="w-24 text-right font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+                  <span className="w-24 text-right font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
                     {g.rows.length} indicator{g.rows.length === 1 ? "" : "s"}
                   </span>
                 </button>
 
                 {isOpen ? (
                   <div className="border-t border-border">
-                    <div className="hidden items-center gap-4 bg-muted/60 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-blue-dark md:flex">
+                    <div className="hidden items-center gap-4 bg-muted/60 px-4 py-2 font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark md:flex">
                       <span className="min-w-0 flex-1">Indicator name</span>
                       <span className="w-28 text-right">Current</span>
                       <span className="w-28 text-right">Previous</span>
                       <span className="w-24 text-right">Delta</span>
-                      <span className="w-[140px]">Trend · {range}</span>
+                      <span className="w-[8.75rem]">Trend · {range}</span>
                       <span className="w-24 text-right">vs year ago</span>
                     </div>
                     <ul className="divide-y divide-border">
@@ -160,7 +160,7 @@ function IndicatorsPage() {
                             >
                               <span className="min-w-0 flex-1 basis-full text-sm text-navy md:basis-0">
                                 {ind.name}
-                                <span className="ml-2 font-mono text-[11px] text-muted-foreground">
+                                <span className="ml-2 font-mono text-[0.6875rem] text-muted-foreground">
                                   {ind.frequency}
                                 </span>
                               </span>
@@ -179,7 +179,7 @@ function IndicatorsPage() {
                                   ? `${delta >= 0 ? "↑ " : "↓ "}${signed(delta, ind.unit)}`
                                   : "—"}
                               </span>
-                              <span className="hidden w-[140px] md:block">
+                              <span className="hidden w-[8.75rem] md:block">
                                 <Sparkline
                                   data={trend}
                                   width={140}

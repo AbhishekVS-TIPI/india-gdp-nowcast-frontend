@@ -23,23 +23,23 @@ export function IndicatorTable({
 }) {
   if (table) {
     return (
-      <div className="max-h-[520px] overflow-auto rounded-lg border border-border">
+      <div className="max-h-[32.5rem] overflow-auto rounded-lg border border-border">
         <table className="w-full border-collapse text-sm">
           <thead className="sticky top-0 z-10 bg-muted/95 backdrop-blur">
             <tr>
-              <th className="border-b border-border px-3 py-2 text-left font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+              <th className="border-b border-border px-3 py-2 text-left font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
                 Date
               </th>
               {table.baseYears.map((by) => (
                 <th
                   key={by}
-                  className="border-b border-border px-3 py-2 text-right font-mono text-[11px] uppercase tracking-wider text-blue-dark"
+                  className="border-b border-border px-3 py-2 text-right font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark"
                 >
                   Base {by}
                   <span className="block font-normal normal-case text-muted-foreground">raw</span>
                 </th>
               ))}
-              <th className="border-b border-l border-border bg-accent/40 px-3 py-2 text-right font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+              <th className="border-b border-l border-border bg-accent/40 px-3 py-2 text-right font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
                 Spliced
                 <span className="block font-normal normal-case text-muted-foreground">
                   {unit ?? "continuous"}
@@ -73,14 +73,14 @@ export function IndicatorTable({
   }
 
   return (
-    <div className="max-h-[520px] overflow-auto rounded-lg border border-border">
+    <div className="max-h-[32.5rem] overflow-auto rounded-lg border border-border">
       <table className="w-full border-collapse text-sm">
         <thead className="sticky top-0 z-10 bg-muted/95 backdrop-blur">
           <tr>
-            <th className="border-b border-border px-3 py-2 text-left font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+            <th className="border-b border-border px-3 py-2 text-left font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
               Date
             </th>
-            <th className="border-b border-border px-3 py-2 text-right font-mono text-[11px] uppercase tracking-wider text-blue-dark">
+            <th className="border-b border-border px-3 py-2 text-right font-mono text-[0.6875rem] uppercase tracking-wider text-blue-dark">
               Value{unit ? ` (${unit})` : ""}
             </th>
           </tr>

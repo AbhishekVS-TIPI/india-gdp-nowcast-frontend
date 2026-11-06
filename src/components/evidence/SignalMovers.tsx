@@ -24,7 +24,7 @@ function Column({ title, items }: { title: string; items: SignalMover[] }) {
                   {yoy ? `${fmtYearOnYear(yoy)} y/y` : "—"}
                 </span>
               </div>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
+              <p className="mt-0.5 text-[0.6875rem] text-muted-foreground">
                 {sector ? `${sectorLabel(sector)} · ` : ""}
                 {describe(m.now).toLowerCase()} in {fmtMonth(m.month)}
               </p>
@@ -57,11 +57,11 @@ export function SignalMovers() {
     .reverse();
   return (
     <div>
-      <div className="grid gap-8 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         <Column title="Speeding up" items={up} />
         <Column title="Slowing down" items={down} />
       </div>
-      <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-4 text-[0.6875rem] leading-relaxed text-muted-foreground">
         Ranked by how far each reading has moved against its own normal over the last three months.
         The figure on the right is the change from a year earlier: growth for levels, percentage
         points for rates. A dash means the change cannot be worked out, as with balances that swing

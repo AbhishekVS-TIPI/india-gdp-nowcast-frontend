@@ -52,7 +52,7 @@ export function Probabilities() {
       ? `The chances come from how far the headline's earlier estimates were from the first print, applied to today's estimate of ${centre}${ciFor(0.9) ? ". The likely ranges come from the same errors" : ""}. The COVID quarters are left out, so this is for ordinary conditions${stress ? ". The tail-risk range allows for a bigger miss" : ""}.`
       : `Chances come from the model's error spread around its central estimate of ${centre}. They ignore uncertainty in the factors themselves, so treat them as somewhat overconfident.`;
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
       <ul className="space-y-3">
         {rows.map((r) => (
           <li key={r.label}>
@@ -65,18 +65,18 @@ export function Probabilities() {
             </div>
           </li>
         ))}
-        <li className="pt-1 text-[11px] leading-relaxed text-muted-foreground">{note}</li>
+        <li className="pt-1 text-[0.6875rem] leading-relaxed text-muted-foreground">{note}</li>
       </ul>
       {n.pdf.length > 1 ? (
         <div>
-          <p className="text-center text-[11px] uppercase tracking-wider text-muted-foreground">
+          <p className="text-center text-[0.6875rem] uppercase tracking-wider text-muted-foreground">
             Full distribution · {n.label}
           </p>
           <div className="mt-2">
             <DensityChart />
           </div>
           {ciFor(0.9) || stress ? (
-            <p className="mt-1 text-center text-[11px] text-muted-foreground">
+            <p className="mt-1 text-center text-[0.6875rem] text-muted-foreground">
               {ciFor(0.9) ? "Shaded: 90% range" : ""}
               {ciFor(0.9) && stress ? " · " : ""}
               {stress ? "Lighter: tail-risk range" : ""}

@@ -14,13 +14,14 @@ import {
   YAxis,
 } from "recharts";
 import { TimelineSlider } from "@/components/TimelineSlider";
-import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
+import { TOOLTIP_STYLE, axisTick, useRootScale } from "@/lib/chart";
 import { NOWCAST, NOWCAST_ROWS, ciFor, stressRange } from "@/lib/nowcast";
 
 const pctTick = (v: number) => `${v.toFixed(0)}%`;
 
 /** Released GDP against the model's in-sample fit, with this quarter's estimate and 90% range. */
 export function NowcastVsActualChart() {
+  const k = useRootScale();
   const headline = NOWCAST?.nowcast ?? null;
   const ci90 = ciFor(0.9);
 
@@ -59,20 +60,24 @@ export function NowcastVsActualChart() {
 
   return (
     <div>
-      <div className="h-[260px] w-full">
+      <div className="h-[16.25rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={shown} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+          <ComposedChart
+            data={shown}
+            margin={{ top: 8, right: 8, left: Math.round(-16 * k), bottom: 0 }}
+          >
             <CartesianGrid stroke="var(--color-border)" vertical={false} />
             <XAxis
               dataKey="label"
               tick={axisTick(10)}
               axisLine={false}
               tickLine={false}
+              tickMargin={Math.round(6 * k)}
               interval="preserveStartEnd"
               minTickGap={40}
             />
             <YAxis
-              width={48}
+              width={Math.round(48 * k)}
               tickFormatter={pctTick}
               tick={axisTick()}
               axisLine={false}
@@ -113,12 +118,17 @@ export function NowcastVsActualChart() {
               dot={{ r: 4 }}
               isAnimationActive={false}
             >
-              <ErrorBar dataKey="ci90Range" width={6} strokeWidth={2} stroke="var(--color-navy)" />
+              <ErrorBar
+                dataKey="ci90Range"
+                width={Math.round(6 * k)}
+                strokeWidth={2}
+                stroke="var(--color-navy)"
+              />
             </Line>
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-4 text-center text-[0.6875rem] leading-relaxed text-muted-foreground">
         Solid: official GDP growth · Dashed: the model's fit to past quarters ·{" "}
         {ci90
           ? "Dot and whisker: this quarter's estimate and its 90% range"
@@ -131,7 +141,7 @@ export function NowcastVsActualChart() {
             value={[from, to]}
             onChange={setWindow}
           />
-          <div className="mt-1 flex items-center justify-between text-[11px] text-muted-foreground">
+          <div className="mt-1 flex items-center justify-between text-[0.6875rem] text-muted-foreground">
             <span>Drag the handles to choose the start and end quarter.</span>
             {zoomed ? (
               <button
@@ -166,7 +176,7 @@ export function DensityChart() {
   if (!headline || !pdf || pdf.length < 2) return null;
 
   return (
-    <div className="h-[240px] w-full">
+    <div className="h-[15rem] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={pdf} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
           <defs>

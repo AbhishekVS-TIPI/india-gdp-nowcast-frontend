@@ -12,7 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { TimelineSlider } from "@/components/TimelineSlider";
-import { TOOLTIP_STYLE, axisTick } from "@/lib/chart";
+import { TOOLTIP_STYLE, axisTick, useRootScale } from "@/lib/chart";
 import { NOWCAST, NOWCAST_ROWS, ciFor, isTooEarly } from "@/lib/nowcast";
 
 const QUARTERS_PER_YEAR = 4;
@@ -25,6 +25,7 @@ type Row = { label: string; value: number; nowcast: boolean; range?: [number, nu
  * presets reach back to 2005.
  */
 export function GdpBarsChart() {
+  const k = useRootScale();
   const headline = NOWCAST?.nowcast ?? null;
   const ci90 = ciFor(0.9);
   const rows = useMemo<Row[]>(
@@ -62,19 +63,23 @@ export function GdpBarsChart() {
 
   return (
     <div>
-      <div className="h-[260px] w-full">
+      <div className="h-[16.25rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 12, right: 8, left: -16, bottom: 0 }}>
+          <BarChart
+            data={data}
+            margin={{ top: 12, right: 8, left: Math.round(-16 * k), bottom: 0 }}
+          >
             <CartesianGrid stroke="var(--color-border)" vertical={false} />
             <XAxis
               dataKey="label"
               tick={axisTick(10)}
               axisLine={false}
               tickLine={false}
+              tickMargin={Math.round(6 * k)}
               minTickGap={24}
             />
             <YAxis
-              width={44}
+              width={Math.round(44 * k)}
               tickFormatter={(v: number) => `${v}%`}
               tick={axisTick()}
               axisLine={false}
@@ -106,14 +111,19 @@ export function GdpBarsChart() {
                   strokeDasharray={r.nowcast && tooEarly ? "3 2" : undefined}
                 />
               ))}
-              <ErrorBar dataKey="range" width={8} strokeWidth={2} stroke="var(--color-navy)" />
+              <ErrorBar
+                dataKey="range"
+                width={Math.round(8 * k)}
+                strokeWidth={2}
+                stroke="var(--color-navy)"
+              />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       <div className="mt-4 flex flex-wrap items-end gap-x-6 gap-y-3">
-        <div className="min-w-[220px] flex-1">
+        <div className="min-w-[13.75rem] flex-1">
           <TimelineSlider labels={labels} value={[start, end]} onChange={setWindow} />
         </div>
         <div className="flex gap-1 rounded-lg border border-border bg-card p-1">
@@ -133,7 +143,7 @@ export function GdpBarsChart() {
           ))}
         </div>
       </div>
-      <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 text-[0.6875rem] leading-relaxed text-muted-foreground">
         Light bars: official GDP growth (year on year). Dark bar: our estimate for the current
         quarter
         {ci90

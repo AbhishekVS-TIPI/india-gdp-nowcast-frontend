@@ -31,7 +31,7 @@ export function HowItsMade() {
           <li key={m.id} className="flex items-baseline justify-between gap-4 px-4 py-2.5">
             <span className="min-w-0 text-sm text-navy">
               {m.name}
-              <span className="block text-[11px] text-muted-foreground">
+              <span className="block text-[0.6875rem] text-muted-foreground">
                 reads {m.indicators.length} indicators · weight {Math.round(m.weight * 100)}%
               </span>
             </span>
